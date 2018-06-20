@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.retest</groupId>
@@ -51,10 +54,11 @@
 			<version>1.7.2</version>
 		</dependency>
 
+		<!-- version 2.6+ isn't Java 6 compatible -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>2.5.2</version><!-- Version 2.6.X isn't Java 1.6 compatible -->
+			<version>2.5.2</version>
 		</dependency>
 
 		<dependency>
@@ -63,7 +67,8 @@
 			<version>11.0.2</version>
 		</dependency>
 
-		<!-- Dependencies only needed for testing: -->
+		<!-- test dependencies -->
+
 		<dependency>
 			<groupId>net.java.quickcheck</groupId>
 			<artifactId>quickcheck</artifactId>
