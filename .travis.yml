@@ -1,0 +1,14 @@
+language: java
+sudo: false
+
+notifications:
+  email: false
+
+cache:
+  directories:
+    - ${HOME}/.m2/
+
+install: true
+
+before_script:
+  - cp .travis.settings.xml ${HOME}/.m2/settings.xml
