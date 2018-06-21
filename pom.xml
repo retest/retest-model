@@ -34,13 +34,6 @@
 		<tag>HEAD</tag>
 	</scm>
 
-	<repositories>
-		<repository>
-			<id>nexus-retest</id>
-			<url>https://nexus.retest.org/repository/all/</url>
-		</repository>
-	</repositories>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
