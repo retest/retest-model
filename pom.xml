@@ -11,7 +11,7 @@
 	<packaging>jar</packaging>
 
 	<name>retest - model</name>
-	<description>The model of both retest and recheck.</description>
+	<description>The domain model for both retest and recheck.</description>
 
 	<licenses>
 		<license>
