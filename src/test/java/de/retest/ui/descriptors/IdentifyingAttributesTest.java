@@ -1,4 +1,4 @@
-package de.retest.descriptors;
+package de.retest.ui.descriptors;
 
 import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;

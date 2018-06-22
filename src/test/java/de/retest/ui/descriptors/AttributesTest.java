@@ -1,4 +1,4 @@
-package de.retest.descriptors;
+package de.retest.ui.descriptors;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;

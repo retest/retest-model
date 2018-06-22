@@ -1,4 +1,4 @@
-package de.retest.descriptors;
+package de.retest.ui.descriptors;
 
 import static de.retest.ui.descriptors.StringAttribute.ParameterTypeBoolean;
 import static de.retest.ui.descriptors.StringAttribute.ParameterTypeClass;
@@ -9,8 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import de.retest.ui.descriptors.ParameterParseException;
 
 public class StringAttributeTest {
 
