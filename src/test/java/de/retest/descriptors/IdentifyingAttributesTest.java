@@ -118,7 +118,7 @@ public class IdentifyingAttributesTest {
 				Path.fromString( "Window/path/component_0" ), Path.fromString( "Window/otherPath/component_1" ) );
 		final AttributeDifference suffixDifference = new AttributeDifference( "suffix", "0", "1" );
 		final IdentifyingAttributes changed = identifyingAttributes
-				.applyChanges( new HashSet<>( Arrays.asList( pathDifference, suffixDifference ) ) );
+				.applyChanges( new HashSet<AttributeDifference>( Arrays.asList( pathDifference, suffixDifference ) ) );
 
 		assertThat( changed ).isNotEqualTo( identifyingAttributes );
 		assertThat( changed.getPath() ).isEqualTo( "Window/otherPath/component_1" );
