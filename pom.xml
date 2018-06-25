@@ -11,7 +11,7 @@
 
 	<name>retest - model</name>
 	<description>The domain model for both retest and recheck.</description>
-	<url>https://github.com/retest/retest-model</url>
+	<url>https://github.com/retest/retest-model/</url>
 
 	<organization>
 		<name>ReTest GmbH</name>
