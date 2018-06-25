@@ -28,10 +28,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * This should be an unmodifiable Map<String, Serializable> but there is a bug in eclipse moxy
-	 * {@link http://stackoverflow.com/questions/34010453/eclipselink-jaxb-moxy-unmarshalling-map-with-serializable-value-fails-to-conve}
-	 */
+	// This should be an unmodifiable Map<String, Serializable> but there is a bug in Eclipse MOXy.
 	@XmlElement
 	private final TreeMap<String, Object> attributes;
 	public static final String ENABLED = "enabled";
