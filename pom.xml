@@ -164,9 +164,9 @@
 				<version>3.0.1</version>
 				<executions>
 					<execution>
-						<id>attach-sources</id>
+						<id>bundle-sources</id>
 						<goals>
-							<goal>jar-no-fork</goal>
+							<goal>jar</goal>
 						</goals>
 					</execution>
 				</executions>
