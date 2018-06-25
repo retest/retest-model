@@ -135,7 +135,7 @@
 				<version>3.0.1</version>
 				<executions>
 					<execution>
-						<id>attach-javadocs</id>
+						<id>bundle-javadoc</id>
 						<goals>
 							<goal>jar</goal>
 						</goals>
