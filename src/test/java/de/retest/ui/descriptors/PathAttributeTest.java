@@ -1,6 +1,6 @@
 package de.retest.ui.descriptors;
 
-import static de.retest.ui.descriptors.PathAttribute.ParameterTypePath;
+import static de.retest.ui.descriptors.PathAttribute.parameterTypePath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class PathAttributeTest {
 		final Path path = Path.path( parent, new PathElement( "path" ) );
 		final Path test = Path.path( path, new PathElement( "test" ) );
 
-		assertThat( ParameterTypePath.parse( "parent/path/test" ) ).isEqualTo( test );
+		assertThat( parameterTypePath.parse( "parent/path/test" ) ).isEqualTo( test );
 	}
 
 }

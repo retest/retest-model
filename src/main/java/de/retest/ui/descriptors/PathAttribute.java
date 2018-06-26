@@ -13,7 +13,7 @@ import de.retest.util.StringSimilarity;
 @XmlRootElement
 public class PathAttribute extends ParameterizedAttribute {
 
-	public static final ParameterType ParameterTypePath = new ParameterType( "PATH" ) {
+	public static final ParameterType parameterTypePath = new ParameterType( "PATH" ) {
 		@Override
 		public Object parse( final String value ) throws ParameterParseException {
 			try {
@@ -84,6 +84,6 @@ public class PathAttribute extends ParameterizedAttribute {
 
 	@Override
 	public ParameterType getType() {
-		return ParameterTypePath;
+		return parameterTypePath;
 	}
 }

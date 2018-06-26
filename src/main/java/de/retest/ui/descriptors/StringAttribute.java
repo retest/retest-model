@@ -12,14 +12,14 @@ import de.retest.util.StringSimilarity;
 @XmlRootElement
 public class StringAttribute extends ParameterizedAttribute {
 
-	public static final ParameterType ParameterTypeString = new ParameterType( "STRING" ) {
+	public static final ParameterType parameterTypeString = new ParameterType( "STRING" ) {
 		@Override
 		public String parse( final String value ) {
 			return value;
 		}
 	};
 
-	public static final ParameterType ParameterTypeClass = new ParameterType( "CLASS_NAME" ) {
+	public static final ParameterType parameterTypeClass = new ParameterType( "CLASS_NAME" ) {
 		@Override
 		public Class<?> parse( final String value ) throws ParameterParseException {
 			try {
@@ -30,7 +30,7 @@ public class StringAttribute extends ParameterizedAttribute {
 		}
 	};
 
-	public static final ParameterType ParameterTypeInteger = new ParameterType( "INTEGER" ) {
+	public static final ParameterType parameterTypeInteger = new ParameterType( "INTEGER" ) {
 		@Override
 		public Integer parse( final String value ) throws ParameterParseException {
 			try {
@@ -41,7 +41,7 @@ public class StringAttribute extends ParameterizedAttribute {
 		}
 	};
 
-	public static final ParameterType ParameterTypeBoolean = new ParameterType( "BOOLEAN" ) {
+	public static final ParameterType parameterTypeBoolean = new ParameterType( "BOOLEAN" ) {
 		@Override
 		public Boolean parse( final String value ) throws ParameterParseException {
 			if ( value.equalsIgnoreCase( "true" ) ) {
@@ -111,6 +111,6 @@ public class StringAttribute extends ParameterizedAttribute {
 
 	@Override
 	public ParameterType getType() {
-		return ParameterTypeString;
+		return parameterTypeString;
 	}
 }

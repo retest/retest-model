@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 public class DefaultAttribute extends ParameterizedAttribute {
 
-	public static final ParameterType ParameterTypeAttribute = new ParameterType( "ATTRIBUTE" ) {
+	public static final ParameterType parameterTypeAttribute = new ParameterType( "ATTRIBUTE" ) {
 		@Override
 		public Object parse( final String value ) {
 			return null;
@@ -49,7 +49,7 @@ public class DefaultAttribute extends ParameterizedAttribute {
 
 	@Override
 	public ParameterType getType() {
-		return ParameterTypeAttribute;
+		return parameterTypeAttribute;
 	}
 
 	@Override
