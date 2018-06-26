@@ -55,11 +55,11 @@ public abstract class ParameterType {
 	}
 
 	public static void registerStdParameterTypes() {
-		registerParameterType( PathAttribute.ParameterTypePath );
-		registerParameterType( DefaultAttribute.ParameterTypeAttribute );
-		registerParameterType( StringAttribute.ParameterTypeString );
-		registerParameterType( StringAttribute.ParameterTypeBoolean );
-		registerParameterType( StringAttribute.ParameterTypeInteger );
-		registerParameterType( StringAttribute.ParameterTypeClass );
+		registerParameterType( PathAttribute.parameterTypePath );
+		registerParameterType( DefaultAttribute.parameterTypeAttribute );
+		registerParameterType( StringAttribute.parameterTypeString );
+		registerParameterType( StringAttribute.parameterTypeBoolean );
+		registerParameterType( StringAttribute.parameterTypeInteger );
+		registerParameterType( StringAttribute.parameterTypeClass );
 	}
 }
