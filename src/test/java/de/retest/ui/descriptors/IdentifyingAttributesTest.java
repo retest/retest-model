@@ -14,10 +14,6 @@ import java.util.Set;
 import org.junit.Test;
 
 import de.retest.ui.Path;
-import de.retest.ui.descriptors.Attribute;
-import de.retest.ui.descriptors.AttributeDifference;
-import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.ui.descriptors.StringAttribute;
 
 public class IdentifyingAttributesTest {
 
@@ -107,7 +103,7 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes identifyingAttributes =
 				IdentifyingAttributes.create( fromString( pathValue ), component.class );
 		identifyingAttributes
-		.applyChanges( createAttributeChanges( fromString( pathValue ), "path", pathValue, pathValue ) );
+				.applyChanges( createAttributeChanges( fromString( pathValue ), "path", pathValue, pathValue ) );
 	}
 
 	@Test
@@ -143,6 +139,19 @@ public class IdentifyingAttributesTest {
 
 		assertThat( changed ).isNotEqualTo( identifyingAttributes );
 		assertThat( changed.getType() ).isEqualTo( otherComponent.class.getName() );
+	}
+
+	@Test
+	public void apply_different_path_value_should_work() {
+		final String originalPath = "Window/path/component";
+		final String changedPath = "Window/new_path/new_component";
+		final IdentifyingAttributes original =
+				IdentifyingAttributes.create( Path.fromString( originalPath ), component.class );
+
+		final IdentifyingAttributes changed = original
+				.applyChanges( createAttributeChanges( path, PathAttribute.PATH_KEY, originalPath, changedPath ) );
+
+		assertThat( changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
 	}
 
 	private Set<AttributeDifference> createAttributeChanges( final Path path, final String key,
