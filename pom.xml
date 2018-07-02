@@ -57,10 +57,21 @@
 
 	<scm>
 		<url>https://github.com/retest/retest-model/</url>
-		<connection>scm:git:https://github.com/retest/retest-model.git</connection>
-		<developerConnection>scm:git:https://github.com/retest/retest-model.git</developerConnection>
+		<connection>scm:git:git@github.com:retest/retest-model.git</connection>
+		<developerConnection>scm:git:git@github.com:retest/retest-model.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>
@@ -183,6 +194,26 @@
 						<id>bundle-javadoc</id>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<configuration>
+					<skip>${gpg.skip}</skip>
+					<keyname>0x99045A9A</keyname>
+					<passphrase>${GPG_PASSPHRASE}</passphrase>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
