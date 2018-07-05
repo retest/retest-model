@@ -8,12 +8,12 @@ cache:
   directories:
     - "${HOME}/.m2/"
 
-before_install:
+install: true
+
+before_script:
   - openssl aes-256-cbc -K $encrypted_d63810f507a9_key -iv $encrypted_d63810f507a9_iv
       -in retest-gmbh-gpg.asc.enc -out retest-gmbh-gpg.asc -d
   - gpg --fast-import retest-gmbh-gpg.asc
-
-install: true
 
 before_deploy: mvn package -DskipTests --settings .travis.settings.xml
 
