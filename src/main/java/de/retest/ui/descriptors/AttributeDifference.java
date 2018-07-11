@@ -127,7 +127,7 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 
 	@Override
 	public String toString() {
-		return key + " = [expected=" + expected + ", actual=" + actual + "]";
+		return key + ": expected=\"" + expected + "\", actual=\"" + actual + "\"";
 	}
 
 	public static String getSumIdentifier( final List<AttributeDifference> attributeDifferences ) {
