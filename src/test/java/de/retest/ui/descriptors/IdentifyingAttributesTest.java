@@ -62,9 +62,9 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void no_out_of_two_attributes_should_match_0_percent() {
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "a/component_X" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "a/component[X]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "b/component_Y" ), otherComponent.class );
+				IdentifyingAttributes.create( Path.fromString( "b/component[Y]" ), otherComponent.class );
 
 		assertThat( expected ).isNotEqualTo( actual );
 		assertThat( expected.hashCode() ).isNotEqualTo( actual.hashCode() );
@@ -75,9 +75,9 @@ public class IdentifyingAttributesTest {
 	public void only_same_parent_path_results_in_1_similarity() {
 		// TODO Maybe the counter should be indifferent to type?
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component_X" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window/path/component[X]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component_Y" ), otherComponent.class );
+				IdentifyingAttributes.create( Path.fromString( "Window/path/component[Y]" ), otherComponent.class );
 
 		assertThat( expected.match( actual ) ).isCloseTo( ONE_SIMILARITY, within( 0.01 ) );
 	}
