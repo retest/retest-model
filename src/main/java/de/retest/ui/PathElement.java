@@ -14,8 +14,6 @@ public class PathElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String SUFFIX_SEPARATOR = "_";
-
 	@XmlElement
 	@XmlJavaTypeAdapter( StringInternerAdapter.class )
 	private final String elementName;
@@ -53,7 +51,7 @@ public class PathElement implements Serializable {
 		if ( "".equals( suffix ) ) {
 			return elementName;
 		} else {
-			return elementName + SUFFIX_SEPARATOR + suffix;
+			return elementName + "[" + suffix + "]";
 		}
 	}
 
@@ -96,10 +94,10 @@ public class PathElement implements Serializable {
 	}
 
 	public static PathElement fromString( final String path ) {
-		if ( !path.contains( SUFFIX_SEPARATOR ) ) {
+		if ( !path.contains( "[" ) ) {
 			return new PathElement( path );
 		}
-		return new PathElement( path.substring( 0, path.indexOf( SUFFIX_SEPARATOR ) ),
-				path.substring( path.indexOf( SUFFIX_SEPARATOR ) + 1 ) );
+		return new PathElement( path.substring( 0, path.indexOf( "[" ) ),
+				path.substring( path.indexOf( "[" ) + 1, path.length() - 1 ) );
 	}
 }
