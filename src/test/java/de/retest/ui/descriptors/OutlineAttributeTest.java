@@ -55,7 +55,7 @@ public class OutlineAttributeTest {
 	}
 
 	@Test
-	public void getWeight_should_be_ignored() {
-		assertThat( attribute.getWeight() ).isEqualTo( Attribute.IGNORE_WEIGHT );
+	public void getWeight_should_not_be_ignored() {
+		assertThat( attribute.getWeight() ).isEqualTo( Attribute.NORMAL_WEIGHT );
 	}
 }

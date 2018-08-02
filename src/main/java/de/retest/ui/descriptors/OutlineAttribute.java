@@ -59,7 +59,7 @@ public class OutlineAttribute extends Attribute {
 
 	@Override
 	public double getWeight() {
-		return 0;
+		return NORMAL_WEIGHT;
 	}
 
 	@Override
