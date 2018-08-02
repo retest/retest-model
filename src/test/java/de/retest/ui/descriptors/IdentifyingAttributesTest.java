@@ -4,11 +4,14 @@ import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
+import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -153,6 +156,24 @@ public class IdentifyingAttributesTest {
 				.applyChanges( createAttributeChanges( path, PathAttribute.PATH_KEY, originalPath, changedPath ) );
 
 		assertThat( changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
+	}
+
+	@Test
+	public void different_outline_should_result_in_change() {
+		final List<Attribute> attributes = new ArrayList<Attribute>();
+		attributes.add( new PathAttribute( Path.fromString( "HTML[1]/DIV[1]" ) ) );
+		attributes.add( new SuffixAttribute( "1" ) );
+		attributes.add( new StringAttribute( "type", "DIV" ) );
+
+		final List<Attribute> originalAttributes = new ArrayList<Attribute>( attributes );
+		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 800, 1200 ) ) );
+		final IdentifyingAttributes original = new IdentifyingAttributes( originalAttributes );
+
+		final List<Attribute> differentOutlineAttributes = new ArrayList<Attribute>( attributes );
+		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 400, 600 ) ) );
+		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
+
+		assertThat( original.match( differentOutline ) ).isLessThan( 1.0 );
 	}
 
 	private Set<AttributeDifference> createAttributeChanges( final Path path, final String key,
