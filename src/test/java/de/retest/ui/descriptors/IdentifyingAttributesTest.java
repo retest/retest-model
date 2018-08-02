@@ -19,14 +19,14 @@ public class IdentifyingAttributesTest {
 
 	public static final double ONE_SIMILARITY = 1.0 / IdentifyingAttributes.PERFECT_SIMILARITY;
 
-	private final Path path = Path.fromString( "Window/path/component_0" );
+	private final Path path = Path.fromString( "Window[1]/path[1]/component[0]" );
 
 	@Test
 	public void same_attributes_should_match_100_percent() {
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component_X" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component_X" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
 
 		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.001 ) );
 		assertThat( expected.hashCode() ).isEqualTo( actual.hashCode() );
@@ -36,7 +36,7 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void more_actual_attributes_should_result_in_difference() throws Exception {
 		final Collection<Attribute> attributes = IdentifyingAttributes
-				.createList( Path.fromString( "Window/path/component_X" ), component.class.getName() );
+				.createList( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class.getName() );
 		final IdentifyingAttributes expected = new IdentifyingAttributes( attributes );
 		attributes.add( new StringAttribute( "myKey", "some value" ) );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( attributes );
@@ -49,7 +49,7 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void more_expected_attributes_should_result_in_difference() throws Exception {
 		final Collection<Attribute> attributes = IdentifyingAttributes
-				.createList( Path.fromString( "Window/path/component_X" ), component.class.getName() );
+				.createList( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class.getName() );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( attributes );
 		attributes.add( new StringAttribute( "myKey", "some value" ) );
 		final IdentifyingAttributes expected = new IdentifyingAttributes( attributes );
@@ -75,9 +75,9 @@ public class IdentifyingAttributesTest {
 	public void only_same_parent_path_results_in_1_similarity() {
 		// TODO Maybe the counter should be indifferent to type?
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component[X]" ), component.class );
-		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "Window/path/component[Y]" ), otherComponent.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
+		final IdentifyingAttributes actual = IdentifyingAttributes
+				.create( Path.fromString( "Window[1]/path[1]/component[Y]" ), otherComponent.class );
 
 		assertThat( expected.match( actual ) ).isCloseTo( ONE_SIMILARITY, within( 0.01 ) );
 	}
@@ -85,13 +85,13 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void several_differences_should_decrease_similarity() {
 		final IdentifyingAttributes cell_0_4_orig = IdentifyingAttributes.create( Path.fromString(
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_0/JPanel_0/JTable_0/row_0/column_4" ),
+				"Window[1]/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[1]/JPanel[1]/JTable[1]/row[1]/column[5]" ),
 				cell.class );
 		final IdentifyingAttributes cell_0_4_new = IdentifyingAttributes.create( Path.fromString(
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_1/JPanel_0/JTable_0/row_0/column_4" ),
+				"Window[1]/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[2]/JPanel[1]/JTable[1]/row[1]/column[5]" ),
 				cell.class );
 		final IdentifyingAttributes cell_2_4_new = IdentifyingAttributes.create( Path.fromString(
-				"Window/JRootPane_0/JLayeredPane_0/StatefulTableDemo_0/JTabbedPane_0/Tab_1/JPanel_0/JTable_0/row_2/column_4" ),
+				"Window[1]/JRootPane[1]/JLayeredPane[1]/StatefulTableDemo[1]/JTabbedPane[1]/Tab[2]/JPanel[1]/JTable[1]/row[3]/column[5]" ),
 				cell.class );
 
 		assertThat( cell_0_4_orig.match( cell_0_4_new ) ).isGreaterThan( cell_0_4_orig.match( cell_2_4_new ) );
@@ -99,7 +99,7 @@ public class IdentifyingAttributesTest {
 
 	@Test
 	public void apply_same_value_should_work() throws Exception {
-		final String pathValue = "Window/JRootPane_0/JLayeredPane_0/JTable_0/row_6/column_0";
+		final String pathValue = "Window[1]/JRootPane[1]/JLayeredPane[1]/JTable[1]/row[7]/column[1]";
 		final IdentifyingAttributes identifyingAttributes =
 				IdentifyingAttributes.create( fromString( pathValue ), component.class );
 		identifyingAttributes
@@ -110,16 +110,17 @@ public class IdentifyingAttributesTest {
 	public void apply_path_change() {
 		final IdentifyingAttributes identifyingAttributes = IdentifyingAttributes.create( path, component.class );
 
-		final AttributeDifference pathDifference = new AttributeDifference( "path",
-				Path.fromString( "Window/path/component_0" ), Path.fromString( "Window/otherPath/component_1" ) );
+		final AttributeDifference pathDifference =
+				new AttributeDifference( "path", Path.fromString( "Window[1]/path[1]/component[1]" ),
+						Path.fromString( "Window[1]/otherpath[1]/component[2]" ) );
 		final AttributeDifference suffixDifference = new AttributeDifference( "suffix", "0", "1" );
 		final IdentifyingAttributes changed = identifyingAttributes
 				.applyChanges( new HashSet<AttributeDifference>( Arrays.asList( pathDifference, suffixDifference ) ) );
 
 		assertThat( changed ).isNotEqualTo( identifyingAttributes );
-		assertThat( changed.getPath() ).isEqualTo( "Window/otherPath/component_1" );
+		assertThat( changed.getPath() ).isEqualTo( "Window[1]/otherpath[1]/component[2]" );
 		assertThat( changed.getSuffix() ).isEqualTo( "1" );
-		assertThat( changed.getParentPath() ).isEqualTo( "Window/otherPath" );
+		assertThat( changed.getParentPath() ).isEqualTo( "Window[1]/otherpath[1]" );
 	}
 
 	@Test( expected = NullPointerException.class )
@@ -127,7 +128,7 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes identifyingAttributes = IdentifyingAttributes.create( path, component.class );
 
 		identifyingAttributes.applyChanges(
-				createAttributeChanges( path, "path", Path.fromString( "Window/path/component_0" ), null ) );
+				createAttributeChanges( path, "path", Path.fromString( "Window[1]/path[1]/component[1]" ), null ) );
 	}
 
 	@Test
@@ -143,8 +144,8 @@ public class IdentifyingAttributesTest {
 
 	@Test
 	public void apply_different_path_value_should_work() {
-		final String originalPath = "Window/path/component";
-		final String changedPath = "Window/new_path/new_component";
+		final String originalPath = "Window[1]/path[1]/component";
+		final String changedPath = "Window[1]/new_path[1]/new_component";
 		final IdentifyingAttributes original =
 				IdentifyingAttributes.create( Path.fromString( originalPath ), component.class );
 
