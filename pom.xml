@@ -38,6 +38,18 @@
 			<email>johannes.dillmann@retest.de</email>
 		</developer>
 	</developers>
+	
+  <contributors>
+    <contributor>
+      <name>Nicole Rauch</name>
+      <email>nicole.rauch@me.com</email>
+      <url>http://nicolerauch.de/</url>
+    </contributor>
+    <contributor>
+      <name>Robin Danzinger</name>
+      <email>robindanzinger@freenet.de</email>
+    </contributor>
+  </contributors>
 
 	<licenses>
 		<license>
