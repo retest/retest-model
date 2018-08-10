@@ -18,7 +18,8 @@ public class ElementTest {
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes =
 				IdentifyingAttributes.create( fromString( "Window/path/Component" ), java.awt.Component.class );
-		assertThat( new Element( compIdentAttributes, null ).toString() ).isEqualTo( compIdentAttributes.toString() );
+		assertThat( new Element( "", compIdentAttributes, null ).toString() )
+				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
 	}
 
@@ -167,7 +168,7 @@ public class ElementTest {
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
-		return new Element( IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
+		return new Element( "", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
 				containedComponents );
 	}
 

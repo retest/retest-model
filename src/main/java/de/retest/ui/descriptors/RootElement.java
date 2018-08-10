@@ -32,10 +32,10 @@ public class RootElement extends Element {
 		title = null;
 	}
 
-	public RootElement( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final Screenshot screenshot, final List<Element> containedComponents, final String screen,
-			final int screenId, final String title ) {
-		super( identifyingAttributes, attributes, containedComponents );
+	public RootElement( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final Screenshot screenshot, final List<Element> containedComponents,
+			final String screen, final int screenId, final String title ) {
+		super( retestId, identifyingAttributes, attributes, containedComponents );
 		setScreenshot( screenshot );
 		this.screen = screen;
 		this.screenId = screenId;
@@ -69,8 +69,8 @@ public class RootElement extends Element {
 
 		final List<Element> newContainedComponents = createNewComponentList( actionChangeSet, newIdentAttributes );
 
-		return new RootElement( newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen, screenId,
-				title );
+		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen,
+				screenId, title );
 	}
 
 	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
