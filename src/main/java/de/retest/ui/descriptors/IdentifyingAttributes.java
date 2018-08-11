@@ -181,10 +181,8 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 
 	@Override
 	public String toString() {
-		return createCompIdentString( getType(), (String) get( "text" ) );
-	}
-
-	public static String createCompIdentString( final String type, final String text ) {
+		final String type = getType();
+		final String text = (String) get( "text" );
 		if ( type == null ) {
 			return "";
 		}
