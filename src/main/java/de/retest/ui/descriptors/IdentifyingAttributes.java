@@ -2,7 +2,6 @@ package de.retest.ui.descriptors;
 
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.Iterables.filter;
-import static de.retest.util.ObjectUtil.checkNull;
 import static de.retest.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
@@ -59,9 +58,16 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		}
 	}
 
-	public static Collection<Attribute> createList( final Path path, final String type ) {
+	public static Collection<Attribute> createList( final Path path, String type ) {
+		if ( type == null ) {
+			throw new NullPointerException( "Type must not be null." );
+		}
+		type = type.trim();
+		if ( type.isEmpty() ) {
+			throw new IllegalArgumentException( "Type must not be empty." );
+		}
 		return new ArrayList<Attribute>( Arrays.asList( new PathAttribute( path ), //
-				new StringAttribute( "type", checkNull( type, "type" ) ), //
+				new StringAttribute( "type", type ), //
 				new SuffixAttribute( path.getElement().getSuffix() ) )//
 		);
 	}

@@ -1,6 +1,7 @@
 package de.retest.ui.descriptors;
 
 import static de.retest.ui.Path.fromString;
+import static de.retest.ui.descriptors.IdentifyingAttributes.create;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 
@@ -174,6 +175,31 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
 
 		assertThat( original.match( differentOutline ) ).isLessThan( 1.0 );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void blank_type_should_give_exception() {
+		create( fromString( "/HTML/DIV" ), " " );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void tab_type_should_give_exception() {
+		create( fromString( "/HTML/DIV" ), "	" );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void empty_type_should_give_exception() {
+		create( fromString( "/HTML/DIV" ), "" );
+	}
+
+	@Test( expected = NullPointerException.class )
+	public void null_String_type_should_give_exception() {
+		create( fromString( "/HTML/DIV" ), (String) null );
+	}
+
+	@Test( expected = NullPointerException.class )
+	public void null_Class_type_should_give_exception() {
+		create( fromString( "/HTML/DIV" ), (Class<?>) null );
 	}
 
 	private Set<AttributeDifference> createAttributeChanges( final Path path, final String key,
