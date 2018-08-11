@@ -104,6 +104,9 @@ public class Path implements Serializable {
 	}
 
 	public static Path fromString( String path ) {
+		while ( path.startsWith( PATH_SEPARATOR ) ) {
+			path = path.substring( 1 );
+		}
 		if ( !path.contains( PATH_SEPARATOR ) ) {
 			return Path.path( PathElement.fromString( path ) );
 		}
