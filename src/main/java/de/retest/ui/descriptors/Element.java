@@ -79,11 +79,24 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
-		this.retestId = retestId;
+		this.retestId = verify( retestId );
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
+	}
+
+	private String verify( final String retestId ) {
+		if ( retestId == null ) {
+			throw new NullPointerException( "retestId must not be null." );
+		}
+		if ( retestId.isEmpty() ) {
+			throw new IllegalArgumentException( "retestId must not be empty." );
+		}
+		if ( retestId.matches( ".*[^\\w].*" ) ) {
+			throw new IllegalArgumentException( "retestID must not contain any whitespace characters." );
+		}
+		return retestId;
 	}
 
 	@Override

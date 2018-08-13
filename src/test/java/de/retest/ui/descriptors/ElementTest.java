@@ -18,7 +18,7 @@ public class ElementTest {
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes =
 				IdentifyingAttributes.create( fromString( "Window/path/Component" ), java.awt.Component.class );
-		assertThat( new Element( "", compIdentAttributes, null ).toString() )
+		assertThat( new Element( "asdef", compIdentAttributes, null ).toString() )
 				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
 	}
@@ -165,10 +165,34 @@ public class ElementTest {
 		assertThat( containedComponents ).contains( oldChild );
 	}
 
+	@Test( expected = NullPointerException.class )
+	public void null_id_should_throw_exception() {
+		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void empty_id_should_throw_exception() {
+		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void whitespace_in_id_should_throw_exception() {
+		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
+	@Test( expected = IllegalArgumentException.class )
+	public void special_chars_in_id_should_throw_exception() {
+		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
-		return new Element( "", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
+		return new Element( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
 				containedComponents );
 	}
 
