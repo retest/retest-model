@@ -19,16 +19,17 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		final String text = identifyingAttributes.get( "text" );
 		final String type = identifyingAttributes.get( "type" );
 		final String rawId = text != null ? text : type;
-		return makeUnique( RetestIdUtil.normalizeAndCut( rawId ) );
+		return makeUnique( rawId );
 	}
 
-	private String makeUnique( final String input ) {
-		String unique = input;
-		while ( knownRetestIds.contains( unique ) ) {
-			unique = input + "-" + UUID.randomUUID().toString().substring( 0, 5 );
+	private String makeUnique( final String rawId ) {
+		final String id = RetestIdUtil.normalizeAndCut( rawId );
+		String uniqueId = id;
+		while ( knownRetestIds.contains( uniqueId ) ) {
+			uniqueId = id + "-" + UUID.randomUUID().toString().substring( 0, 5 );
 		}
-		knownRetestIds.add( unique );
-		return unique;
+		knownRetestIds.add( uniqueId );
+		return uniqueId;
 	}
 
 	@Override
