@@ -17,14 +17,10 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
 		}
 
-		// order is "text", "type"
 		final String text = identifyingAttributes.get( "text" );
-		if ( text != null ) {
-			return makeUnique( cut( normalizeString( text ) ) );
-		}
-
 		final String type = identifyingAttributes.get( "type" );
-		return makeUnique( cut( normalizeString( type ) ) );
+		final String rawId = text != null ? text : type;
+		return makeUnique( cut( normalizeString( rawId ) ) );
 	}
 
 	private String makeUnique( final String input ) {
