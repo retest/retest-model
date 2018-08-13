@@ -6,18 +6,10 @@ import org.junit.Test;
 
 public class PathTest {
 
-	private static final Path EMPTY_PATH = Path.path( new PathElement() );
-	private static final PathElement EMPTY_ELEMENT = new PathElement();
 	private static final PathElement ELEMENT_0 = new PathElement( "elem", "0" );
 	private static final PathElement ELEMENT_1 = new PathElement( "leleme", "1" );
 	private static final PathElement ELEMENT_2 = new PathElement( "bubi" );
 	private static final PathElement ELEMENT_3 = new PathElement( "muma", "3" );
-
-	@Test
-	public void string_representation_of_empty_path() throws Exception {
-		assertThat( EMPTY_PATH.toString() ).isEqualTo( "" );
-		assertThat( Path.fromString( "" ) ).isEqualTo( EMPTY_PATH );
-	}
 
 	@Test
 	public void string_representation_of_simple_path() throws Exception {
@@ -27,10 +19,15 @@ public class PathTest {
 
 	@Test
 	public void string_representation_of_nested_path_with_empty_path() throws Exception {
-		assertThat( Path.path( EMPTY_PATH, EMPTY_ELEMENT ).toString() ).isEqualTo( "/" );
-		assertThat( Path.path( EMPTY_PATH, ELEMENT_0 ).toString() ).isEqualTo( "/elem[0]" );
-		assertThat( Path.fromString( "/" ) ).isEqualTo( Path.path( EMPTY_PATH, EMPTY_ELEMENT ) );
-		assertThat( Path.fromString( "/elem[0]" ) ).isEqualTo( Path.path( EMPTY_PATH, ELEMENT_0 ) );
+		assertThat( Path.path( ELEMENT_0 ).toString() ).isEqualTo( "elem[0]" );
+		assertThat( Path.fromString( "elem[0]" ) ).isEqualTo( Path.path( ELEMENT_0 ) );
+	}
+
+	@Test
+	public void no_slash_before_root() {
+		assertThat( Path.fromString( "/elem[0]" ) ).isEqualTo( Path.path( ELEMENT_0 ) );
+		assertThat( Path.fromString( "//elem[0]" ) ).isEqualTo( Path.path( ELEMENT_0 ) );
+		assertThat( Path.fromString( "///elem[0]" ) ).isEqualTo( Path.path( ELEMENT_0 ) );
 	}
 
 	@Test
@@ -50,7 +47,6 @@ public class PathTest {
 
 	@Test
 	public void test_parentPath() {
-		assertThat( EMPTY_PATH.isParent( EMPTY_PATH ) );
 		final Path path1 = Path.path( Path.path( ELEMENT_0 ), ELEMENT_1 );
 		assertThat( Path.path( ELEMENT_0 ).isParent( path1 ) );
 		assertThat( path1.isParent( path1 ) );

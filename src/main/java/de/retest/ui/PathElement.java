@@ -22,16 +22,18 @@ public class PathElement implements Serializable {
 	private final String suffix;
 
 	public PathElement( final String elementName, final String suffix ) {
-		this.elementName = elementName;
-		this.suffix = suffix;
+		if ( elementName == null ) {
+			throw new NullPointerException( "Element name must not be null." );
+		}
+		this.elementName = elementName.trim();
+		if ( this.elementName.isEmpty() ) {
+			throw new IllegalArgumentException( "Element name must not be empty." );
+		}
+		this.suffix = suffix.trim();
 	}
 
 	public PathElement( final String elementName ) {
 		this( elementName, "" );
-	}
-
-	public PathElement() {
-		this( "", "" );
 	}
 
 	public PathElement( final String elementName, final int suffix ) {
