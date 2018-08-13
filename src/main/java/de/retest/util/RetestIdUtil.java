@@ -2,7 +2,11 @@ package de.retest.util;
 
 public class RetestIdUtil {
 
-	public static String normalize( String id ) {
+	public static String normalizeAndCut( final String id ) {
+		return cut( normalize( id ) );
+	}
+
+	static String normalize( String id ) {
 		// trime and replace all whitespace chars with _
 		id = id.trim().replaceAll( "[\\s]", "_" );
 		// remove all chars but a-z in any case, 0-9 or _
@@ -14,7 +18,7 @@ public class RetestIdUtil {
 		return id.toLowerCase();
 	}
 
-	public static String cut( final String id ) {
+	static String cut( final String id ) {
 		if ( id.length() <= 17 ) {
 			return id;
 		}
