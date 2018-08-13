@@ -1,7 +1,7 @@
 package de.retest.ui.descriptors;
 
-import static de.retest.util.StringUtil.cut;
-import static de.retest.util.StringUtil.normalizeString;
+import static de.retest.util.RetestIdUtil.cut;
+import static de.retest.util.RetestIdUtil.normalize;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,7 +20,7 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		final String text = identifyingAttributes.get( "text" );
 		final String type = identifyingAttributes.get( "type" );
 		final String rawId = text != null ? text : type;
-		return makeUnique( cut( normalizeString( rawId ) ) );
+		return makeUnique( cut( normalize( rawId ) ) );
 	}
 
 	private String makeUnique( final String input ) {
