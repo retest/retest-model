@@ -15,10 +15,20 @@ public class SuffixAttribute extends StringAttribute {
 	@SuppressWarnings( "unused" )
 	private SuffixAttribute() {}
 
+	public SuffixAttribute( final int value ) {
+		this( value, null );
+	}
+
+	public SuffixAttribute( final int value, final String variableName ) {
+		super( SUFFIX_KEY, Integer.toString( value ), variableName );
+	}
+
+	@Deprecated
 	public SuffixAttribute( final String value ) {
 		this( value, null );
 	}
 
+	@Deprecated
 	public SuffixAttribute( final String value, final String variableName ) {
 		super( SUFFIX_KEY, value, variableName );
 	}
