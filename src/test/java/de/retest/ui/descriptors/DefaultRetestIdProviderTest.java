@@ -38,11 +38,10 @@ public class DefaultRetestIdProviderTest {
 		assertThat( retestId ).isNotEqualTo( cut.getRetestId( ident ) );
 	}
 
-	public IdentifyingAttributes createIdentAttributes( final String text ) {
+	private IdentifyingAttributes createIdentAttributes( final String text ) {
 		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV" ), "DIV" );
 		attributes.add( new StringAttribute( "text", text ) );
-		final IdentifyingAttributes ident = new IdentifyingAttributes( attributes );
-		return ident;
+		return new IdentifyingAttributes( attributes );
 	}
 
 	@Test
