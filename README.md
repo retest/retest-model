@@ -1,4 +1,4 @@
-# recheck-model
+# retest-model
 
 [![Build Status](https://travis-ci.com/retest/retest-model.svg?branch=master)](https://travis-ci.com/retest/retest-model)
 [![license](https://img.shields.io/badge/license-AGPL-brightgreen.svg)](https://github.com/retest/recheck-web/blob/master/LICENSE)
