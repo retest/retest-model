@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -24,6 +25,9 @@ import de.retest.ui.review.ActionChangeSet;
 public class Element implements Serializable, Comparable<Element> {
 
 	protected static final long serialVersionUID = 2L;
+
+	@XmlAttribute
+	protected final String retestId;
 
 	@XmlJavaTypeAdapter( IdentifyingAttributesAdapter.class )
 	@XmlElement
@@ -46,36 +50,53 @@ public class Element implements Serializable, Comparable<Element> {
 
 	// Warning: Only to be used by JAXB!
 	protected Element() {
+		retestId = "";
 		identifyingAttributes = null;
 		attributes = null;
 		containedComponents = new ArrayList<Element>();
 	}
 
-	public Element( final IdentifyingAttributes identifyingAttributes, final Attributes attributes ) {
-		this( identifyingAttributes, attributes, new ArrayList<Element>() );
+	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes ) {
+		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>() );
 	}
 
-	public Element( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final Element... containedComponents ) {
-		this( identifyingAttributes, attributes, new ArrayList<Element>( Arrays.asList( containedComponents ) ) );
+	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final Element... containedComponents ) {
+		this( retestId, identifyingAttributes, attributes,
+				new ArrayList<Element>( Arrays.asList( containedComponents ) ) );
 	}
 
-	public Element( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final List<Element> containedComponents ) {
-		this( identifyingAttributes, attributes, containedComponents, null );
+	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final List<Element> containedComponents ) {
+		this( retestId, identifyingAttributes, attributes, containedComponents, null );
 	}
 
-	public Element( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final Screenshot screenshot ) {
-		this( identifyingAttributes, attributes, new ArrayList<Element>(), screenshot );
+	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final Screenshot screenshot ) {
+		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>(), screenshot );
 	}
 
-	public Element( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final List<Element> containedComponents, final Screenshot screenshot ) {
+	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
+		this.retestId = verify( retestId );
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
+	}
+
+	private String verify( final String retestId ) {
+		if ( retestId == null ) {
+			throw new NullPointerException( "retestId must not be null." );
+		}
+		if ( retestId.isEmpty() ) {
+			throw new IllegalArgumentException( "retestId must not be empty." );
+		}
+		if ( retestId.matches( ".*[^\\w].*" ) ) {
+			throw new IllegalArgumentException( "retestID must not contain any whitespace characters." );
+		}
+		return retestId;
 	}
 
 	@Override
@@ -157,7 +178,7 @@ public class Element implements Serializable, Comparable<Element> {
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 		final List<Element> newContainedComps = createNewComponentList( actionChangeSet, newIdentAttributes );
 
-		return new Element( newIdentAttributes, newAttributes, newContainedComps, screenshot );
+		return new Element( retestId, newIdentAttributes, newAttributes, newContainedComps, screenshot );
 	}
 
 	protected List<Element> createNewComponentList( final ActionChangeSet actionChangeSet,
