@@ -1,11 +1,10 @@
 package de.retest.ui.descriptors;
 
-import static de.retest.util.StringUtil.cut;
-import static de.retest.util.StringUtil.normalizeString;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
@@ -14,26 +13,23 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 	@Override
 	public String getRetestId( final IdentifyingAttributes identifyingAttributes ) {
 		if ( identifyingAttributes == null ) {
-			throw new NullPointerException( "IdentifyingAttributes must not be null." );
+			throw new NullPointerException( "Identifying attributes must not be null." );
 		}
 
-		// order is "text", "type"
 		final String text = identifyingAttributes.get( "text" );
-		if ( text != null ) {
-			return makeUnique( cut( normalizeString( text ) ) );
-		}
-
 		final String type = identifyingAttributes.get( "type" );
-		return makeUnique( cut( normalizeString( type ) ) );
+		final String rawId = text != null ? text : type;
+		final String id = RetestIdUtil.normalizeAndCut( rawId );
+		return makeUnique( id );
 	}
 
-	private String makeUnique( final String input ) {
-		String unique = input;
-		while ( knownRetestIds.contains( unique ) ) {
-			unique = input + "-" + UUID.randomUUID().toString().substring( 0, 5 );
+	private String makeUnique( final String id ) {
+		String uniqueId = id;
+		while ( knownRetestIds.contains( uniqueId ) ) {
+			uniqueId = id + "-" + UUID.randomUUID().toString().substring( 0, 5 );
 		}
-		knownRetestIds.add( unique );
-		return unique;
+		knownRetestIds.add( uniqueId );
+		return uniqueId;
 	}
 
 	@Override
