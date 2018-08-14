@@ -7,22 +7,6 @@
 
 The model of both [retest](https://retest.de/) and [recheck](https://retest.de/recheck/).
 
-## Building
-
-To build this project locally, you have to skip JAR signing.
-
-For normal builds use:
-
-```
-mvn deploy -Dgpg.skip=true
-```
-
-For making releases use:
-
-```
-mvn release:prepare -Darguments="-Dgpg.skip=true"
-```
-
 ## License
 
 This project is licensed under the [AGPL license](LICENSE).
