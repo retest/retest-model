@@ -137,7 +137,7 @@ public class ElementTest {
 		// window
 		final Element window = createElement( "window", java.awt.Component.class );
 
-		// window/path_1/comp1
+		// window/path_1/comp_1
 		final Element element = createElement( "window/path_0/comp_1", java.awt.Component.class );
 		final Element path = createElement( "window/path_0", java.awt.Component.class, element );
 
@@ -147,8 +147,9 @@ public class ElementTest {
 
 		final Element changed = window.applyChanges( actionChangeSet );
 
-		assertThat( changed.getContainedElements() ).containsExactly( path );
-		assertThat( changed.getContainedElements().get( 0 ).getContainedElements() ).containsExactly( element );
+		final List<Element> containedElements = changed.getContainedElements();
+		assertThat( containedElements ).containsExactly( path );
+		assertThat( containedElements.get( 0 ).getContainedElements() ).containsExactly( element );
 	}
 
 	@Test
