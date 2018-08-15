@@ -133,6 +133,25 @@ public class ElementTest {
 	}
 
 	@Test
+	public void applyChanges_should_add_intermediate_elements() {
+		// window
+		final Element window = createElement( "window", java.awt.Component.class );
+
+		// window/path_1/comp1
+		final Element element = createElement( "window/path_0/comp_1", java.awt.Component.class );
+		final Element path = createElement( "window/path_0", java.awt.Component.class, element );
+
+		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
+		actionChangeSet.addInsertChange( path );
+		actionChangeSet.addInsertChange( element );
+
+		final Element changed = window.applyChanges( actionChangeSet );
+
+		assertThat( changed.getContainedElements() ).containsExactly( path );
+		assertThat( changed.getContainedElements().get( 0 ).getContainedElements() ).containsExactly( element );
+	}
+
+	@Test
 	public void parent_update_should_not_affect_deletion() {
 		final Path parentPathOld = Path.fromString( "ParentPathOld_0" );
 		final Path parentPathNew = Path.fromString( "ParentPathNew_0" );
