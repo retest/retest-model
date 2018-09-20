@@ -268,4 +268,7 @@ public class Element implements Serializable, Comparable<Element> {
 		return null;
 	}
 
+	public String getRetestId() {
+		return retestId;
+	}
 }
