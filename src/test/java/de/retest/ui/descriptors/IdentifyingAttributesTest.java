@@ -163,7 +163,7 @@ public class IdentifyingAttributesTest {
 	public void different_outline_should_result_in_change() {
 		final List<Attribute> attributes = new ArrayList<Attribute>();
 		attributes.add( new PathAttribute( Path.fromString( "HTML[1]/DIV[1]" ) ) );
-		attributes.add( new SuffixAttribute( "1" ) );
+		attributes.add( new SuffixAttribute( 1 ) );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
 
 		final List<Attribute> originalAttributes = new ArrayList<Attribute>( attributes );

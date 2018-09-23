@@ -69,7 +69,7 @@ public class DefaultRetestIdProviderTest {
 		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV" ), "DIV" );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
-		attributes.add( new SuffixAttribute( "3" ) );
+		attributes.add( new SuffixAttribute( 3 ) );
 		assertThat( cut.getRetestId( new IdentifyingAttributes( attributes ) ) ).isEqualTo( "div" );
 	}
 
