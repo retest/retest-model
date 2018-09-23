@@ -29,10 +29,18 @@ public class ChecksumCalculator {
 		return sha256.hashBytes( input ).toString();
 	}
 
+	/**
+	 * @deprecated use {@link ChecksumCalculator#sha256(String)}
+	 */
+	@Deprecated
 	public String md5( final String input ) {
 		return md5.hashString( input, Charset.defaultCharset() ).toString();
 	}
 
+	/**
+	 * @deprecated use {@link ChecksumCalculator#sha256(byte[])}
+	 */
+	@Deprecated
 	public String md5( final byte[] input ) {
 		return md5.hashBytes( input ).toString();
 	}
