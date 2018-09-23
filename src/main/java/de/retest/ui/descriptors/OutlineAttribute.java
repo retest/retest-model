@@ -39,7 +39,8 @@ public class OutlineAttribute extends Attribute {
 	}
 
 	/**
-	 * Position relative to the overall window
+	 * @param outline
+	 *            position relative to the overall window
 	 */
 	public OutlineAttribute( final Rectangle outline ) {
 		super( "outline" );

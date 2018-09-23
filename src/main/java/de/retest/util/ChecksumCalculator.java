@@ -30,6 +30,9 @@ public class ChecksumCalculator {
 	}
 
 	/**
+	 * @param input
+	 *            string to hash
+	 * @return hashed input string
 	 * @deprecated use {@link ChecksumCalculator#sha256(String)}
 	 */
 	@Deprecated
@@ -38,6 +41,9 @@ public class ChecksumCalculator {
 	}
 
 	/**
+	 * @param input
+	 *            bytes to hash
+	 * @return hashed input bytes
 	 * @deprecated use {@link ChecksumCalculator#sha256(byte[])}
 	 */
 	@Deprecated
