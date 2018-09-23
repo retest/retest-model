@@ -156,7 +156,7 @@ public class IdentifyingAttributesTest {
 		final IdentifyingAttributes changed = original
 				.applyChanges( createAttributeChanges( path, PathAttribute.PATH_KEY, originalPath, changedPath ) );
 
-		assertThat( changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
+		assertThat( (Path) changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
 	}
 
 	@Test
