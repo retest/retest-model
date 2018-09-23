@@ -39,7 +39,7 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	private IdentifyingAttributes createIdentAttributes( final String text ) {
-		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV" ), "DIV" );
+		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV[1]" ), "DIV" );
 		attributes.add( new StringAttribute( "text", text ) );
 		return new IdentifyingAttributes( attributes );
 	}
@@ -58,7 +58,7 @@ public class DefaultRetestIdProviderTest {
 	@Test
 	public void works_even_only_for_path_and_type() {
 		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
-		final IdentifyingAttributes ident = create( fromString( "/HTML/DIV" ), "DIV" );
+		final IdentifyingAttributes ident = create( fromString( "/HTML/DIV[1]" ), "DIV" );
 		final String id1 = cut.getRetestId( ident );
 		final String id2 = cut.getRetestId( ident );
 		assertThat( id1 ).isNotEqualTo( id2 );
@@ -67,9 +67,9 @@ public class DefaultRetestIdProviderTest {
 	@Test
 	public void no_text_should_give_type() {
 		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
-		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV" ), "DIV" );
+		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV[1]" ), "DIV" );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
-		attributes.add( new SuffixAttribute( "3" ) );
+		attributes.add( new SuffixAttribute( 3 ) );
 		assertThat( cut.getRetestId( new IdentifyingAttributes( attributes ) ) ).isEqualTo( "div" );
 	}
 

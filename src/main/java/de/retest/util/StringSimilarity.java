@@ -3,8 +3,11 @@ package de.retest.util;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.FuzzyScore;
 
 public class StringSimilarity {
+
+	private static final FuzzyScore fuzzyScore = new FuzzyScore( Locale.GERMAN );
 
 	public static double textSimilarity( final String text0, final String text1 ) {
 		if ( text0 == null || text1 == null ) {
@@ -15,7 +18,7 @@ public class StringSimilarity {
 			return 1.0;
 		}
 
-		final double fuzzyDistance = StringUtils.getFuzzyDistance( text0, text1, Locale.GERMAN );
+		final double fuzzyDistance = fuzzyScore.fuzzyScore( text0, text1 );
 
 		if ( fuzzyDistance == 0.0 ) {
 			return 0.0;

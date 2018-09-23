@@ -68,7 +68,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		}
 		return new ArrayList<Attribute>( Arrays.asList( new PathAttribute( path ), //
 				new StringAttribute( "type", type ), //
-				new SuffixAttribute( path.getElement().getSuffix() ) )//
+				new SuffixAttribute( Integer.parseInt( path.getElement().getSuffix() ) ) )//
 		);
 	}
 

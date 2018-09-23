@@ -19,6 +19,7 @@ public class ChecksumCalculatorTest {
 	private static final String TEST_MD5_3 = "f19ae056a94044dbb7ef16981a3be665";
 	private static final String TEST_SHA256_3 = "01700968b1586c4310b35b5b41d64261122bfcc8179a33863e1f748765c61b23";
 
+	@SuppressWarnings( "deprecation" )
 	@Test
 	public void regresion_test_for_MD5_calculation() {
 		assertThat( getInstance().md5( TEST_1 ) ).isEqualTo( TEST_MD5_1 );

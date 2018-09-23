@@ -16,8 +16,8 @@ public class ElementTest {
 
 	@Test
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
-		final IdentifyingAttributes compIdentAttributes =
-				IdentifyingAttributes.create( fromString( "Window/path/Component" ), java.awt.Component.class );
+		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
+				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
 		assertThat( new Element( "asdef", compIdentAttributes, null ).toString() )
 				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
@@ -25,21 +25,21 @@ public class ElementTest {
 
 	@Test
 	public void applyChanges_to_path_propagates_to_child_components() {
-		// Window
-		//   |- Parent_0        = root
-		//     |- Parent_0      = parent0
-		//       |- Component_0 = comp0
-		//     |- Component_1   = comp1
-		//     |- Component_2   = comp2
-		final Element comp0 = createElement( "Window/Parent_0/Parent_0/Component_0", java.awt.Component.class );
-		final Element parent0 = createElement( "Window/Parent_0/Parent_0", java.awt.Component.class, comp0 );
-		final Element comp1 = createElement( "Window/Parent_0/Component_1", java.awt.Component.class );
-		final Element comp2 = createElement( "Window/Parent_0/Component_2", java.awt.Component.class );
-		final Element root = createElement( "Window/Parent_0", Parent.class, parent0, comp1, comp2 );
+		// Window[1]
+		//   |- Parent[1]        = root
+		//     |- Parent[1]      = parent0
+		//       |- Component[1] = comp0
+		//     |- Component[2]   = comp1
+		//     |- Component[3]   = comp2
+		final Element comp0 = createElement( "Window[1]/Parent[1]/Parent[1]/Component[1]", java.awt.Component.class );
+		final Element parent0 = createElement( "Window[1]/Parent[1]/Parent[1]", java.awt.Component.class, comp0 );
+		final Element comp1 = createElement( "Window[1]/Parent[1]/Component[2]", java.awt.Component.class );
+		final Element comp2 = createElement( "Window[1]/Parent[1]/Component[3]", java.awt.Component.class );
+		final Element root = createElement( "Window[1]/Parent[1]", Parent.class, parent0, comp1, comp2 );
 
 		final ActionChangeSet changes = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		changes.getIdentAttributeChanges().add( root.getIdentifyingAttributes(), new AttributeDifference( "path",
-				root.getIdentifyingAttributes().getPathTyped(), Path.fromString( "Window/Parent_1" ) ) );
+				root.getIdentifyingAttributes().getPathTyped(), Path.fromString( "Window[1]/Parent[2]" ) ) );
 
 		final Element newRoot = root.applyChanges( changes );
 		final Element newComp2 = newRoot.getContainedElements().get( 2 );
@@ -47,17 +47,18 @@ public class ElementTest {
 		final Element newParent0 = newRoot.getContainedElements().get( 0 );
 		final Element newComp0 = newParent0.getContainedElements().get( 0 );
 
-		assertThat( newRoot.getIdentifyingAttributes().getPath() ).isEqualTo( "Window/Parent_1" );
-		assertThat( newComp2.getIdentifyingAttributes().getPath() ).isEqualTo( "Window/Parent_1/Component_2" );
-		assertThat( newComp1.getIdentifyingAttributes().getPath() ).isEqualTo( "Window/Parent_1/Component_1" );
-		assertThat( newParent0.getIdentifyingAttributes().getPath() ).isEqualTo( "Window/Parent_1/Parent_0" );
-		assertThat( newComp0.getIdentifyingAttributes().getPath() ).isEqualTo( "Window/Parent_1/Parent_0/Component_0" );
+		assertThat( newRoot.getIdentifyingAttributes().getPath() ).isEqualTo( "Window[1]/Parent[2]" );
+		assertThat( newComp2.getIdentifyingAttributes().getPath() ).isEqualTo( "Window[1]/Parent[2]/Component[3]" );
+		assertThat( newComp1.getIdentifyingAttributes().getPath() ).isEqualTo( "Window[1]/Parent[2]/Component[2]" );
+		assertThat( newParent0.getIdentifyingAttributes().getPath() ).isEqualTo( "Window[1]/Parent[2]/Parent[1]" );
+		assertThat( newComp0.getIdentifyingAttributes().getPath() )
+				.isEqualTo( "Window[1]/Parent[2]/Parent[1]/Component[1]" );
 	}
 
 	@Test
 	public void applyChanges_should_add_inserted_components() throws Exception {
-		final Element parent = createElement( "Parent_0", java.awt.Component.class );
-		final Element newChild = createElement( "Parent_0/NewChild_0", java.awt.Component.class );
+		final Element parent = createElement( "Parent[1]", java.awt.Component.class );
+		final Element newChild = createElement( "Parent[1]/NewChild[1]", java.awt.Component.class );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addInsertChange( newChild );
 
@@ -70,8 +71,8 @@ public class ElementTest {
 
 	@Test
 	public void applyChanges_should_remove_deleted_components() throws Exception {
-		final Element oldChild = createElement( "Parent_0/NewChild_0", java.awt.Component.class );
-		final Element parent = createElement( "Parent_0", java.awt.Component.class, oldChild );
+		final Element oldChild = createElement( "Parent[1]/NewChild[1]", java.awt.Component.class );
+		final Element parent = createElement( "Parent[1]", java.awt.Component.class, oldChild );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addDeletedChange( oldChild.getIdentifyingAttributes() );
 
@@ -83,16 +84,16 @@ public class ElementTest {
 
 	@Test
 	public void parent_update_should_not_affect_insertion() {
-		final Element parent = createElement( "ParentPathOld_0", java.awt.Component.class );
-		final Element newChild = createElement( "ParentPathNew_0/NewChild_0", java.awt.Component.class );
+		final Element parent = createElement( "ParentPathOld[1]", java.awt.Component.class );
+		final Element newChild = createElement( "ParentPathNew[1]/NewChild[1]", java.awt.Component.class );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.getIdentAttributeChanges().add( parent.getIdentifyingAttributes(),
-				new AttributeDifference( "path", fromString( "ParentPathOld_0" ), fromString( "ParentPathNew_0" ) ) );
+				new AttributeDifference( "path", fromString( "ParentPathOld[1]" ), fromString( "ParentPathNew[1]" ) ) );
 		actionChangeSet.addInsertChange( newChild );
 
 		final Element changed = parent.applyChanges( actionChangeSet );
 
-		assertThat( changed.identifyingAttributes.getPathTyped() ).isEqualTo( fromString( "ParentPathNew_0" ) );
+		assertThat( changed.identifyingAttributes.getPathTyped() ).isEqualTo( fromString( "ParentPathNew[1]" ) );
 		final List<Element> containedComponents = changed.getContainedElements();
 		assertThat( containedComponents ).hasSize( 1 );
 		assertThat( containedComponents ).contains( newChild );
@@ -100,8 +101,8 @@ public class ElementTest {
 
 	@Test
 	public void no_insertion_match_should_not_change_anything() {
-		final Element parent = createElement( "ParentPath_0", java.awt.Component.class );
-		final Element newChild = createElement( "NotParentPath_0/NewChild_0", java.awt.Component.class );
+		final Element parent = createElement( "ParentPath[1]", java.awt.Component.class );
+		final Element newChild = createElement( "NotParentPath[1]/NewChild[1]", java.awt.Component.class );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addInsertChange( newChild );
 
@@ -113,13 +114,13 @@ public class ElementTest {
 
 	@Test
 	public void applyChanges_should_work_in_complex_scenario() {
-		final Element leaf0 = createElement( "Root_0/Branch_0/Leaf_0", java.awt.Component.class );
-		final Element leaf1 = createElement( "Root_0/Branch_0/Leaf_1", java.awt.Component.class );
-		final Element branch0 = createElement( "Root_0/Branch_0", java.awt.Component.class, leaf0, leaf1 );
-		final Element leaf2 = createElement( "Root_0/Branch_1/Leaf_2", java.awt.Component.class );
-		final Element newLeaf3 = createElement( "Root_0/Branch_1/NewLeaf_3", java.awt.Component.class );
-		final Element branch1 = createElement( "Root_0/Branch_1", java.awt.Component.class, leaf2 );
-		final Element root = createElement( "Root_0", java.awt.Component.class, branch0, branch1 );
+		final Element leaf0 = createElement( "Root[1]/Branch[1]/Leaf[1]", java.awt.Component.class );
+		final Element leaf1 = createElement( "Root[1]/Branch[1]/Leaf[2]", java.awt.Component.class );
+		final Element branch0 = createElement( "Root[1]/Branch[1]", java.awt.Component.class, leaf0, leaf1 );
+		final Element leaf2 = createElement( "Root[1]/Branch[2]/Leaf[3]", java.awt.Component.class );
+		final Element newLeaf3 = createElement( "Root[1]/Branch[2]/NewLeaf[4]", java.awt.Component.class );
+		final Element branch1 = createElement( "Root[1]/Branch[2]", java.awt.Component.class, leaf2 );
+		final Element root = createElement( "Root[1]", java.awt.Component.class, branch0, branch1 );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addDeletedChange( leaf1.getIdentifyingAttributes() );
 		actionChangeSet.addInsertChange( newLeaf3 );
@@ -135,11 +136,11 @@ public class ElementTest {
 	@Test
 	public void applyChanges_should_add_intermediate_elements() {
 		// window
-		final Element window = createElement( "window", java.awt.Component.class );
+		final Element window = createElement( "Window[1]", java.awt.Component.class );
 
 		// window/path_1/comp_1
-		final Element element = createElement( "window/path_0/comp_1", java.awt.Component.class );
-		final Element path = createElement( "window/path_0", java.awt.Component.class, element );
+		final Element element = createElement( "Window[1]/Path[1]/Comp[2]", java.awt.Component.class );
+		final Element path = createElement( "Window[1]/Path[1]", java.awt.Component.class, element );
 
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addInsertChange( path );
@@ -154,10 +155,10 @@ public class ElementTest {
 
 	@Test
 	public void parent_update_should_not_affect_deletion() {
-		final Path parentPathOld = Path.fromString( "ParentPathOld_0" );
-		final Path parentPathNew = Path.fromString( "ParentPathNew_0" );
-		final Element oldChild = createElement( "ParentPathOld_0/NewChild_0", java.awt.Component.class );
-		final Element parent = createElement( "ParentPathOld_0", java.awt.Component.class, oldChild );
+		final Path parentPathOld = Path.fromString( "ParentPathOld[1]" );
+		final Path parentPathNew = Path.fromString( "ParentPathNew[1]" );
+		final Element oldChild = createElement( "ParentPathOld[1]/NewChild[1]", java.awt.Component.class );
+		final Element parent = createElement( "ParentPathOld[1]", java.awt.Component.class, oldChild );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.getIdentAttributeChanges().add( parent.getIdentifyingAttributes(),
 				new AttributeDifference( "path", parentPathOld, parentPathNew ) );
@@ -172,11 +173,11 @@ public class ElementTest {
 
 	@Test
 	public void no_deletion_match_should_not_change_anything() {
-		final Element oldChild = createElement( "ParentPath_0/NewChild_0", java.awt.Component.class );
-		final Element parent = createElement( "ParentPath_0", java.awt.Component.class, oldChild );
+		final Element oldChild = createElement( "ParentPath[1]/NewChild[1]", java.awt.Component.class );
+		final Element parent = createElement( "ParentPath[1]", java.awt.Component.class, oldChild );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
-		actionChangeSet.addDeletedChange( IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
-				java.awt.Component.class ) );
+		actionChangeSet.addDeletedChange( IdentifyingAttributes
+				.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ) );
 
 		final Element changed = parent.applyChanges( actionChangeSet );
 
@@ -187,25 +188,25 @@ public class ElementTest {
 
 	@Test( expected = NullPointerException.class )
 	public void null_id_should_throw_exception() {
-		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void empty_id_should_throw_exception() {
-		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void whitespace_in_id_should_throw_exception() {
-		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void special_chars_in_id_should_throw_exception() {
-		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath_0/NewChild_0" ),
+		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 

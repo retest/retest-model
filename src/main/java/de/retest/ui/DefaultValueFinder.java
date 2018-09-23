@@ -11,8 +11,12 @@ public interface DefaultValueFinder {
 	 * are not persisted for every element to save (enormous) space. But if the value is not default, we want to know
 	 * what default would have been.
 	 *
-	 * @return the default value for the given component and the given state attributes key or <code>null</code> if not
-	 *         applicable or unknown.
+	 * @param identifyingAttributes
+	 *            identifying attributes
+	 * @param attributesKey
+	 *            attributes key
+	 * @return the default value for the given component and the given state attributes key or {@code null} if not
+	 *         applicable or unknown
 	 */
-	Serializable getDefaultValue( final IdentifyingAttributes comp, final String attributesKey );
+	Serializable getDefaultValue( final IdentifyingAttributes identifyingAttributes, final String attributesKey );
 }
