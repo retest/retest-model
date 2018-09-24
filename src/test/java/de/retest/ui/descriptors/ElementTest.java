@@ -208,7 +208,7 @@ public class ElementTest {
 	public void valid_UUID_should_be_allowed() {
 		new Element(
 				UUID.randomUUID().toString(), IdentifyingAttributes
-						.create( Path.fromString( "NotParentPath_0/NewChild_0" ), java.awt.Component.class ),
+						.create( Path.fromString( "NotParentPath[0]/NewChild[0]" ), java.awt.Component.class ),
 				new MutableAttributes().immutable() );
 	}
 
