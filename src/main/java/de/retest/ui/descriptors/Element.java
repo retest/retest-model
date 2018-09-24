@@ -93,8 +93,8 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( retestId.isEmpty() ) {
 			throw new IllegalArgumentException( "retestId must not be empty." );
 		}
-		if ( retestId.matches( ".*[^\\w].*" ) ) {
-			throw new IllegalArgumentException( "retestID must not contain any whitespace characters." );
+		if ( !retestId.matches( "[\\w-_]+" ) ) {
+			throw new IllegalArgumentException( "retestID must not contain any whitespace or special characters." );
 		}
 		return retestId;
 	}
