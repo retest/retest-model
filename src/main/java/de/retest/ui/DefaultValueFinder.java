@@ -7,16 +7,17 @@ import de.retest.ui.descriptors.IdentifyingAttributes;
 public interface DefaultValueFinder {
 
 	/**
-	 * Returns a default value for the give StateAttributes (font, text color, background color, ...). Default values
-	 * are not persisted for every element to save (enormous) space. But if the value is not default, we want to know
-	 * what default would have been.
+	 * Checks if the combination of {@code identifyingAttributes}, {@code attributeKey}, and {@code attributeValue}
+	 * represents a default value. Default values are not persisted to save lots of memory and reduce noise.
 	 *
 	 * @param identifyingAttributes
 	 *            identifying attributes
-	 * @param attributesKey
-	 *            attributes key
-	 * @return the default value for the given component and the given state attributes key or {@code null} if not
-	 *         applicable or unknown
+	 * @param attributeKey
+	 *            attribute key
+	 * @param attributeValue
+	 *            attribute value
+	 * @return {@code true} if the value is a default
 	 */
-	Serializable getDefaultValue( final IdentifyingAttributes identifyingAttributes, final String attributesKey );
+	boolean isDefaultValue( final IdentifyingAttributes identifyingAttributes, final String attributeKey,
+			Serializable attributeValue );
 }
