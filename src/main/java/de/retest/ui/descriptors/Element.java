@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -50,7 +51,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	// Warning: Only to be used by JAXB!
 	protected Element() {
-		retestId = "";
+		retestId = UUID.randomUUID().toString();
 		identifyingAttributes = null;
 		attributes = null;
 		containedComponents = new ArrayList<Element>();
