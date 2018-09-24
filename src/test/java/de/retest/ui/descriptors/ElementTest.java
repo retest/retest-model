@@ -4,6 +4,7 @@ import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -202,6 +203,14 @@ public class ElementTest {
 	public void whitespace_in_id_should_throw_exception() {
 		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
+	@Test
+	public void valid_UUID_should_be_allowed() {
+		new Element(
+				UUID.randomUUID().toString(), IdentifyingAttributes
+						.create( Path.fromString( "NotParentPath[0]/NewChild[0]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
