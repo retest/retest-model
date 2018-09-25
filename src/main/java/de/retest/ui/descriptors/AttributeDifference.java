@@ -114,6 +114,9 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 		if ( obj == null ) {
 			return false;
 		}
+		if ( !(obj instanceof AttributeDifference) ) {
+			return false;
+		}
 		final AttributeDifference other = (AttributeDifference) obj;
 		return equal( key, other.key ) && equal( expected, other.expected ) && equal( actual, other.actual );
 	}
