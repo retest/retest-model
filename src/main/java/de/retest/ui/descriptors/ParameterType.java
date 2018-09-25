@@ -44,7 +44,7 @@ public abstract class ParameterType {
 		return Objects.equals( toString, other.toString() );
 	}
 
-	private static final Map<String, ParameterType> registeredParameterTypes = new HashMap<String, ParameterType>();
+	private static final Map<String, ParameterType> registeredParameterTypes = new HashMap<>();
 
 	public static void registerParameterType( final ParameterType type ) {
 		registeredParameterTypes.put( type.toString, type );

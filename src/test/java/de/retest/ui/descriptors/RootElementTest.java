@@ -61,7 +61,7 @@ public class RootElementTest {
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot, final Element... childrenArray ) {
-		List<Element> children = new ArrayList<Element>();
+		List<Element> children = new ArrayList<>();
 		if ( childrenArray != null ) {
 			children = Arrays.asList( childrenArray );
 		}

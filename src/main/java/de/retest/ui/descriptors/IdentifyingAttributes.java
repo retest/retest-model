@@ -44,7 +44,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 
 	@XmlElement
 	@XmlJavaTypeAdapter( AttributesAdapter.class )
-	private final SortedMap<String, Attribute> attributes = new TreeMap<String, Attribute>();
+	private final SortedMap<String, Attribute> attributes = new TreeMap<>();
 
 	private transient String parentPathCache;
 
@@ -66,7 +66,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		if ( type.isEmpty() ) {
 			throw new IllegalArgumentException( "Type must not be empty." );
 		}
-		return new ArrayList<Attribute>( Arrays.asList( new PathAttribute( path ), //
+		return new ArrayList<>( Arrays.asList( new PathAttribute( path ), //
 				new StringAttribute( "type", type ), //
 				new SuffixAttribute( Integer.parseInt( path.getElement().getSuffix() ) ) )//
 		);
@@ -138,7 +138,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	public double match( final IdentifyingAttributes other ) {
 		double result = 0.0;
 		double unifyingFactor = 0.0;
-		final Set<Attribute> otherAttributes = new HashSet<Attribute>( other.attributes.values() );
+		final Set<Attribute> otherAttributes = new HashSet<>( other.attributes.values() );
 		for ( final Attribute attribute : attributes.values() ) {
 			unifyingFactor += attribute.getWeight();
 			final Attribute otherAttribute = other.getAttribute( attribute.getKey() );
@@ -221,7 +221,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		if ( attributeChanges.isEmpty() ) {
 			return this;
 		}
-		final HashMap<String, Attribute> newAttributes = new HashMap<String, Attribute>( attributes );
+		final HashMap<String, Attribute> newAttributes = new HashMap<>( attributes );
 		for ( final AttributeDifference attributeDifference : attributeChanges ) {
 			final String key = attributeDifference.getKey();
 			final Attribute attribute = attributes.get( key );
@@ -240,7 +240,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	}
 
 	public List<Attribute> getAttributes() {
-		final ArrayList<Attribute> result = new ArrayList<Attribute>( attributes.values() );
+		final ArrayList<Attribute> result = new ArrayList<>( attributes.values() );
 		Collections.sort( result );
 		return result;
 	}
