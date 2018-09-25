@@ -25,7 +25,7 @@ public class RenderContainedElementsAdapter extends XmlAdapter<Element, Element>
 		return renderLightweightXml ? null : descriptor;
 	}
 
-	private final Map<Element, Element> elements = new HashMap<Element, Element>();
+	private final Map<Element, Element> elements = new HashMap<>();
 
 	@Override
 	public Element unmarshal( final Element descriptor ) throws Exception {

@@ -53,7 +53,7 @@ public class Element implements Serializable, Comparable<Element> {
 		retestId = "";
 		identifyingAttributes = null;
 		attributes = null;
-		containedComponents = new ArrayList<Element>();
+		containedComponents = new ArrayList<>();
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -64,7 +64,7 @@ public class Element implements Serializable, Comparable<Element> {
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Element... containedComponents ) {
 		this( retestId, identifyingAttributes, attributes,
-				new ArrayList<Element>( Arrays.asList( containedComponents ) ) );
+				new ArrayList<>( Arrays.asList( containedComponents ) ) );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -193,7 +193,7 @@ public class Element implements Serializable, Comparable<Element> {
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
 			final List<Element> oldContainedComps ) {
 		final Set<IdentifyingAttributes> deletedChanges = actionChangeSet.getDeletedChanges();
-		final List<Element> newContainedComps = new ArrayList<Element>( oldContainedComps.size() );
+		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
 
 		for ( final Element oldComp : oldContainedComps ) {
 			if ( !deletedChanges.contains( oldComp.getIdentifyingAttributes() ) ) {
@@ -206,7 +206,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	private List<Element> applyChangesToContainedComponents( final ActionChangeSet actionChangeSet,
 			final IdentifyingAttributes newIdentAttributes, final List<Element> oldContainedComps ) {
-		final List<Element> newContainedComps = new ArrayList<Element>( oldContainedComps.size() );
+		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
 
 		for ( final Element oldComp : oldContainedComps ) {
 			addPathChangeToChangeSet( actionChangeSet, newIdentAttributes, oldComp );

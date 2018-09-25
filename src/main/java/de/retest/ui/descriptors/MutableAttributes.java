@@ -8,11 +8,11 @@ public class MutableAttributes {
 	final TreeMap<String, Object> attributes;
 
 	public MutableAttributes() {
-		attributes = new TreeMap<String, Object>();
+		attributes = new TreeMap<>();
 	}
 
 	public MutableAttributes( final Attributes attributes ) {
-		this.attributes = new TreeMap<String, Object>( attributes.getMap() );
+		this.attributes = new TreeMap<>( attributes.getMap() );
 	}
 
 	public Attributes immutable() {

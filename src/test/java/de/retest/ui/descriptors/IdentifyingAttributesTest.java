@@ -119,7 +119,7 @@ public class IdentifyingAttributesTest {
 						Path.fromString( "Window[1]/otherpath[1]/component[2]" ) );
 		final AttributeDifference suffixDifference = new AttributeDifference( "suffix", "0", "1" );
 		final IdentifyingAttributes changed = identifyingAttributes
-				.applyChanges( new HashSet<AttributeDifference>( Arrays.asList( pathDifference, suffixDifference ) ) );
+				.applyChanges( new HashSet<>( Arrays.asList( pathDifference, suffixDifference ) ) );
 
 		assertThat( changed ).isNotEqualTo( identifyingAttributes );
 		assertThat( changed.getPath() ).isEqualTo( "Window[1]/otherpath[1]/component[2]" );
@@ -161,16 +161,16 @@ public class IdentifyingAttributesTest {
 
 	@Test
 	public void different_outline_should_result_in_change() {
-		final List<Attribute> attributes = new ArrayList<Attribute>();
+		final List<Attribute> attributes = new ArrayList<>();
 		attributes.add( new PathAttribute( Path.fromString( "HTML[1]/DIV[1]" ) ) );
 		attributes.add( new SuffixAttribute( 1 ) );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
 
-		final List<Attribute> originalAttributes = new ArrayList<Attribute>( attributes );
+		final List<Attribute> originalAttributes = new ArrayList<>( attributes );
 		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 800, 1200 ) ) );
 		final IdentifyingAttributes original = new IdentifyingAttributes( originalAttributes );
 
-		final List<Attribute> differentOutlineAttributes = new ArrayList<Attribute>( attributes );
+		final List<Attribute> differentOutlineAttributes = new ArrayList<>( attributes );
 		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 400, 600 ) ) );
 		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
 

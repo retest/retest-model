@@ -18,7 +18,7 @@ public class AttributesAdapter
 		private static final long serialVersionUID = 1L;
 
 		@XmlElement
-		public List<Attribute> attribute = new ArrayList<Attribute>();
+		public List<Attribute> attribute = new ArrayList<>();
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class AttributesAdapter
 		if ( null == toLoad ) {
 			return null;
 		}
-		final SortedMap<String, Attribute> result = new TreeMap<String, Attribute>();
+		final SortedMap<String, Attribute> result = new TreeMap<>();
 		for ( final Attribute attribute : toLoad.attribute ) {
 			result.put( attribute.getKey(), attribute );
 		}

@@ -74,7 +74,7 @@ public class RootElement extends Element {
 	}
 
 	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
-		final List<Screenshot> result = new ArrayList<Screenshot>();
+		final List<Screenshot> result = new ArrayList<>();
 		for ( final RootElement rootElement : windows ) {
 			result.add( rootElement.getScreenshot() );
 		}

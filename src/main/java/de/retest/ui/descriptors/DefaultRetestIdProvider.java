@@ -8,7 +8,7 @@ import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
-	private final Set<String> knownRetestIds = new HashSet<String>();
+	private final Set<String> knownRetestIds = new HashSet<>();
 
 	@Override
 	public String getRetestId( final IdentifyingAttributes identifyingAttributes ) {
