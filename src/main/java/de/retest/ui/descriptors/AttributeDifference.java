@@ -108,7 +108,7 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 
 	@Override
 	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
+		if ( obj instanceof AttributeDifference && this == obj) {
 			return true;
 		}
 		if ( obj == null ) {
