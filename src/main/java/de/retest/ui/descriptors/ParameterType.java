@@ -2,8 +2,7 @@ package de.retest.ui.descriptors;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import de.retest.util.ObjectUtil;
+import java.util.Objects;
 
 public abstract class ParameterType {
 
@@ -36,7 +35,13 @@ public abstract class ParameterType {
 
 	@Override
 	public boolean equals( final Object other ) {
-		return ObjectUtil.equal( toString, other.toString() );
+		if ( other == null ) {
+			return false;
+		}
+		if ( !(other instanceof ParameterType) ) {
+			return false;
+		}
+		return Objects.equals( toString, other.toString() );
 	}
 
 	private static final Map<String, ParameterType> registeredParameterTypes = new HashMap<String, ParameterType>();
