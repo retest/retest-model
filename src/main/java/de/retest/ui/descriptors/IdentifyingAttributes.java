@@ -150,6 +150,9 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		for ( final Attribute attribute : otherAttributes ) {
 			unifyingFactor += attribute.getWeight();
 		}
+		if ( unifyingFactor == 0.0 ) {
+			throw new ArithmeticException( "Cannot divide with a unifying factor of 0.0" );
+		}
 		result = result / unifyingFactor;
 		assert result >= 0.0 && result <= 1.0 : "Match result " + result + " should be in [0,1].";
 		return result;
