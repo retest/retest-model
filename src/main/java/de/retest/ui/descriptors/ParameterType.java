@@ -36,10 +36,14 @@ public abstract class ParameterType {
 
 	@Override
 	public boolean equals( final Object other ) {
-		return ObjectUtil.equal( toString, other.toString() );
+		if ( other != null ) {
+			return ObjectUtil.equal( toString, other.toString() );
+		} else {
+			throw new NullPointerException();
+		}
 	}
 
-	private static final Map<String, ParameterType> registeredParameterTypes = new HashMap<String, ParameterType>();
+	private static final Map<String, ParameterType> registeredParameterTypes = new HashMap<>();
 
 	public static void registerParameterType( final ParameterType type ) {
 		registeredParameterTypes.put( type.toString, type );
