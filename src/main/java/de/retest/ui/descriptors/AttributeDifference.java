@@ -80,8 +80,11 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 	}
 
 	public Attribute applyChangeTo( final Attribute attribute ) {
-		warnIfAttributesDontMatch( attribute != null ? attribute.getValue() : null );
-		return attribute.applyChanges( getActual() );
+		if ( attribute != null ) {
+			warnIfAttributesDontMatch( attribute.getValue() );
+			return attribute.applyChanges( getActual() );
+		}
+		return null;
 	}
 
 	protected final void warnIfAttributesDontMatch( final Serializable fromAttribute ) {
@@ -105,7 +108,7 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 
 	@Override
 	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
+		if ( obj instanceof AttributeDifference && this == obj) {
 			return true;
 		}
 		if ( obj == null ) {
