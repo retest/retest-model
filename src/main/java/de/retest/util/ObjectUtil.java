@@ -40,19 +40,6 @@ public class ObjectUtil {
 		return previousHash + attr.hashCode() ^ 31;
 	}
 
-	public static boolean equal( final Object my, final Object other ) {
-		if ( my == null ) {
-			if ( other == null ) {
-				return true;
-			} else {
-				return false;
-			}
-		} else if ( other == null ) {
-			return false;
-		}
-		return my.equals( other );
-	}
-
 	public static boolean isObjectToString( final String text ) {
 		if ( text == null ) {
 			return false;
