@@ -138,10 +138,10 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 	}
 
 	public static String getSumIdentifier( final List<AttributeDifference> attributeDifferences ) {
-		String result = "";
+		final StringBuilder result = new StringBuilder();
 		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			result += " # " + attributeDifference.identifier();
+			result.append( " # " ).append( attributeDifference.identifier() );
 		}
-		return ChecksumCalculator.getInstance().sha256( result );
+		return ChecksumCalculator.getInstance().sha256( result.toString() );
 	}
 }
