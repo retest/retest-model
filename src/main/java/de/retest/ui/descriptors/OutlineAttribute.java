@@ -98,10 +98,10 @@ public class OutlineAttribute extends Attribute {
 				throw new IllegalArgumentException(
 						"The given input '" + value + "' does not denote a valid rectangle." );
 			}
-			final int x = Integer.valueOf( matcher.group( 1 ) );
-			final int y = Integer.valueOf( matcher.group( 2 ) );
-			final int width = Integer.valueOf( matcher.group( 3 ) );
-			final int height = Integer.valueOf( matcher.group( 4 ) );
+			final int x = Integer.parseInt( matcher.group( 1 ) );
+			final int y = Integer.parseInt( matcher.group( 2 ) );
+			final int width = Integer.parseInt( matcher.group( 3 ) );
+			final int height = Integer.parseInt( matcher.group( 4 ) );
 			return new Rectangle( x, y, width, height );
 		} catch ( final Exception e ) {
 			throw new RuntimeException( "Exception parsing '" + value + "' to a valid rectangle.", e );
