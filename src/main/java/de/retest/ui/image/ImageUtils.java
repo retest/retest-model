@@ -246,14 +246,8 @@ public class ImageUtils {
 	}
 
 	public static void exportScreenshot( final Screenshot image, final File result ) throws IOException {
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream( result );
+		try ( final FileOutputStream fos = new FileOutputStream( result ) ) {
 			fos.write( image.getBinaryData() );
-		} finally {
-			if ( fos != null ) {
-				fos.close();
-			}
 		}
 	}
 
