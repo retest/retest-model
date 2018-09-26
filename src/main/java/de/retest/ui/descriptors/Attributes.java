@@ -95,11 +95,9 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 		if ( this == object ) {
 			return true;
 		}
-		if ( object != null && object instanceof Attributes ) {
+		if ( object instanceof Attributes ) {
 			final Attributes other = (Attributes) object;
-			if ( attributes.equals( other.attributes ) ) {
-				return true;
-			}
+			return attributes.equals( other.attributes );
 		}
 		return false;
 	}
