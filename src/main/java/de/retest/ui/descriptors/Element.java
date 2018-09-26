@@ -63,8 +63,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Element... containedComponents ) {
-		this( retestId, identifyingAttributes, attributes,
-				new ArrayList<>( Arrays.asList( containedComponents ) ) );
+		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedComponents ) ) );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -81,7 +80,13 @@ public class Element implements Serializable, Comparable<Element> {
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
 		this.retestId = verify( retestId, identifyingAttributes );
 		this.identifyingAttributes = identifyingAttributes;
+		if ( identifyingAttributes == null ) {
+			throw new NullPointerException( "IdentifyingAttributes must not be null." );
+		}
 		this.attributes = attributes;
+		if ( attributes == null ) {
+			throw new NullPointerException( "Attributes must not be null." );
+		}
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
 	}
