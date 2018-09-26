@@ -51,8 +51,8 @@ public class Path implements Serializable {
 	@Override
 	public String toString() {
 		if ( toStringCache == null ) {
-			final String parentPath = this.parentPath == null ? "" : this.parentPath.toString() + PATH_SEPARATOR;
-			toStringCache = parentPath + (element == null ? "" : element.toString());
+			final String parentPathTemp = parentPath == null ? "" : parentPath.toString() + PATH_SEPARATOR;
+			toStringCache = parentPathTemp + (element == null ? "" : element.toString());
 		}
 		return toStringCache;
 	}
