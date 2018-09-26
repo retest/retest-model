@@ -10,10 +10,10 @@ import org.apache.commons.lang3.time.FastDateFormat;
 
 public class DateAdapter extends XmlAdapter<String, Date> {
 
-	private final static FastDateFormat defaultDateFormat =
+	private static final FastDateFormat defaultDateFormat =
 			FastDateFormat.getInstance( "yyyy-MM-dd'T'HH:mm:ssZZ", TimeZone.getTimeZone( "UTC" ) );
 
-	private final static FastDateFormat[] possibleDateFormats = { defaultDateFormat, //
+	private static final FastDateFormat[] possibleDateFormats = { defaultDateFormat, //
 			FastDateFormat.getInstance( "yyyy-MM-dd HH:mm:ss Z" ), // "dateFormat" before refactoring
 			FastDateFormat.getInstance( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ), // "oldDateFormat" before refactoring
 			FastDateFormat.getInstance( "yyyy-MM-dd'T'HH:mm:ss.SSSZZ" ), // format exists in tests, likely this is the

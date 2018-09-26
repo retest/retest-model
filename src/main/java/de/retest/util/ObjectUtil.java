@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ObjectUtil {
 
-	private final static Pattern TOSTRING_OBJECT_ID_PATTERN = Pattern.compile( "([\\.\\w]+@([0-9a-fA-F]{4,8}|1))" );
+	private static final Pattern TOSTRING_OBJECT_ID_PATTERN = Pattern.compile( "([\\.\\w]+@([0-9a-fA-F]{4,8}|1))" );
 
 	public static <T> T checkNull( final T object, final String name ) {
 		if ( object == null ) {
