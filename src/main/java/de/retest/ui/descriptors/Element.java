@@ -79,22 +79,23 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
-		this.retestId = verify( retestId );
+		this.retestId = verify( retestId, identifyingAttributes );
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
 	}
 
-	private String verify( final String retestId ) {
+	private String verify( final String retestId, final IdentifyingAttributes identifyingAttributes ) {
 		if ( retestId == null ) {
-			throw new NullPointerException( "retestId must not be null." );
+			throw new NullPointerException( "retestId must not be null for " + identifyingAttributes );
 		}
 		if ( retestId.isEmpty() ) {
-			throw new IllegalArgumentException( "retestId must not be empty." );
+			throw new IllegalArgumentException( "retestId must not be empty for " + identifyingAttributes );
 		}
 		if ( !retestId.matches( "[\\w-_]+" ) ) {
-			throw new IllegalArgumentException( "retestID must not contain any whitespace or special characters." );
+			throw new IllegalArgumentException(
+					"retestID must not contain any whitespace or special characters for " + identifyingAttributes );
 		}
 		return retestId;
 	}
