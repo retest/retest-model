@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 
 import de.retest.ui.Path;
 import de.retest.ui.PathElement;
@@ -32,8 +33,8 @@ import de.retest.util.ChecksumCalculator;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
-	public static final String[] ATTRIBUTES = { "path", "type", // "suffix", is implicit via path
-			"name", "text", "codeLoc", "x", "y", "height", "width", "context" };
+	public static final List<String> ATTRIBUTES = ImmutableList.of( "path", "type", // "suffix", is implicit via path
+			"name", "text", "codeLoc", "x", "y", "height", "width", "context" );
 
 	/**
 	 * Sum of all weights.
