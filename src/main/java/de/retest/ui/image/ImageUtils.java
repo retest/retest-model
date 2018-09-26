@@ -35,9 +35,9 @@ public class ImageUtils {
 	public static final int MAX_SCREENSHOT_HEIGHT_DEFAULT = 1200 * 2;
 	public static final String MAX_SCREENSHOT_WIDTH_PROP = "de.retest.screenshot.max.width";
 	public static final int MAX_SCREENSHOT_WIDTH_DEFAULT = 1800 * 2;
-	private static final int maxScreenshotHeight =
+	private static final int MAX_SCREENSHOT_HEIGHT =
 			Integer.getInteger( MAX_SCREENSHOT_HEIGHT_PROP, MAX_SCREENSHOT_HEIGHT_DEFAULT );
-	private static final int maxScreenshotWidth =
+	private static final int MAX_SCREENSHOT_WIDTH =
 			Integer.getInteger( MAX_SCREENSHOT_WIDTH_PROP, MAX_SCREENSHOT_WIDTH_DEFAULT );
 
 	public static BufferedImage screenshot2Image( final Screenshot input ) {
@@ -237,11 +237,11 @@ public class ImageUtils {
 	}
 
 	public static BufferedImage cutToMax( final BufferedImage image ) {
-		if ( image.getHeight() < maxScreenshotHeight && image.getWidth() < maxScreenshotWidth ) {
+		if ( image.getHeight() < MAX_SCREENSHOT_HEIGHT && image.getWidth() < MAX_SCREENSHOT_WIDTH ) {
 			return image;
 		}
-		final int imageHeight = Math.min( image.getHeight(), maxScreenshotHeight );
-		final int imageWidth = Math.min( image.getWidth(), maxScreenshotWidth );
+		final int imageHeight = Math.min( image.getHeight(), MAX_SCREENSHOT_HEIGHT );
+		final int imageWidth = Math.min( image.getWidth(), MAX_SCREENSHOT_WIDTH );
 		return cutImage( image, new Rectangle( imageWidth, imageHeight ) );
 	}
 
