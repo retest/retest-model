@@ -99,7 +99,7 @@ public class PathElement implements Serializable {
 		if ( !path.contains( "[" ) ) {
 			return new PathElement( path );
 		}
-		return new PathElement( path.substring( 0, path.indexOf( "[" ) ),
-				path.substring( path.indexOf( "[" ) + 1, path.length() - 1 ) );
+		return new PathElement( path.substring( 0, path.indexOf( '[' ) ),
+				path.substring( path.indexOf( '[' ) + 1, path.length() - 1 ) );
 	}
 }
