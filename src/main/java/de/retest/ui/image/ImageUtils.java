@@ -29,6 +29,9 @@ public class ImageUtils {
 
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( ImageUtils.class );
 
+	public static final String FILE_URI_SCHEME = "file:";
+	public static final String JAR_URI_SCHEME = "jar:";
+
 	public static final int MARKING_WIDTH = 2;
 
 	public static final String MAX_SCREENSHOT_HEIGHT_PROP = "de.retest.screenshot.max.height";
@@ -264,14 +267,14 @@ public class ImageUtils {
 		if ( icon != null ) {
 			result = icon.toString();
 			// Normalize file:/-URLs to their base name
-			if ( result.startsWith( "jar:" ) ) {
-				result = result.replace( "jar:", "" );
-				result = result.replace( "file:", "" );
+			if ( result.startsWith( JAR_URI_SCHEME ) ) {
+				result = result.replace( JAR_URI_SCHEME, "" );
+				result = result.replace( FILE_URI_SCHEME, "" );
 				final String[] splitted = result.split( "!" );
 				return new File( splitted[0] ).getName() + "!" + splitted[1];
 			}
-			if ( result.startsWith( "file:" ) ) {
-				result = result.replace( "file:", "" );
+			if ( result.startsWith( FILE_URI_SCHEME ) ) {
+				result = result.replace( FILE_URI_SCHEME, "" );
 				result = new File( result ).getName();
 			}
 			// Normalize OSGI-bundleressources
