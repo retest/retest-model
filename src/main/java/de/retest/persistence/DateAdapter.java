@@ -36,7 +36,7 @@ public class DateAdapter extends XmlAdapter<String, Date> {
 		for ( final FastDateFormat dateFormat : possibleDateFormats ) {
 			try {
 				return dateFormat.parse( value );
-			} catch ( final ParseException outer ) {}
+			} catch ( final ParseException ignored ) {/* NOP */}
 		}
 		throw new RuntimeException( "Can't parse date '" + value + "'!" );
 	}
