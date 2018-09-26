@@ -25,6 +25,8 @@ import de.retest.ui.image.Screenshot.ImageType;
 
 public class ImageUtils {
 
+	private ImageUtils() {}
+
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( ImageUtils.class );
 
 	public static final int MARKING_WIDTH = 2;

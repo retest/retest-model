@@ -2,6 +2,8 @@ package de.retest.util;
 
 public class RetestIdUtil {
 
+	private RetestIdUtil() {}
+
 	public static String normalizeAndCut( final String id ) {
 		return cut( normalize( id ) );
 	}
