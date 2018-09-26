@@ -186,7 +186,7 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	@Override
 	public String toString() {
 		final String type = getType();
-		final String text = (String) get( "text" );
+		final String text = get( "text" );
 		if ( type == null ) {
 			return "";
 		}
