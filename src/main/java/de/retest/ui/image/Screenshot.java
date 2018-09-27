@@ -52,10 +52,14 @@ public class Screenshot implements Serializable {
 	}
 
 	public Screenshot( final String prefix, final byte[] binaryData, final ImageType type ) {
+		if ( binaryData == null ) {
+			throw new NullPointerException( "binaryData must not be null." );
+		}
+		if ( type == null ) {
+			throw new NullPointerException( "type must not be null." );
+		}
 		this.binaryData = binaryData;
-		assert binaryData != null;
 		this.type = type;
-		assert type != null;
 		persistenceId = createPersistenceId( prefix, binaryData );
 	}
 

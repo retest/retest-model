@@ -107,7 +107,6 @@ public abstract class Attribute implements Serializable, Comparable<Attribute> {
 		if ( !getKey().equals( other.getKey() ) ) {
 			return getKey().compareTo( other.getKey() );
 		}
-		assert getKey().equals( other.getKey() );
 		if ( getValue() == null ) {
 			if ( other.getValue() == null ) {
 				return COMPARE_EQUAL;

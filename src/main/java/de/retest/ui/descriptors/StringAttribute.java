@@ -95,7 +95,9 @@ public class StringAttribute extends ParameterizedAttribute {
 		if ( !(other instanceof StringAttribute) ) {
 			return NO_MATCH;
 		}
-		assert other.getKey().equals( getKey() );
+		if ( !other.getKey().equals( getKey() ) ) {
+			return NO_MATCH;
+		}
 		return StringSimilarity.simpleSimilarity( getValue(), ((StringAttribute) other).getValue() );
 	}
 

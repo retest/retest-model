@@ -62,7 +62,10 @@ public class PathAttribute extends ParameterizedAttribute {
 		if ( !(other instanceof PathAttribute) ) {
 			return NO_MATCH;
 		}
-		assert other.getKey().equals( PATH_KEY );
+		if ( !other.getKey().equals( PATH_KEY ) ) {
+			throw new IllegalArgumentException(
+					"Only path attributes are allowed, but the given attribute is of type '" + other.getKey() + "'." );
+		}
 		final String parentPath = getValue().getParentPath() == null ? "" : getValue().getParentPath().toString();
 		final Path otherPath = ((PathAttribute) other).getValue();
 		final String otherParentPath = otherPath.getParentPath() == null ? "" : otherPath.getParentPath().toString();
