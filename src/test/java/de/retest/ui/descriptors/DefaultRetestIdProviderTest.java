@@ -87,11 +87,19 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	@Test
-	public void empty_ids_should_not_be_possible() throws Exception {
+	public void empty_text_should_yield_id_based_on_type() throws Exception {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( "text" ) ).thenReturn( "" );
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "SomeType" );
 		assertThat( cut.getRetestId( identifyingAttributes ) ).isEqualTo( "sometype" );
+	}
+
+	@Test
+	public void empty_type_should_yield_id_that_is_at_least_not_empty() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "text" ) ).thenReturn( "" );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "" );
+		assertThat( cut.getRetestId( identifyingAttributes ) ).isNotEmpty();
 	}
 
 }
