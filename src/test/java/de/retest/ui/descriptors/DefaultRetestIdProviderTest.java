@@ -4,6 +4,8 @@ import static de.retest.ui.Path.fromString;
 import static de.retest.ui.descriptors.IdentifyingAttributes.create;
 import static de.retest.ui.descriptors.IdentifyingAttributes.createList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Collection;
 
@@ -83,4 +85,13 @@ public class DefaultRetestIdProviderTest {
 	public void null_path_should_give_exception() {
 		cut.getRetestId( create( null, "DIV" ) );
 	}
+
+	@Test
+	public void empty_ids_should_not_be_possible() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "text" ) ).thenReturn( "" );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "SomeType" );
+		assertThat( cut.getRetestId( identifyingAttributes ) ).isEqualTo( "sometype" );
+	}
+
 }
