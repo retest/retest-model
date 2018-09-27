@@ -7,14 +7,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 public class DefaultRetestIdProviderTest {
 
+	DefaultRetestIdProvider cut;
+
+	@Before
+	public void setUp() {
+		cut = new DefaultRetestIdProvider();
+	}
+
 	@Test
 	public void too_long_text_should_be_cut() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
-
 		// for what you would actually call a text
 		final IdentifyingAttributes ident = createIdentAttributes(
 				"This is some very long sentence, that could be in a link text, or in some paragraph, and really is to long to be used as id." );
@@ -27,8 +33,6 @@ public class DefaultRetestIdProviderTest {
 
 	@Test
 	public void too_long_words_should_be_cut() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
-
 		// but also for single words
 		final IdentifyingAttributes ident = createIdentAttributes( "supercalifragilisticexpialidocious" );
 		final String retestId = cut.getRetestId( ident );
@@ -46,7 +50,6 @@ public class DefaultRetestIdProviderTest {
 
 	@Test
 	public void should_always_be_unique() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		final IdentifyingAttributes ident = createIdentAttributes( "a" );
 		final String retestId = cut.getRetestId( ident );
 		assertThat( retestId ).isNotEqualTo( cut.getRetestId( ident ) );
@@ -57,7 +60,6 @@ public class DefaultRetestIdProviderTest {
 
 	@Test
 	public void works_even_only_for_path_and_type() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		final IdentifyingAttributes ident = create( fromString( "/HTML/DIV[1]" ), "DIV" );
 		final String id1 = cut.getRetestId( ident );
 		final String id2 = cut.getRetestId( ident );
@@ -66,7 +68,6 @@ public class DefaultRetestIdProviderTest {
 
 	@Test
 	public void no_text_should_give_type() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		final Collection<Attribute> attributes = createList( fromString( "/HTML/DIV[1]" ), "DIV" );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
 		attributes.add( new SuffixAttribute( 3 ) );
@@ -75,13 +76,11 @@ public class DefaultRetestIdProviderTest {
 
 	@Test( expected = NullPointerException.class )
 	public void null_should_give_exception() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		cut.getRetestId( null );
 	}
 
 	@Test( expected = NullPointerException.class )
 	public void null_path_should_give_exception() {
-		final DefaultRetestIdProvider cut = new DefaultRetestIdProvider();
 		cut.getRetestId( create( null, "DIV" ) );
 	}
 }
