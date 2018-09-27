@@ -4,7 +4,7 @@
 
 	<groupId>de.retest</groupId>
 	<artifactId>retest-model</artifactId>
-	<version>5.0.0-SNAPSHOT</version>
+	<version>4.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>retest - model</name>
@@ -70,7 +70,7 @@
 		<url>https://github.com/retest/retest-model/</url>
 		<connection>scm:git:git@github.com:retest/retest-model.git</connection>
 		<developerConnection>scm:git:git@github.com:retest/retest-model.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>v4.0.3</tag>
 	</scm>
 
 	<distributionManagement>
