@@ -12,7 +12,7 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 
 	private static final String DELIMITER = "-";
 
-	private final Set<String> knownRetestIds = new HashSet<>();
+	private final Set<String> knownRetestIds = new HashSet<String>();
 
 	@Override
 	public String getRetestId( final IdentifyingAttributes identifyingAttributes ) {
