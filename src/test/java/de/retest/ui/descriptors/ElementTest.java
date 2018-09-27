@@ -19,7 +19,7 @@ public class ElementTest {
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
-		assertThat( new Element( "asdef", compIdentAttributes, null ).toString() )
+		assertThat( new Element( "asdef", compIdentAttributes, new Attributes() ).toString() )
 				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
 	}

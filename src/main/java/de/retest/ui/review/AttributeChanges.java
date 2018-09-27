@@ -15,7 +15,7 @@ public class AttributeChanges {
 
 	AttributeChanges() {}
 
-	private final Map<Path, Set<AttributeDifference>> changes = new HashMap<Path, Set<AttributeDifference>>();
+	private final Map<Path, Set<AttributeDifference>> changes = new HashMap<>();
 
 	public boolean contains( final IdentifyingAttributes identifyingAttributes,
 			final AttributeDifference attributeDifference ) {
@@ -29,7 +29,7 @@ public class AttributeChanges {
 		if ( changes.containsKey( path ) ) {
 			changes.get( path ).add( attributeDifference );
 		} else {
-			final Set<AttributeDifference> differences = new HashSet<AttributeDifference>();
+			final Set<AttributeDifference> differences = new HashSet<>();
 			differences.add( attributeDifference );
 			changes.put( path, differences );
 		}

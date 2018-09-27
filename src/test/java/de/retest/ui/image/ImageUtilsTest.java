@@ -71,7 +71,7 @@ public class ImageUtilsTest {
 	@Test
 	public void multiple_markings_should_not_increase_imagesize_further() throws IOException {
 		final BufferedImage image = ImageUtils.readImage( LOGIN_PNG );
-		final List<Rectangle> markings = new ArrayList<Rectangle>();
+		final List<Rectangle> markings = new ArrayList<>();
 		markings.add( new Rectangle( 0, 0, LOGIN_WIDTH, 10 ) );
 		markings.add( new Rectangle( 0, 10, LOGIN_WIDTH, 20 ) );
 		markings.add( new Rectangle( 0, 20, LOGIN_WIDTH, 30 ) );

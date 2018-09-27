@@ -120,7 +120,7 @@ public class Path implements Serializable {
 	}
 
 	// Ensures that each path exists exactly once.
-	private final static Map<String, Path> paths = new HashMap<String, Path>();
+	private final static Map<String, Path> paths = new HashMap<>();
 
 	public static Path path( final PathElement element ) {
 		Path result = paths.get( element.toString() );

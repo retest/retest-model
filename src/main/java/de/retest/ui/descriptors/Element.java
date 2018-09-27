@@ -53,7 +53,7 @@ public class Element implements Serializable, Comparable<Element> {
 		retestId = "";
 		identifyingAttributes = null;
 		attributes = null;
-		containedComponents = new ArrayList<Element>();
+		containedComponents = new ArrayList<>();
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -63,8 +63,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Element... containedComponents ) {
-		this( retestId, identifyingAttributes, attributes,
-				new ArrayList<Element>( Arrays.asList( containedComponents ) ) );
+		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedComponents ) ) );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -79,22 +78,29 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
-		this.retestId = verify( retestId );
+		this.retestId = verify( retestId, identifyingAttributes );
 		this.identifyingAttributes = identifyingAttributes;
+		if ( identifyingAttributes == null ) {
+			throw new NullPointerException( "IdentifyingAttributes must not be null." );
+		}
 		this.attributes = attributes;
+		if ( attributes == null ) {
+			throw new NullPointerException( "Attributes must not be null." );
+		}
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
 	}
 
-	private String verify( final String retestId ) {
+	private String verify( final String retestId, final IdentifyingAttributes identifyingAttributes ) {
 		if ( retestId == null ) {
-			throw new NullPointerException( "retest ID must not be null." );
+			throw new NullPointerException( "retest ID  must not be null for " + identifyingAttributes );
 		}
 		if ( retestId.isEmpty() ) {
-			throw new IllegalArgumentException( "retest ID must not be empty." );
+			throw new IllegalArgumentException( "retest ID  must not be empty for " + identifyingAttributes );
 		}
 		if ( !retestId.matches( "[\\w-_]+" ) ) {
-			throw new IllegalArgumentException( "retest ID must not contain any whitespaces or special characters." );
+			throw new IllegalArgumentException(
+					"retest ID must not contain any whitespaces or special characters for " + identifyingAttributes );
 		}
 		return retestId;
 	}
@@ -193,7 +199,7 @@ public class Element implements Serializable, Comparable<Element> {
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
 			final List<Element> oldContainedComps ) {
 		final Set<IdentifyingAttributes> deletedChanges = actionChangeSet.getDeletedChanges();
-		final List<Element> newContainedComps = new ArrayList<Element>( oldContainedComps.size() );
+		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
 
 		for ( final Element oldComp : oldContainedComps ) {
 			if ( !deletedChanges.contains( oldComp.getIdentifyingAttributes() ) ) {
@@ -206,7 +212,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	private List<Element> applyChangesToContainedComponents( final ActionChangeSet actionChangeSet,
 			final IdentifyingAttributes newIdentAttributes, final List<Element> oldContainedComps ) {
-		final List<Element> newContainedComps = new ArrayList<Element>( oldContainedComps.size() );
+		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
 
 		for ( final Element oldComp : oldContainedComps ) {
 			addPathChangeToChangeSet( actionChangeSet, newIdentAttributes, oldComp );

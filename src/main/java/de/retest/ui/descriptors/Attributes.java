@@ -42,12 +42,12 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	protected final Screenshot screenshot;
 
 	public Attributes() {
-		attributes = new TreeMap<String, Object>();
+		attributes = new TreeMap<>();
 		screenshot = null;
 	}
 
 	Attributes( final MutableAttributes other ) {
-		attributes = new TreeMap<String, Object>( other.attributes );
+		attributes = new TreeMap<>( other.attributes );
 		screenshot = (Screenshot) other.get( SCREENSHOT );
 		if ( screenshot != null ) {
 			attributes.put( SCREENSHOT, screenshot.getPersistenceId() );
@@ -64,7 +64,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	@SuppressWarnings( { "rawtypes", "unchecked" } )
 	@Override
 	public int compareTo( final Attributes other ) {
-		final TreeSet<String> allKeys = new TreeSet<String>( attributes.keySet() );
+		final TreeSet<String> allKeys = new TreeSet<>( attributes.keySet() );
 		allKeys.addAll( other.attributes.keySet() );
 		for ( final String key : allKeys ) {
 			final Comparable localValue = (Comparable) attributes.get( key );
@@ -112,7 +112,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	// let's not spread the eclipse moxy bug out into the rest of the system but
 	// instead convert the map here:
 	public Map<String, ? extends Serializable> getMap() {
-		final TreeMap<String, Serializable> result = new TreeMap<String, Serializable>();
+		final TreeMap<String, Serializable> result = new TreeMap<>();
 		for ( final Entry<String, Object> entry : attributes.entrySet() ) {
 			// TODO how to handle any class cast exceptions?
 			result.put( entry.getKey(), (Serializable) entry.getValue() );
