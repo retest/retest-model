@@ -88,13 +88,13 @@ public class Element implements Serializable, Comparable<Element> {
 
 	private String verify( final String retestId ) {
 		if ( retestId == null ) {
-			throw new NullPointerException( "retestId must not be null." );
+			throw new NullPointerException( "retest ID must not be null." );
 		}
 		if ( retestId.isEmpty() ) {
-			throw new IllegalArgumentException( "retestId must not be empty." );
+			throw new IllegalArgumentException( "retest ID must not be empty." );
 		}
 		if ( !retestId.matches( "[\\w-_]+" ) ) {
-			throw new IllegalArgumentException( "retestID must not contain any whitespace or special characters." );
+			throw new IllegalArgumentException( "retest ID must not contain any whitespaces or special characters." );
 		}
 		return retestId;
 	}
