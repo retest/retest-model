@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
@@ -18,7 +20,7 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 
 		final String text = identifyingAttributes.get( "text" );
 		final String type = identifyingAttributes.get( "type" );
-		final String rawId = text != null ? text : type;
+		final String rawId = StringUtils.isNotBlank( text ) ? text : type;
 		final String id = RetestIdUtil.normalizeAndCut( rawId );
 		return makeUnique( id );
 	}
