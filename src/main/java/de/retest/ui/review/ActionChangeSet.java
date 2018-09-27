@@ -31,7 +31,7 @@ public class ActionChangeSet {
 		return attributeChanges;
 	}
 
-	private final Set<Element> insertChanges = new HashSet<Element>();
+	private final Set<Element> insertChanges = new HashSet<>();
 
 	public boolean containsInsertChange( final Element element ) {
 		return insertChanges.contains( element );
@@ -49,7 +49,7 @@ public class ActionChangeSet {
 		return Collections.unmodifiableSet( insertChanges );
 	}
 
-	private final Set<IdentifyingAttributes> deletedChanges = new HashSet<IdentifyingAttributes>();
+	private final Set<IdentifyingAttributes> deletedChanges = new HashSet<>();
 
 	public boolean containsDeletedChange( final IdentifyingAttributes identifyingAttributes ) {
 		return deletedChanges.contains( identifyingAttributes );

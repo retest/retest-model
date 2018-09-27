@@ -11,9 +11,6 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import de.retest.ui.descriptors.AttributeDifference;
-import de.retest.ui.descriptors.Attributes;
-import de.retest.ui.descriptors.MutableAttributes;
 import de.retest.ui.image.Screenshot;
 import de.retest.ui.image.Screenshot.ImageType;
 
@@ -86,7 +83,7 @@ public class AttributesTest {
 		assertThat( state.getMap().get( Attributes.SCREENSHOT ) ).isNotNull();
 
 		final Screenshot newScreenshot = new Screenshot( "testNew", new byte[] {}, ImageType.PNG );
-		final Attributes newState = state.applyChanges( new HashSet<AttributeDifference>(
+		final Attributes newState = state.applyChanges( new HashSet<>(
 				asList( new AttributeDifference( Attributes.SCREENSHOT, oldScreenshot, newScreenshot ) ) ) );
 
 		assertThat( newState.get( Attributes.SCREENSHOT ) ).isEqualTo( newScreenshot );

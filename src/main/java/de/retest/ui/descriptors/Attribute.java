@@ -73,7 +73,9 @@ public abstract class Attribute implements Serializable, Comparable<Attribute> {
 	}
 
 	/**
-	 * Beware that JAXB does not differentiate between empty string and null.
+	 * Beware that JAXB does not differentiate between empty string and {@code null}.
+	 *
+	 * @return attribute value
 	 */
 	public abstract Serializable getValue();
 
@@ -86,9 +88,8 @@ public abstract class Attribute implements Serializable, Comparable<Attribute> {
 	}
 
 	/**
-	 * This method should return {@code true} if the attribute is meaningful to the user, i.e. can be visually detected
-	 * by the user when examining the SUT. Attributes that are invisible (e.g. HTML name and id) should return
-	 * {@code false}.
+	 * @return {@code true} if the attribute is meaningful to the user, i.e. can be visually detected by the user when
+	 *         examining the SUT. Attributes that are invisible (e.g. HTML name and id) should return {@code false}.
 	 */
 	public boolean isVisible() {
 		return true;

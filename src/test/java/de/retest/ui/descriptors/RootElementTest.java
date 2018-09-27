@@ -22,11 +22,11 @@ public class RootElementTest {
 	private static class Comp {}
 
 	private final IdentifyingAttributes windowIdentAttributes = RootIdentifyingAttributes
-			.create( Path.fromString( "Window" ), Window.class, "name", "Window Title A", "code-loc A" );
+			.create( Path.fromString( "Window[1]" ), Window.class, "name", "Window Title A", "code-loc A" );
 	private final IdentifyingAttributes compIdentAttributes = RootIdentifyingAttributes
-			.create( Path.fromString( "Window/Comp_0" ), Comp.class, "name", "comp 0", "code-loc A" );
+			.create( Path.fromString( "Window[1]/Comp[1]" ), Comp.class, "name", "comp 1", "code-loc A" );
 	private final IdentifyingAttributes childIdentAttributes0 = RootIdentifyingAttributes
-			.create( Path.fromString( "Window/Comp_0/Comp0" ), Comp.class, "name", "child 0", "code-loc A" );
+			.create( Path.fromString( "Window[1]/Comp[1]/Comp[1]" ), Comp.class, "name", "child 1", "code-loc A" );
 
 	private final Screenshot screenshot = new Screenshot( "", new byte[0], ImageType.PNG );
 
@@ -61,7 +61,7 @@ public class RootElementTest {
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot, final Element... childrenArray ) {
-		List<Element> children = new ArrayList<Element>();
+		List<Element> children = new ArrayList<>();
 		if ( childrenArray != null ) {
 			children = Arrays.asList( childrenArray );
 		}

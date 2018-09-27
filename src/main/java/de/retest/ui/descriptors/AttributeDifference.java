@@ -80,7 +80,10 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 	}
 
 	public Attribute applyChangeTo( final Attribute attribute ) {
-		warnIfAttributesDontMatch( attribute != null ? attribute.getValue() : null );
+		if ( attribute == null ) {
+			throw new NullPointerException( "Cannot apply change to an attribute that is null." );
+		}
+		warnIfAttributesDontMatch( attribute.getValue() );
 		return attribute.applyChanges( getActual() );
 	}
 
@@ -109,6 +112,9 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 			return true;
 		}
 		if ( obj == null ) {
+			return false;
+		}
+		if ( !(obj instanceof AttributeDifference) ) {
 			return false;
 		}
 		final AttributeDifference other = (AttributeDifference) obj;

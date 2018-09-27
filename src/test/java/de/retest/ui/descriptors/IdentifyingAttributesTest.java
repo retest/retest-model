@@ -23,14 +23,14 @@ public class IdentifyingAttributesTest {
 
 	public static final double ONE_SIMILARITY = 1.0 / IdentifyingAttributes.PERFECT_SIMILARITY;
 
-	private final Path path = Path.fromString( "Window[1]/path[1]/component[0]" );
+	private final Path path = Path.fromString( "Window[1]/path[1]/component[1]" );
 
 	@Test
 	public void same_attributes_should_match_100_percent() {
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
 
 		assertThat( expected.match( actual ) ).isCloseTo( 1.0, within( 0.001 ) );
 		assertThat( expected.hashCode() ).isEqualTo( actual.hashCode() );
@@ -40,7 +40,7 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void more_actual_attributes_should_result_in_difference() throws Exception {
 		final Collection<Attribute> attributes = IdentifyingAttributes
-				.createList( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class.getName() );
+				.createList( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class.getName() );
 		final IdentifyingAttributes expected = new IdentifyingAttributes( attributes );
 		attributes.add( new StringAttribute( "myKey", "some value" ) );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( attributes );
@@ -53,7 +53,7 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void more_expected_attributes_should_result_in_difference() throws Exception {
 		final Collection<Attribute> attributes = IdentifyingAttributes
-				.createList( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class.getName() );
+				.createList( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class.getName() );
 		final IdentifyingAttributes actual = new IdentifyingAttributes( attributes );
 		attributes.add( new StringAttribute( "myKey", "some value" ) );
 		final IdentifyingAttributes expected = new IdentifyingAttributes( attributes );
@@ -66,9 +66,9 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void no_out_of_two_attributes_should_match_0_percent() {
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "a/component[X]" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "a/component[1]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "b/component[Y]" ), otherComponent.class );
+				IdentifyingAttributes.create( Path.fromString( "b/component[2]" ), otherComponent.class );
 
 		assertThat( expected ).isNotEqualTo( actual );
 		assertThat( expected.hashCode() ).isNotEqualTo( actual.hashCode() );
@@ -79,9 +79,9 @@ public class IdentifyingAttributesTest {
 	public void only_same_parent_path_results_in_1_similarity() {
 		// TODO Maybe the counter should be indifferent to type?
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[X]" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "Window[1]/path[1]/component[1]" ), component.class );
 		final IdentifyingAttributes actual = IdentifyingAttributes
-				.create( Path.fromString( "Window[1]/path[1]/component[Y]" ), otherComponent.class );
+				.create( Path.fromString( "Window[1]/path[1]/component[2]" ), otherComponent.class );
 
 		assertThat( expected.match( actual ) ).isCloseTo( ONE_SIMILARITY, within( 0.01 ) );
 	}
@@ -119,7 +119,7 @@ public class IdentifyingAttributesTest {
 						Path.fromString( "Window[1]/otherpath[1]/component[2]" ) );
 		final AttributeDifference suffixDifference = new AttributeDifference( "suffix", "0", "1" );
 		final IdentifyingAttributes changed = identifyingAttributes
-				.applyChanges( new HashSet<AttributeDifference>( Arrays.asList( pathDifference, suffixDifference ) ) );
+				.applyChanges( new HashSet<>( Arrays.asList( pathDifference, suffixDifference ) ) );
 
 		assertThat( changed ).isNotEqualTo( identifyingAttributes );
 		assertThat( changed.getPath() ).isEqualTo( "Window[1]/otherpath[1]/component[2]" );
@@ -148,29 +148,29 @@ public class IdentifyingAttributesTest {
 
 	@Test
 	public void apply_different_path_value_should_work() {
-		final String originalPath = "Window[1]/path[1]/component";
-		final String changedPath = "Window[1]/new_path[1]/new_component";
+		final String originalPath = "Window[1]/path[1]/component[1]";
+		final String changedPath = "Window[1]/new_path[1]/new_component[1]";
 		final IdentifyingAttributes original =
 				IdentifyingAttributes.create( Path.fromString( originalPath ), component.class );
 
 		final IdentifyingAttributes changed = original
 				.applyChanges( createAttributeChanges( path, PathAttribute.PATH_KEY, originalPath, changedPath ) );
 
-		assertThat( changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
+		assertThat( (Path) changed.get( PathAttribute.PATH_KEY ) ).isEqualTo( Path.fromString( changedPath ) );
 	}
 
 	@Test
 	public void different_outline_should_result_in_change() {
-		final List<Attribute> attributes = new ArrayList<Attribute>();
+		final List<Attribute> attributes = new ArrayList<>();
 		attributes.add( new PathAttribute( Path.fromString( "HTML[1]/DIV[1]" ) ) );
-		attributes.add( new SuffixAttribute( "1" ) );
+		attributes.add( new SuffixAttribute( 1 ) );
 		attributes.add( new StringAttribute( "type", "DIV" ) );
 
-		final List<Attribute> originalAttributes = new ArrayList<Attribute>( attributes );
+		final List<Attribute> originalAttributes = new ArrayList<>( attributes );
 		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 800, 1200 ) ) );
 		final IdentifyingAttributes original = new IdentifyingAttributes( originalAttributes );
 
-		final List<Attribute> differentOutlineAttributes = new ArrayList<Attribute>( attributes );
+		final List<Attribute> differentOutlineAttributes = new ArrayList<>( attributes );
 		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 400, 600 ) ) );
 		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
 
