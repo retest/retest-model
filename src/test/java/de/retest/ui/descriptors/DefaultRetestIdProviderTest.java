@@ -109,7 +109,7 @@ public class DefaultRetestIdProviderTest {
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
 		final String id = cut.getRetestId( identifyingAttributes );
 		assertThat( id ).isNotEmpty();
-		assertThat( id ).contains( "component_id" );
+		assertThat( id ).contains( "retestid" );
 	}
 
 	@Test
@@ -118,12 +118,12 @@ public class DefaultRetestIdProviderTest {
 		when( identifyingAttributes0.get( "text" ) ).thenReturn( "+" );
 		when( identifyingAttributes0.get( "type" ) ).thenReturn( "+" );
 
-		assertThat( cut.getRetestId( identifyingAttributes0 ) ).isEqualTo( "component_id" );
+		assertThat( cut.getRetestId( identifyingAttributes0 ) ).isEqualTo( "retestid" );
 
 		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
 		when( identifyingAttributes1.get( "type" ) ).thenReturn( "+" );
 
-		assertThat( cut.getRetestId( identifyingAttributes1 ) ).startsWith( "component_id-" );
+		assertThat( cut.getRetestId( identifyingAttributes1 ) ).startsWith( "retestid-" );
 	}
 }
