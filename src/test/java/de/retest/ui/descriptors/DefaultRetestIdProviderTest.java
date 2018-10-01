@@ -95,11 +95,35 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	@Test
-	public void empty_type_should_yield_id_that_is_at_least_not_empty() throws Exception {
+	public void empty_text_or_type_should_result_in_non_empty_id() throws Exception {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( "text" ) ).thenReturn( "" );
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "" );
 		assertThat( cut.getRetestId( identifyingAttributes ) ).isNotEmpty();
 	}
 
+	@Test
+	public void invalid_text_or_type_should_result_in_non_empty_id() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
+		final String id = cut.getRetestId( identifyingAttributes );
+		assertThat( id ).isNotEmpty();
+		assertThat( id ).contains( "retestid" );
+	}
+
+	@Test
+	public void already_known_ids_should_get_a_unique_suffix() {
+		final IdentifyingAttributes identifyingAttributes0 = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes0.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes0.get( "type" ) ).thenReturn( "+" );
+
+		assertThat( cut.getRetestId( identifyingAttributes0 ) ).isEqualTo( "retestid" );
+
+		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes1.get( "type" ) ).thenReturn( "+" );
+
+		assertThat( cut.getRetestId( identifyingAttributes1 ) ).startsWith( "retestid-" );
+	}
 }

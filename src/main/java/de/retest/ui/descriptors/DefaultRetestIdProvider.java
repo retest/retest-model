@@ -10,8 +10,9 @@ import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
+	private static final String BLANK_PREFIX = "retestid";
 	private static final String DELIMITER = "-";
-  
+
 	private final Set<String> knownRetestIds = new HashSet<>();
 
 	@Override
@@ -23,7 +24,7 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		final String type = identifyingAttributes.get( "type" );
 		final String rawId = StringUtils.isNotBlank( text ) ? text : type;
 		final String id = StringUtils.isNotBlank( rawId ) ? RetestIdUtil.normalizeAndCut( rawId ) : getUniqueSuffix();
-		return makeUnique( id );
+		return StringUtils.isNotBlank( id ) ? makeUnique( id ) : makeUnique( BLANK_PREFIX );
 	}
 
 	private String makeUnique( final String id ) {
