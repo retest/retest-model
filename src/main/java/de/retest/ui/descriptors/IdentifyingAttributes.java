@@ -33,8 +33,9 @@ import de.retest.util.ChecksumCalculator;
 @XmlAccessorType( XmlAccessType.FIELD )
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
-	public static final List<String> ATTRIBUTES = ImmutableList.of( "path", "type", // "suffix", is implicit via path
-			"name", "text", "codeLoc", "x", "y", "height", "width", "context" );
+	// "suffix" implicitly contained via "path"
+	private static final List<String> identifyingAttributes =
+			ImmutableList.of( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" );
 
 	/**
 	 * Sum of all weights.
@@ -245,4 +246,9 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 		Collections.sort( result );
 		return result;
 	}
+
+	public static boolean isIdentifyingAttribute( final String key ) {
+		return identifyingAttributes.contains( key );
+	}
+
 }
