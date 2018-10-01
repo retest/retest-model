@@ -95,7 +95,7 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	@Test
-	public void empty_type_should_yield_id_that_is_at_least_not_empty() throws Exception {
+	public void empty_text_or_type_should_result_in_non_empty_id() throws Exception {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( "text" ) ).thenReturn( "" );
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "" );
@@ -103,7 +103,7 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	@Test
-	public void id_should_not_be_empty_when_text_or_type_characters_not_contained_in_id_language() throws Exception {
+	public void invalid_text_or_type_should_result_in_non_empty_id() throws Exception {
 		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes.get( "text" ) ).thenReturn( "+" );
 		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
@@ -113,12 +113,12 @@ public class DefaultRetestIdProviderTest {
 	}
 
 	@Test
-	public void id_should_have_a_unique_suffix_when_it_is_already_contained_in_knownRetestId() {
-		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes.get( "text" ) ).thenReturn( "+" );
-		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
+	public void already_known_ids_should_get_a_unique_suffix() {
+		final IdentifyingAttributes identifyingAttributes0 = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes0.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes0.get( "type" ) ).thenReturn( "+" );
 
-		cut.getRetestId( identifyingAttributes );
+		assertThat( cut.getRetestId( identifyingAttributes0 ) ).isEqualTo( "component_id" );
 
 		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
