@@ -7,7 +7,7 @@ package de.retest.ui.descriptors;
  */
 public interface RetestIdProvider {
 
-	public static final String ID_PROVIDER_CONFIGURATION_PROPERTY = "de.retest.RetestIdProvider";
+	public static final String ID_PROVIDER_CONFIGURATION_PROPERTY = "de.retest.retestIdProvider";
 
 	/**
 	 * Get a retest ID for the given identifying attributes. Ideally, this should be human readable or have some
