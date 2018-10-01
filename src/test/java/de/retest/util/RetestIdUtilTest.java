@@ -1,8 +1,11 @@
 package de.retest.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+
+import de.retest.util.RetestIdUtil.InvalidRetestIdException;
 
 class RetestIdUtilTest {
 
@@ -28,6 +31,42 @@ class RetestIdUtilTest {
 		final String normalizedAndCutId = RetestIdUtil.normalizeAndCut( rawId );
 		assertThat( normalizedAndCutId.length() ).isLessThan( 20 );
 		assertThat( normalizedAndCutId ).isEqualTo( "this_is_some" );
+	}
+
+	@Test
+	void null_ids_should_be_invalid() throws Exception {
+		final String nullId = null;
+		assertThat( RetestIdUtil.isValid( nullId ) ).isFalse();
+		assertThatThrownBy( () -> RetestIdUtil.validate( nullId, null ) ) //
+				.isInstanceOf( InvalidRetestIdException.class ) //
+				.hasMessage( "retest ID must not be null for null" );
+	}
+
+	@Test
+	void empty_ids_should_be_invalid() throws Exception {
+		final String nullId = "";
+		assertThat( RetestIdUtil.isValid( nullId ) ).isFalse();
+		assertThatThrownBy( () -> RetestIdUtil.validate( nullId, null ) ) //
+				.isInstanceOf( InvalidRetestIdException.class ) //
+				.hasMessage( "retest ID must not be empty for null" );
+	}
+
+	@Test
+	void whitespace_ids_should_be_invalid() throws Exception {
+		final String nullId = " ";
+		assertThat( RetestIdUtil.isValid( nullId ) ).isFalse();
+		assertThatThrownBy( () -> RetestIdUtil.validate( nullId, null ) ) //
+				.isInstanceOf( InvalidRetestIdException.class ) //
+				.hasMessage( "retest ID must not contain any whitespaces or special characters for null" );
+	}
+
+	@Test
+	void special_character_ids_should_be_invalid() throws Exception {
+		final String nullId = "+";
+		assertThat( RetestIdUtil.isValid( nullId ) ).isFalse();
+		assertThatThrownBy( () -> RetestIdUtil.validate( nullId, null ) ) //
+				.isInstanceOf( InvalidRetestIdException.class ) //
+				.hasMessage( "retest ID must not contain any whitespaces or special characters for null" );
 	}
 
 }
