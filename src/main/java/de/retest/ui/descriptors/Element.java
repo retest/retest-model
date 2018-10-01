@@ -79,16 +79,16 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
-		this.retestId = retestId;
 		RetestIdUtil.validate( retestId, identifyingAttributes );
-		this.identifyingAttributes = identifyingAttributes;
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
 		}
-		this.attributes = attributes;
 		if ( attributes == null ) {
 			throw new NullPointerException( "Attributes must not be null." );
 		}
+		this.retestId = retestId;
+		this.identifyingAttributes = identifyingAttributes;
+		this.attributes = attributes;
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
 	}
