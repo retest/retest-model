@@ -102,4 +102,28 @@ public class DefaultRetestIdProviderTest {
 		assertThat( cut.getRetestId( identifyingAttributes ) ).isNotEmpty();
 	}
 
+	@Test
+	public void id_should_not_be_empty_when_text_or_type_characters_not_contained_in_id_language() throws Exception {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
+		final String id = cut.getRetestId( identifyingAttributes );
+		assertThat( id ).isNotEmpty();
+		assertThat( id ).contains( "component_id" );
+	}
+
+	@Test
+	public void id_should_have_a_unique_suffix_when_it_is_already_contained_in_knownRetestId() {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "+" );
+
+		cut.getRetestId( identifyingAttributes );
+
+		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
+		when( identifyingAttributes1.get( "type" ) ).thenReturn( "+" );
+
+		assertThat( cut.getRetestId( identifyingAttributes1 ) ).startsWith( "component_id-" );
+	}
 }
