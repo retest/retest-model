@@ -93,10 +93,10 @@ public class Element implements Serializable, Comparable<Element> {
 
 	private String verify( final String retestId, final IdentifyingAttributes identifyingAttributes ) {
 		if ( retestId == null ) {
-			throw new NullPointerException( "retest ID  must not be null for " + identifyingAttributes );
+			throw new NullPointerException( "retest ID must not be null for " + identifyingAttributes );
 		}
 		if ( retestId.isEmpty() ) {
-			throw new IllegalArgumentException( "retest ID  must not be empty for " + identifyingAttributes );
+			throw new IllegalArgumentException( "retest ID must not be empty for " + identifyingAttributes );
 		}
 		if ( !retestId.matches( "[\\w-_]+" ) ) {
 			throw new IllegalArgumentException(
