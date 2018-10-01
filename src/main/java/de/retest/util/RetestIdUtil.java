@@ -1,6 +1,18 @@
 package de.retest.util;
 
+import de.retest.ui.descriptors.IdentifyingAttributes;
+
 public class RetestIdUtil {
+
+	public static class InvalidRetestIdException extends RuntimeException {
+
+		private static final long serialVersionUID = 1L;
+
+		public InvalidRetestIdException( final String message ) {
+			super( message );
+		}
+
+	}
 
 	private RetestIdUtil() {}
 
@@ -38,6 +50,29 @@ public class RetestIdUtil {
 			return id.substring( 0, blank );
 		}
 		return id.substring( 0, 15 );
+	}
+
+	public static boolean isValid( final String retestId ) {
+		try {
+			validate( retestId, null );
+			return true;
+		} catch ( final InvalidRetestIdException e ) {
+			return false;
+		}
+	}
+
+	public static void validate( final String retestId, final IdentifyingAttributes identifyingAttributes )
+			throws InvalidRetestIdException {
+		if ( retestId == null ) {
+			throw new InvalidRetestIdException( "retest ID must not be null for " + identifyingAttributes );
+		}
+		if ( retestId.isEmpty() ) {
+			throw new InvalidRetestIdException( "retest ID must not be empty for " + identifyingAttributes );
+		}
+		if ( !retestId.matches( "[\\w-_]+" ) ) {
+			throw new InvalidRetestIdException(
+					"retest ID must not contain any whitespaces or special characters for " + identifyingAttributes );
+		}
 	}
 
 }

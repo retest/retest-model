@@ -19,6 +19,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import de.retest.ui.Path;
 import de.retest.ui.image.Screenshot;
 import de.retest.ui.review.ActionChangeSet;
+import de.retest.util.RetestIdUtil;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -78,7 +79,8 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
-		this.retestId = verify( retestId, identifyingAttributes );
+		this.retestId = retestId;
+		RetestIdUtil.validate( retestId, identifyingAttributes );
 		this.identifyingAttributes = identifyingAttributes;
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
@@ -89,20 +91,6 @@ public class Element implements Serializable, Comparable<Element> {
 		}
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
-	}
-
-	private String verify( final String retestId, final IdentifyingAttributes identifyingAttributes ) {
-		if ( retestId == null ) {
-			throw new NullPointerException( "retest ID must not be null for " + identifyingAttributes );
-		}
-		if ( retestId.isEmpty() ) {
-			throw new IllegalArgumentException( "retest ID must not be empty for " + identifyingAttributes );
-		}
-		if ( !retestId.matches( "[\\w-_]+" ) ) {
-			throw new IllegalArgumentException(
-					"retest ID must not contain any whitespaces or special characters for " + identifyingAttributes );
-		}
-		return retestId;
 	}
 
 	@Override
