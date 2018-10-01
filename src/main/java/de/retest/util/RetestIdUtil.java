@@ -2,6 +2,8 @@ package de.retest.util;
 
 public class RetestIdUtil {
 
+	private RetestIdUtil() {}
+
 	public static String normalizeAndCut( final String id ) {
 		return cut( normalize( id ) );
 	}
@@ -22,9 +24,9 @@ public class RetestIdUtil {
 		if ( id.length() <= 17 ) {
 			return id;
 		}
-		int blank = id.indexOf( "_" );
+		int blank = id.indexOf( '_' );
 		while ( blank < 12 ) {
-			final int nextBlank = id.indexOf( "_", blank + 1 );
+			final int nextBlank = id.indexOf( '_', blank + 1 );
 			if ( nextBlank < 17 && nextBlank > -1 ) {
 				blank = nextBlank;
 			} else {

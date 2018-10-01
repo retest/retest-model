@@ -41,11 +41,11 @@ public class SuffixAttribute extends StringAttribute {
 
 	@Override
 	public Attribute applyChanges( final Serializable actual ) {
-		return new SuffixAttribute( (String) actual, getVariableName() );
+		return new SuffixAttribute( Integer.parseInt( (String) actual ), getVariableName() );
 	}
 
 	@Override
 	public ParameterizedAttribute applyVariableChange( final String variableName ) {
-		return new SuffixAttribute( getValue(), variableName );
+		return new SuffixAttribute( Integer.parseInt( getValue() ), variableName );
 	}
 }

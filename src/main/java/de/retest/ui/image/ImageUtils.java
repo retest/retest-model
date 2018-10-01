@@ -25,7 +25,12 @@ import de.retest.ui.image.Screenshot.ImageType;
 
 public class ImageUtils {
 
+	private ImageUtils() {}
+
 	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger( ImageUtils.class );
+
+	public static final String FILE_URI_SCHEME = "file:";
+	public static final String JAR_URI_SCHEME = "jar:";
 
 	public static final int MARKING_WIDTH = 2;
 
@@ -33,9 +38,9 @@ public class ImageUtils {
 	public static final int MAX_SCREENSHOT_HEIGHT_DEFAULT = 1200 * 2;
 	public static final String MAX_SCREENSHOT_WIDTH_PROP = "de.retest.screenshot.max.width";
 	public static final int MAX_SCREENSHOT_WIDTH_DEFAULT = 1800 * 2;
-	private static final int maxScreenshotHeight =
+	private static final int MAX_SCREENSHOT_HEIGHT =
 			Integer.getInteger( MAX_SCREENSHOT_HEIGHT_PROP, MAX_SCREENSHOT_HEIGHT_DEFAULT );
-	private static final int maxScreenshotWidth =
+	private static final int MAX_SCREENSHOT_WIDTH =
 			Integer.getInteger( MAX_SCREENSHOT_WIDTH_PROP, MAX_SCREENSHOT_WIDTH_DEFAULT );
 
 	public static BufferedImage screenshot2Image( final Screenshot input ) {
@@ -235,23 +240,17 @@ public class ImageUtils {
 	}
 
 	public static BufferedImage cutToMax( final BufferedImage image ) {
-		if ( image.getHeight() < maxScreenshotHeight && image.getWidth() < maxScreenshotWidth ) {
+		if ( image.getHeight() < MAX_SCREENSHOT_HEIGHT && image.getWidth() < MAX_SCREENSHOT_WIDTH ) {
 			return image;
 		}
-		final int imageHeight = Math.min( image.getHeight(), maxScreenshotHeight );
-		final int imageWidth = Math.min( image.getWidth(), maxScreenshotWidth );
+		final int imageHeight = Math.min( image.getHeight(), MAX_SCREENSHOT_HEIGHT );
+		final int imageWidth = Math.min( image.getWidth(), MAX_SCREENSHOT_WIDTH );
 		return cutImage( image, new Rectangle( imageWidth, imageHeight ) );
 	}
 
 	public static void exportScreenshot( final Screenshot image, final File result ) throws IOException {
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream( result );
+		try ( final FileOutputStream fos = new FileOutputStream( result ) ) {
 			fos.write( image.getBinaryData() );
-		} finally {
-			if ( fos != null ) {
-				fos.close();
-			}
 		}
 	}
 
@@ -268,14 +267,14 @@ public class ImageUtils {
 		if ( icon != null ) {
 			result = icon.toString();
 			// Normalize file:/-URLs to their base name
-			if ( result.startsWith( "jar:" ) ) {
-				result = result.replace( "jar:", "" );
-				result = result.replace( "file:", "" );
+			if ( result.startsWith( JAR_URI_SCHEME ) ) {
+				result = result.replace( JAR_URI_SCHEME, "" );
+				result = result.replace( FILE_URI_SCHEME, "" );
 				final String[] splitted = result.split( "!" );
 				return new File( splitted[0] ).getName() + "!" + splitted[1];
 			}
-			if ( result.startsWith( "file:" ) ) {
-				result = result.replace( "file:", "" );
+			if ( result.startsWith( FILE_URI_SCHEME ) ) {
+				result = result.replace( FILE_URI_SCHEME, "" );
 				result = new File( result ).getName();
 			}
 			// Normalize OSGI-bundleressources

@@ -8,7 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class ObjectUtil {
 
-	private final static Pattern TOSTRING_OBJECT_ID_PATTERN = Pattern.compile( "([\\.\\w]+@([0-9a-fA-F]{4,8}|1))" );
+	private ObjectUtil() {}
+
+	private static final Pattern TOSTRING_OBJECT_ID_PATTERN = Pattern.compile( "([\\.\\w]+@([0-9a-fA-F]{4,8}|1))" );
 
 	public static <T> T checkNull( final T object, final String name ) {
 		if ( object == null ) {
@@ -38,19 +40,6 @@ public class ObjectUtil {
 			return previousHash;
 		}
 		return previousHash + attr.hashCode() ^ 31;
-	}
-
-	public static boolean equal( final Object my, final Object other ) {
-		if ( my == null ) {
-			if ( other == null ) {
-				return true;
-			} else {
-				return false;
-			}
-		} else if ( other == null ) {
-			return false;
-		}
-		return my.equals( other );
 	}
 
 	public static boolean isObjectToString( final String text ) {

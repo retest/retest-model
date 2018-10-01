@@ -51,8 +51,8 @@ public class Path implements Serializable {
 	@Override
 	public String toString() {
 		if ( toStringCache == null ) {
-			final String parentPath = this.parentPath == null ? "" : this.parentPath.toString() + PATH_SEPARATOR;
-			toStringCache = parentPath + (element == null ? "" : element.toString());
+			final String parentPathTemp = parentPath == null ? "" : parentPath.toString() + PATH_SEPARATOR;
+			toStringCache = parentPathTemp + (element == null ? "" : element.toString());
 		}
 		return toStringCache;
 	}
@@ -120,7 +120,7 @@ public class Path implements Serializable {
 	}
 
 	// Ensures that each path exists exactly once.
-	private final static Map<String, Path> paths = new HashMap<>();
+	private static final Map<String, Path> paths = new HashMap<>();
 
 	public static Path path( final PathElement element ) {
 		Path result = paths.get( element.toString() );

@@ -7,6 +7,8 @@ import org.apache.commons.text.similarity.FuzzyScore;
 
 public class StringSimilarity {
 
+	private StringSimilarity() {}
+
 	private static final FuzzyScore fuzzyScore = new FuzzyScore( Locale.GERMAN );
 
 	public static double textSimilarity( final String text0, final String text1 ) {

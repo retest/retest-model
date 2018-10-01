@@ -3,13 +3,13 @@ package de.retest.ui.descriptors;
 import static com.google.common.base.Predicates.notNull;
 import static com.google.common.collect.Iterables.filter;
 import static de.retest.util.ObjectUtil.compare;
-import static de.retest.util.ObjectUtil.equal;
 import static de.retest.util.ObjectUtil.isNullOrEmptyString;
 import static de.retest.util.ObjectUtil.nextHashCode;
 import static java.util.Arrays.asList;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -118,7 +118,8 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 			return false;
 		}
 		final AttributeDifference other = (AttributeDifference) obj;
-		return equal( key, other.key ) && equal( expected, other.expected ) && equal( actual, other.actual );
+		return Objects.equals( key, other.key ) && Objects.equals( expected, other.expected )
+				&& Objects.equals( actual, other.actual );
 	}
 
 	@Override
@@ -137,10 +138,10 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 	}
 
 	public static String getSumIdentifier( final List<AttributeDifference> attributeDifferences ) {
-		String result = "";
+		final StringBuilder result = new StringBuilder();
 		for ( final AttributeDifference attributeDifference : attributeDifferences ) {
-			result += " # " + attributeDifference.identifier();
+			result.append( " # " ).append( attributeDifference.identifier() );
 		}
-		return ChecksumCalculator.getInstance().sha256( result );
+		return ChecksumCalculator.getInstance().sha256( result.toString() );
 	}
 }
