@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import de.retest.ui.Path;
 import de.retest.ui.review.ActionChangeSet;
+import de.retest.util.RetestIdUtil.InvalidRetestIdException;
 
 public class ElementTest {
 
@@ -187,21 +188,27 @@ public class ElementTest {
 		assertThat( containedComponents ).contains( oldChild );
 	}
 
-	@Test( expected = NullPointerException.class )
+	@Test( expected = InvalidRetestIdException.class )
 	public void null_id_should_throw_exception() {
 		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
-	@Test( expected = IllegalArgumentException.class )
+	@Test( expected = InvalidRetestIdException.class )
 	public void empty_id_should_throw_exception() {
 		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
-	@Test( expected = IllegalArgumentException.class )
+	@Test( expected = InvalidRetestIdException.class )
 	public void whitespace_in_id_should_throw_exception() {
 		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
+				java.awt.Component.class ), new MutableAttributes().immutable() );
+	}
+
+	@Test( expected = InvalidRetestIdException.class )
+	public void special_chars_in_id_should_throw_exception() {
+		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
@@ -211,12 +218,6 @@ public class ElementTest {
 				UUID.randomUUID().toString(), IdentifyingAttributes
 						.create( Path.fromString( "NotParentPath[0]/NewChild[0]" ), java.awt.Component.class ),
 				new MutableAttributes().immutable() );
-	}
-
-	@Test( expected = IllegalArgumentException.class )
-	public void special_chars_in_id_should_throw_exception() {
-		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	// Copy & paste from ElementBuilder due to cyclic dependency.
