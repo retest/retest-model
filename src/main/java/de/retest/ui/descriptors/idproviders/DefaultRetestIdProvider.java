@@ -11,7 +11,6 @@ import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
-	private static final String BLANK_PREFIX = "retestid";
 	private static final String DELIMITER = "-";
 
 	private final Set<String> knownRetestIds = new HashSet<>();
@@ -21,11 +20,11 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "Identifying attributes must not be null." );
 		}
-		final String text = identifyingAttributes.get( "text" );
-		final String type = identifyingAttributes.get( "type" );
+		final String text = RetestIdUtil.normalizeAndCut( identifyingAttributes.get( "text" ) );
+		final String type = RetestIdUtil.normalizeAndCut( identifyingAttributes.get( "type" ) );
 		final String rawId = StringUtils.isNotBlank( text ) ? text : type;
-		final String id = StringUtils.isNotBlank( rawId ) ? RetestIdUtil.normalizeAndCut( rawId ) : getUniqueSuffix();
-		return StringUtils.isNotBlank( id ) ? makeUnique( id ) : makeUnique( BLANK_PREFIX );
+		final String id = StringUtils.isNotBlank( rawId ) ? rawId : getUniqueSuffix();
+		return makeUnique( id );
 	}
 
 	private String makeUnique( final String id ) {
