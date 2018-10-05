@@ -123,12 +123,16 @@ public class DefaultRetestIdProviderTest {
 		when( identifyingAttributes0.get( "text" ) ).thenReturn( "+" );
 		when( identifyingAttributes0.get( "type" ) ).thenReturn( "+" );
 
-		assertThat( cut.getRetestId( identifyingAttributes0 ) ).isNotEmpty();
+		final String retestId0 = cut.getRetestId( identifyingAttributes0 );
+		assertThat( retestId0 ).isNotEmpty();
 
 		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
 		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
 		when( identifyingAttributes1.get( "type" ) ).thenReturn( "+" );
 
-		assertThat( cut.getRetestId( identifyingAttributes1 ) ).isNotEmpty();
+		final String retestId1 = cut.getRetestId( identifyingAttributes1 );
+		assertThat( retestId1 ).isNotEmpty();
+
+		assertThat( retestId0 ).isNotEqualTo( retestId1 );
 	}
 }
