@@ -119,19 +119,19 @@ public class DefaultRetestIdProviderTest {
 
 	@Test
 	public void already_known_ids_should_get_a_unique_suffix() {
+		final String text = "foo";
+
 		final IdentifyingAttributes identifyingAttributes0 = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes0.get( "text" ) ).thenReturn( "+" );
-		when( identifyingAttributes0.get( "type" ) ).thenReturn( "+" );
+		when( identifyingAttributes0.get( "text" ) ).thenReturn( text );
 
 		final String retestId0 = cut.getRetestId( identifyingAttributes0 );
-		assertThat( retestId0 ).isNotEmpty();
+		assertThat( retestId0 ).isEqualTo( text );
 
 		final IdentifyingAttributes identifyingAttributes1 = mock( IdentifyingAttributes.class );
-		when( identifyingAttributes1.get( "text" ) ).thenReturn( "+" );
-		when( identifyingAttributes1.get( "type" ) ).thenReturn( "+" );
+		when( identifyingAttributes1.get( "text" ) ).thenReturn( text );
 
 		final String retestId1 = cut.getRetestId( identifyingAttributes1 );
-		assertThat( retestId1 ).isNotEmpty();
+		assertThat( retestId1 ).startsWith( text );
 
 		assertThat( retestId0 ).isNotEqualTo( retestId1 );
 	}
