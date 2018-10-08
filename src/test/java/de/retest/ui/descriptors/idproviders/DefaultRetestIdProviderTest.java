@@ -1,4 +1,4 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.descriptors.idproviders;
 
 import static de.retest.ui.Path.fromString;
 import static de.retest.ui.descriptors.IdentifyingAttributes.create;
@@ -11,6 +11,12 @@ import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import de.retest.ui.descriptors.Attribute;
+import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.descriptors.StringAttribute;
+import de.retest.ui.descriptors.SuffixAttribute;
+import de.retest.ui.descriptors.idproviders.DefaultRetestIdProvider;
 
 public class DefaultRetestIdProviderTest {
 

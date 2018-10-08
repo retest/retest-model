@@ -1,4 +1,6 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.descriptors.idproviders;
+
+import de.retest.ui.descriptors.IdentifyingAttributes;
 
 /**
  * This interface can be implemented by customers to configure how the retest ID is created from the given identifying

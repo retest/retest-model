@@ -1,4 +1,4 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.descriptors.idproviders;
 
 import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -6,6 +6,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.UUID;
 
 import org.junit.Test;
+
+import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.descriptors.idproviders.ConsistentRetestIdProvider;
+import de.retest.ui.descriptors.idproviders.RetestIdProvider;
 
 public class ConsistentRetestIdProviderTest {
 
