@@ -1,7 +1,9 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.descriptors.idproviders;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.retest.ui.descriptors.IdentifyingAttributes;
 
 public class ConsistentRetestIdProvider implements RetestIdProvider {
 

@@ -1,4 +1,4 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.descriptors.idproviders;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
