@@ -21,6 +21,9 @@ public class RetestIdUtil {
 	}
 
 	static String normalize( String id ) {
+		if ( id == null || id.isEmpty() ) {
+			return "";
+		}
 		// trime and replace all whitespace chars with _
 		id = id.trim().replaceAll( "[\\s]", "_" );
 		// remove all chars but a-z in any case, 0-9 or _
@@ -33,6 +36,9 @@ public class RetestIdUtil {
 	}
 
 	static String cut( final String id ) {
+		if ( id == null || id.isEmpty() ) {
+			return "";
+		}
 		if ( id.length() <= 17 ) {
 			return id;
 		}
