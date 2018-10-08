@@ -69,4 +69,23 @@ class RetestIdUtilTest {
 				.hasMessage( "retest ID must not contain any whitespaces or special characters for null" );
 	}
 
+	@Test
+	void normalize_null_id_should_return_empty_string() {
+		assertThat( RetestIdUtil.normalize( null ) ).isEqualTo( "" );
+	}
+
+	@Test
+	void normalize_empty_id_should_return_empty_string() {
+		assertThat( RetestIdUtil.normalize( "" ) ).isEqualTo( "" );
+	}
+
+	@Test
+	void cut_null_id_should_return_empty_string() {
+		assertThat( RetestIdUtil.cut( null ) ).isEqualTo( "" );
+	}
+
+	@Test
+	void cut_empty_id_should_return_empty_string() {
+		assertThat( RetestIdUtil.cut( "" ) ).isEqualTo( "" );
+	}
 }
