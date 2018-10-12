@@ -16,7 +16,6 @@ import de.retest.ui.descriptors.Attribute;
 import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.ui.descriptors.StringAttribute;
 import de.retest.ui.descriptors.SuffixAttribute;
-import de.retest.ui.descriptors.idproviders.DefaultRetestIdProvider;
 
 public class DefaultRetestIdProviderTest {
 
@@ -134,5 +133,13 @@ public class DefaultRetestIdProviderTest {
 		assertThat( retestId1 ).startsWith( text );
 
 		assertThat( retestId0 ).isNotEqualTo( retestId1 );
+	}
+
+	@Test
+	public void should_produce_sensible_results() {
+		final IdentifyingAttributes identifyingAttributes = mock( IdentifyingAttributes.class );
+		when( identifyingAttributes.get( "type" ) ).thenReturn( "javax.swing.Box$Filler" );
+		final String id = cut.getRetestId( identifyingAttributes );
+		assertThat( id ).isEqualTo( "boxfiller" );
 	}
 }

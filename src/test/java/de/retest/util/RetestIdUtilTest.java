@@ -88,4 +88,12 @@ class RetestIdUtilTest {
 	void cut_empty_id_should_return_empty_string() {
 		assertThat( RetestIdUtil.cut( "" ) ).isEqualTo( "" );
 	}
+
+	@Test
+	void type_qualifier_should_be_cut() {
+		assertThat( RetestIdUtil.cutTypeQualifier( "javax.swing.Box$Filler" ) ).isEqualTo( "Box$Filler" );
+		assertThat( RetestIdUtil.cutTypeQualifier( "Box$Filler" ) ).isEqualTo( "Box$Filler" );
+		assertThat( RetestIdUtil.cutTypeQualifier( null ) ).isEqualTo( "" );
+		assertThat( RetestIdUtil.cutTypeQualifier( "" ) ).isEqualTo( "" );
+	}
 }

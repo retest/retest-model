@@ -81,4 +81,11 @@ public class RetestIdUtil {
 		}
 	}
 
+	public static String cutTypeQualifier( final String type ) {
+		if ( type == null ) {
+			return "";
+		}
+		return type.substring( type.lastIndexOf( "." ) + 1 );
+	}
+
 }
