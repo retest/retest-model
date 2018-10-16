@@ -58,4 +58,11 @@ public class OutlineAttributeTest {
 	public void getWeight_should_not_be_ignored() {
 		assertThat( attribute.getWeight() ).isEqualTo( Attribute.NORMAL_WEIGHT );
 	}
+
+	@Test
+	public void should_not_produce_greater_one_match() {
+		final OutlineAttribute attributeOne = new OutlineAttribute( new Rectangle( 27, 13, 97, 30 ) );
+		final OutlineAttribute attributeTwo = new OutlineAttribute( new Rectangle( -1000000, -999987, 1, 1 ) );
+		attributeOne.match( attributeTwo );
+	}
 }

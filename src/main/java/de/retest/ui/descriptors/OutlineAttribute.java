@@ -17,8 +17,8 @@ public class OutlineAttribute extends Attribute {
 	// Actual value doesn't matter as long as:
 	// 1) it is the same for all comparisons (doesn't change)
 	// 2) result of normalization is always <= 1
-	public static final int MAX_HEIGHT = 20000;
-	public static final int MAX_WIDHT = 2 * MAX_HEIGHT;
+	public static final int MAX_HEIGHT = Integer.MAX_VALUE;
+	public static final int MAX_WIDHT = Integer.MAX_VALUE;
 
 	@XmlElement
 	private final int x;
