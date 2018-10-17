@@ -52,4 +52,10 @@ public class PathTest {
 		assertThat( path1.isParent( path1 ) );
 		assertThat( !Path.path( ELEMENT_1 ).isParent( path1 ) );
 	}
+
+	@Test
+	public void trailing_slash_should_not_cause_exception() {
+		Path.fromString( "/html/body/div/" );
+		Path.fromString( "/HTML/BODY/DIV/" );
+	}
 }
