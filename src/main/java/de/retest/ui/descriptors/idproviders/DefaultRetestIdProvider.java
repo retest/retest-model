@@ -1,5 +1,8 @@
 package de.retest.ui.descriptors.idproviders;
 
+import static de.retest.util.RetestIdUtil.cutTypeQualifier;
+import static de.retest.util.RetestIdUtil.normalizeAndCut;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -7,7 +10,6 @@ import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
 import de.retest.ui.descriptors.IdentifyingAttributes;
-import de.retest.util.RetestIdUtil;
 
 public class DefaultRetestIdProvider implements RetestIdProvider {
 
@@ -20,8 +22,8 @@ public class DefaultRetestIdProvider implements RetestIdProvider {
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "Identifying attributes must not be null." );
 		}
-		final String text = RetestIdUtil.normalizeAndCut( identifyingAttributes.get( "text" ) );
-		final String type = RetestIdUtil.normalizeAndCut( identifyingAttributes.get( "type" ) );
+		final String text = normalizeAndCut( identifyingAttributes.get( "text" ) );
+		final String type = normalizeAndCut( cutTypeQualifier( identifyingAttributes.get( "type" ) ) );
 		final String rawId = StringUtils.isNotBlank( text ) ? text : type;
 		final String id = StringUtils.isNotBlank( rawId ) ? rawId : getUniqueSuffix();
 		return makeUnique( id );
