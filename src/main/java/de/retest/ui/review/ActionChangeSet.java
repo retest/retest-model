@@ -9,14 +9,14 @@ import de.retest.ui.descriptors.IdentifyingAttributes;
 
 public class ActionChangeSet {
 
-	private final String description;
+	private final String stateFilePath;
 
 	public ActionChangeSet() {
 		this( null );
 	}
 
-	public ActionChangeSet( final String description ) {
-		this.description = description;
+	public ActionChangeSet( final String stateFilePath ) {
+		this.stateFilePath = stateFilePath;
 	}
 
 	private final AttributeChanges identAttributeChanges = new AttributeChanges();
@@ -81,7 +81,7 @@ public class ActionChangeSet {
 		return "ActionChangeSet [" + size() + " changes]";
 	}
 
-	public String getDescription() {
-		return description;
+	public String getStateFilePath() {
+		return stateFilePath;
 	}
 }
