@@ -116,6 +116,9 @@ public class Path implements Serializable {
 			result = Path.path( result, PathElement.fromString( pathElement ) );
 			path = path.substring( path.indexOf( PATH_SEPARATOR ) + 1 );
 		}
+		if ( path.isEmpty() ) {
+			return result;
+		}
 		return Path.path( result, PathElement.fromString( path ) );
 	}
 
