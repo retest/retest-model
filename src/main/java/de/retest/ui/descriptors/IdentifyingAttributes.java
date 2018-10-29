@@ -1,7 +1,5 @@
 package de.retest.ui.descriptors;
 
-import static com.google.common.base.Predicates.notNull;
-import static com.google.common.collect.Iterables.filter;
 import static de.retest.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
@@ -12,18 +10,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
 
 import de.retest.ui.Path;
 import de.retest.ui.PathElement;
@@ -34,8 +31,8 @@ import de.retest.util.ChecksumCalculator;
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
 	// "suffix" implicitly contained via "path"
-	private static final List<String> identifyingAttributes =
-			ImmutableList.of( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" );
+	private static final List<String> identifyingAttributes = Collections.unmodifiableList(
+			Arrays.asList( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" ) );
 
 	/**
 	 * Sum of all weights.
@@ -114,7 +111,9 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	}
 
 	public String toFullString() {
-		return Joiner.on( " # " ).join( filter( getValuesForFullString(), notNull() ) );
+		return getValuesForFullString().stream() //
+				.filter( Objects::nonNull ) //
+				.collect( Collectors.joining( " # " ) );
 	}
 
 	public String identifier() {

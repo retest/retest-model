@@ -1,15 +1,14 @@
 package de.retest.ui.descriptors;
 
-import static com.google.common.base.Predicates.notNull;
-import static com.google.common.collect.Iterables.filter;
 import static de.retest.util.ObjectUtil.compare;
 import static de.retest.util.ObjectUtil.isNullOrEmptyString;
 import static de.retest.util.ObjectUtil.nextHashCode;
-import static java.util.Arrays.asList;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,8 +18,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Joiner;
 
 import de.retest.util.ChecksumCalculator;
 
@@ -75,7 +72,11 @@ public class AttributeDifference implements Comparable<AttributeDifference>, Ser
 	}
 
 	public String identifier() {
-		final String contents = Joiner.on( " # " ).join( filter( asList( actual, expected ), notNull() ) );
+		final String contents = Arrays.asList( actual, expected ).stream() //
+				.filter( Objects::nonNull ) //
+				.map( Object::toString ) //
+				.collect( Collectors.joining( " # " ) );
+
 		return ChecksumCalculator.getInstance().sha256( contents );
 	}
 
