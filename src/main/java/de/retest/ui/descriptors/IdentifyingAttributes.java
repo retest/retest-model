@@ -22,9 +22,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableList;
-
 import de.retest.ui.Path;
 import de.retest.ui.PathElement;
 import de.retest.util.ChecksumCalculator;
@@ -34,8 +31,8 @@ import de.retest.util.ChecksumCalculator;
 public class IdentifyingAttributes implements Serializable, Comparable<IdentifyingAttributes> {
 
 	// "suffix" implicitly contained via "path"
-	private static final List<String> identifyingAttributes =
-			ImmutableList.of( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" );
+	private static final List<String> identifyingAttributes = Collections.unmodifiableList(
+			Arrays.asList( "path", "type", "name", "text", "codeLoc", "x", "y", "height", "width", "context" ) );
 
 	/**
 	 * Sum of all weights.
