@@ -7,7 +7,7 @@ public final class ActionChangeSetTestUtils {
 	private ActionChangeSetTestUtils() {}
 
 	static ActionChangeSet createEmptyActionChangeSet() {
-		return new ActionChangeSet( null );
+		return new ActionChangeSet( null, null );
 	}
 
 }
