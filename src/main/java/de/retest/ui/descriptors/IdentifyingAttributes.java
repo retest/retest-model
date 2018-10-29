@@ -1,7 +1,5 @@
 package de.retest.ui.descriptors;
 
-import static com.google.common.base.Predicates.notNull;
-import static com.google.common.collect.Iterables.filter;
 import static de.retest.util.ObjectUtil.nextHashCode;
 
 import java.io.Serializable;
@@ -12,9 +10,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -114,7 +114,9 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 	}
 
 	public String toFullString() {
-		return Joiner.on( " # " ).join( filter( getValuesForFullString(), notNull() ) );
+		return getValuesForFullString().stream() //
+				.filter( Objects::nonNull ) //
+				.collect( Collectors.joining( " # " ) );
 	}
 
 	public String identifier() {
