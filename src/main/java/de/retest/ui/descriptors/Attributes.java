@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -13,8 +14,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.google.common.base.Objects;
 
 import de.retest.ui.image.Screenshot;
 
@@ -128,7 +127,7 @@ public class Attributes implements Iterable<Map.Entry<String, Object>>, Serializ
 	public Attributes applyChanges( final Set<AttributeDifference> attributeChanges ) {
 		final MutableAttributes result = new MutableAttributes( this );
 		for ( final AttributeDifference attributeDifference : attributeChanges ) {
-			if ( Objects.equal( attributes.get( attributeDifference.getKey() ), attributeDifference.getExpected() ) ) {
+			if ( Objects.equals( attributes.get( attributeDifference.getKey() ), attributeDifference.getExpected() ) ) {
 				if ( attributeDifference.getActual() == null ) {
 					result.attributes.remove( attributeDifference.getKey() );
 				} else {
