@@ -19,9 +19,9 @@ public class PathElement implements Serializable {
 	private final String elementName;
 
 	@XmlElement
-	private final String suffix;
+	private final int suffix;
 
-	public PathElement( final String elementName, final String suffix ) {
+	public PathElement( final String elementName, final int suffix ) {
 		if ( elementName == null ) {
 			throw new NullPointerException( "Element name must not be null." );
 		}
@@ -29,32 +29,24 @@ public class PathElement implements Serializable {
 		if ( this.elementName.isEmpty() ) {
 			throw new IllegalArgumentException( "Element name must not be empty." );
 		}
-		this.suffix = suffix.trim();
+		this.suffix = suffix;
 	}
 
 	public PathElement( final String elementName ) {
-		this( elementName, "" );
-	}
-
-	public PathElement( final String elementName, final int suffix ) {
-		this( elementName, "" + suffix );
+		this( elementName, 1 );
 	}
 
 	public String getElementName() {
 		return elementName;
 	}
 
-	public String getSuffix() {
+	public int getSuffix() {
 		return suffix;
 	}
 
 	@Override
 	public String toString() {
-		if ( "".equals( suffix ) ) {
-			return elementName;
-		} else {
-			return elementName + "[" + suffix + "]";
-		}
+		return elementName + "[" + suffix + "]";
 	}
 
 	@Override
@@ -62,7 +54,7 @@ public class PathElement implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (elementName == null ? 0 : elementName.hashCode());
-		result = prime * result + (suffix == null ? 0 : suffix.hashCode());
+		result = prime * result + suffix;
 		return result;
 	}
 
@@ -78,21 +70,7 @@ public class PathElement implements Serializable {
 			return false;
 		}
 		final PathElement other = (PathElement) obj;
-		if ( elementName == null ) {
-			if ( other.elementName != null ) {
-				return false;
-			}
-		} else if ( !elementName.equals( other.elementName ) ) {
-			return false;
-		}
-		if ( suffix == null ) {
-			if ( other.suffix != null ) {
-				return false;
-			}
-		} else if ( !suffix.equals( other.suffix ) ) {
-			return false;
-		}
-		return true;
+		return elementName.equals( other.elementName ) && suffix == other.suffix;
 	}
 
 	public static PathElement fromString( final String path ) {
@@ -100,6 +78,6 @@ public class PathElement implements Serializable {
 			return new PathElement( path );
 		}
 		return new PathElement( path.substring( 0, path.indexOf( '[' ) ),
-				path.substring( path.indexOf( '[' ) + 1, path.length() - 1 ) );
+				Integer.parseInt( path.substring( path.indexOf( '[' ) + 1, path.length() - 1 ) ) );
 	}
 }

@@ -48,10 +48,13 @@ public class StringSimilarity {
 			return 0.0;
 		}
 
-		final int commonPrefixLength = StringUtils.getCommonPrefix( path0, path1 ).length();
-		final int commonSuffixLength = getCommonSuffixStartingAt( path0, path1, commonPrefixLength );
-		final int minLength = Math.min( path0.length(), path1.length() );
-		final int maxLength = Math.max( path0.length(), path1.length() );
+		final String cleanPath0 = removeBrackets( path0 );
+		final String cleanPath1 = removeBrackets( path1 );
+
+		final int commonPrefixLength = StringUtils.getCommonPrefix( cleanPath0, cleanPath1 ).length();
+		final int commonSuffixLength = getCommonSuffixStartingAt( cleanPath0, cleanPath1, commonPrefixLength );
+		final int minLength = Math.min( cleanPath0.length(), cleanPath1.length() );
+		final int maxLength = Math.max( cleanPath0.length(), cleanPath1.length() );
 
 		final int difference =
 				Math.abs( minLength - (commonPrefixLength + commonSuffixLength) ) + maxLength - minLength;
@@ -84,6 +87,10 @@ public class StringSimilarity {
 			return 1.0;
 		}
 		return 0.0;
+	}
+
+	private static String removeBrackets( final String path ) {
+		return path.replaceAll( "[\\[\\]]", "" );
 	}
 
 }

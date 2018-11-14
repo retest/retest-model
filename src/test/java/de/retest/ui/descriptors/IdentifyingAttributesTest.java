@@ -66,9 +66,9 @@ public class IdentifyingAttributesTest {
 	@Test
 	public void no_out_of_two_attributes_should_match_0_percent() {
 		final IdentifyingAttributes expected =
-				IdentifyingAttributes.create( Path.fromString( "a/component[1]" ), component.class );
+				IdentifyingAttributes.create( Path.fromString( "a[1]/component[1]" ), component.class );
 		final IdentifyingAttributes actual =
-				IdentifyingAttributes.create( Path.fromString( "b/component[2]" ), otherComponent.class );
+				IdentifyingAttributes.create( Path.fromString( "b[2]/component[2]" ), otherComponent.class );
 
 		assertThat( expected ).isNotEqualTo( actual );
 		assertThat( expected.hashCode() ).isNotEqualTo( actual.hashCode() );
