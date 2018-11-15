@@ -19,7 +19,7 @@ public class OutlineAttributeTest {
 	@Before
 	public void setUp() throws Exception {
 		outline = new Rectangle( 1, 2, 3, 4 );
-		attribute = new OutlineAttribute( outline );
+		attribute = OutlineAttribute.create( outline );
 	}
 
 	@Test
@@ -61,8 +61,8 @@ public class OutlineAttributeTest {
 
 	@Test
 	public void should_not_produce_greater_one_match() {
-		final OutlineAttribute attributeOne = new OutlineAttribute( new Rectangle( 27, 13, 97, 30 ) );
-		final OutlineAttribute attributeTwo = new OutlineAttribute( new Rectangle( -1000000, -999987, 1, 1 ) );
+		final OutlineAttribute attributeOne = OutlineAttribute.create( new Rectangle( 27, 13, 97, 30 ) );
+		final OutlineAttribute attributeTwo = OutlineAttribute.create( new Rectangle( -1000000, -999987, 1, 1 ) );
 		attributeOne.match( attributeTwo );
 	}
 }
