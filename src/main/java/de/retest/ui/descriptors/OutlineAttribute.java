@@ -11,6 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class OutlineAttribute extends Attribute {
 
+	// Default is relative
+	public static String RELATIVE_OUTLINE = "outline";
+	// Absolute is for easier marking
+	public static String ABSOLUTE_OUTLINE = "absolute-outline";
+
 	private static final long serialVersionUID = 1L;
 
 	// This is a max value used for normalization
@@ -42,12 +47,21 @@ public class OutlineAttribute extends Attribute {
 	 * @param outline
 	 *            position relative to the overall window
 	 */
-	public OutlineAttribute( final Rectangle outline ) {
-		super( "outline" );
+	private OutlineAttribute( final String relation, final Rectangle outline ) {
+		super( relation );
 		x = outline == null ? -1 : outline.x;
 		y = outline == null ? -1 : outline.y;
 		height = outline == null ? -1 : outline.height;
 		width = outline == null ? -1 : outline.width;
+	}
+
+	public static OutlineAttribute createAbsolute( final Rectangle outline ) {
+		return new OutlineAttribute( ABSOLUTE_OUTLINE, outline );
+	}
+
+	// Default is relative
+	public static OutlineAttribute create( final Rectangle outline ) {
+		return new OutlineAttribute( RELATIVE_OUTLINE, outline );
 	}
 
 	@Override
@@ -110,6 +124,6 @@ public class OutlineAttribute extends Attribute {
 
 	@Override
 	public Attribute applyChanges( final Serializable actual ) {
-		return new OutlineAttribute( (Rectangle) actual );
+		return new OutlineAttribute( getKey(), (Rectangle) actual );
 	}
 }

@@ -167,11 +167,11 @@ public class IdentifyingAttributesTest {
 		attributes.add( new StringAttribute( "type", "DIV" ) );
 
 		final List<Attribute> originalAttributes = new ArrayList<>( attributes );
-		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 800, 1200 ) ) );
+		originalAttributes.add( OutlineAttribute.create( new Rectangle( 0, 0, 800, 1200 ) ) );
 		final IdentifyingAttributes original = new IdentifyingAttributes( originalAttributes );
 
 		final List<Attribute> differentOutlineAttributes = new ArrayList<>( attributes );
-		originalAttributes.add( new OutlineAttribute( new Rectangle( 0, 0, 400, 600 ) ) );
+		originalAttributes.add( OutlineAttribute.create( new Rectangle( 0, 0, 400, 600 ) ) );
 		final IdentifyingAttributes differentOutline = new IdentifyingAttributes( differentOutlineAttributes );
 
 		assertThat( original.match( differentOutline ) ).isLessThan( 1.0 );
