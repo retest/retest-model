@@ -34,7 +34,8 @@ public class GroundState implements Serializable {
 
 	public static final String UNSPECIFIED = "unspecified SUT version";
 
-	private static final SimpleDateFormat XML_DATE_FORMAT = new SimpleDateFormat( "dd.MM.yyyy-HH:mm:ss:SSS" );
+	// SimpleDateFormat is not thread-safe, so don't make it static
+	private final SimpleDateFormat xmlDateFormat = new SimpleDateFormat( "dd.MM.yyyy-HH:mm:ss:SSS" );
 
 	@XmlElement
 	protected final String sutVersion;
@@ -70,11 +71,11 @@ public class GroundState implements Serializable {
 		final String property = System.getProperty( PROPERTY_EXECUTION_DATE );
 		if ( property == null ) {
 			final Date result = new Date();
-			System.setProperty( PROPERTY_EXECUTION_DATE, XML_DATE_FORMAT.format( result ) );
+			System.setProperty( PROPERTY_EXECUTION_DATE, xmlDateFormat.format( result ) );
 			return result;
 		}
 		try {
-			return XML_DATE_FORMAT.parse( property );
+			return xmlDateFormat.parse( property );
 		} catch ( final ParseException exc ) {
 			throw new RuntimeException( "Exception parsing date '" + property + "'.", exc );
 		}
@@ -138,7 +139,7 @@ public class GroundState implements Serializable {
 
 	@Override
 	public String toString() {
-		final String date = XML_DATE_FORMAT.format( executionDate );
+		final String date = xmlDateFormat.format( executionDate );
 		return "GroundState[sutVersion=" + sutVersion + ", executionDate=" + date + ", randomSeed=" + randomSeed + "l]";
 	}
 

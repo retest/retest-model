@@ -12,9 +12,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class OutlineAttribute extends Attribute {
 
 	// Default is relative
-	public static String RELATIVE_OUTLINE = "outline";
+	public static final String RELATIVE_OUTLINE = "outline";
 	// Absolute is for easier marking
-	public static String ABSOLUTE_OUTLINE = "absolute-outline";
+	public static final String ABSOLUTE_OUTLINE = "absolute-outline";
 
 	private static final long serialVersionUID = 1L;
 
