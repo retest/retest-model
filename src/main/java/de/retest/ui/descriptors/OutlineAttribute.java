@@ -82,6 +82,15 @@ public class OutlineAttribute extends Attribute {
 		if ( !(other instanceof OutlineAttribute) ) {
 			return NO_MATCH;
 		}
+		if ( getValue() == null ) {
+			if ( other.getValue() == null ) {
+				return FULL_MATCH;
+			}
+			return NO_MATCH;
+		}
+		if ( other.getValue() == null ) {
+			return NO_MATCH;
+		}
 		final OutlineAttribute outline = (OutlineAttribute) other;
 		double result = 0.0;
 		result += match( x, outline.x, MAX_WIDHT ) / 4;
