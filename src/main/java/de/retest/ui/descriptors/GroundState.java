@@ -35,7 +35,7 @@ public class GroundState implements Serializable {
 	public static final String UNSPECIFIED = "unspecified SUT version";
 
 	// SimpleDateFormat is not thread-safe, so don't make it static
-	private final SimpleDateFormat xmlDateFormat = new SimpleDateFormat( "dd.MM.yyyy-HH:mm:ss:SSS" );
+	private final transient SimpleDateFormat xmlDateFormat = new SimpleDateFormat( "dd.MM.yyyy-HH:mm:ss:SSS" );
 
 	@XmlElement
 	protected final String sutVersion;
