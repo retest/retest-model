@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -17,8 +18,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import com.google.common.base.Joiner;
 
 import de.retest.persistence.xml.XmlTransformer;
 import de.retest.ui.descriptors.IdentifyingAttributes;
@@ -90,7 +89,9 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( attributesDifference != null ) {
 			return identifyingAttributes.toString() //
 					+ ":\n at: " + identifyingAttributes.getPath() //
-					+ ":\n\t" + Joiner.on( "\n\t" ).join( attributesDifference.getAttributes() );
+					+ ":\n\t" + attributesDifference.getAttributes().stream().map( AttributeDifference::toString )
+							.collect( Collectors.joining( "\n\t" ) );
+
 		}
 		if ( !childDifferences.isEmpty() ) {
 			if ( size() > 50 ) {

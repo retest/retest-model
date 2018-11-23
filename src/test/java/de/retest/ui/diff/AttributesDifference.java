@@ -4,14 +4,13 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.google.common.base.Joiner;
 
 import de.retest.util.ListMap;
 
@@ -41,7 +40,8 @@ public class AttributesDifference implements Difference {
 
 	@Override
 	public String toString() {
-		return "{" + Joiner.on( ", " ).join( differences ) + "}";
+		return "{" + differences.stream().map( AttributeDifference::toString ).collect( Collectors.joining( ", " ) )
+				+ "}";
 	}
 
 	@Override
