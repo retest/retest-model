@@ -2,6 +2,7 @@ package de.retest.ui.descriptors;
 
 import static de.retest.util.ObjectUtil.nextHashCode;
 
+import java.awt.Rectangle;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,6 +83,18 @@ public class IdentifyingAttributes implements Serializable, Comparable<Identifyi
 
 	public String getType() {
 		return get( "type" );
+	}
+
+	public OutlineAttribute getOutline() {
+		return (OutlineAttribute) getAttribute( "outline" );
+	}
+
+	public Rectangle getOutlineRectangle() {
+		final OutlineAttribute outlineAttribute = getOutline();
+		if ( outlineAttribute == null ) {
+			return null;
+		}
+		return outlineAttribute.getValue();
 	}
 
 	public String getSimpleType() {

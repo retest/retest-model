@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import com.google.common.base.Joiner;
 
 import de.retest.persistence.xml.XmlTransformer;
-import de.retest.ui.descriptors.AttributeUtil;
 import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.ui.descriptors.IdentifyingAttributesAdapter;
 import de.retest.ui.image.ImageUtils;
@@ -269,7 +268,7 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 		if ( childDifferences != null ) {
 			for ( final Difference childDifference : childDifferences ) {
 				for ( final ElementDifference compDiff : childDifference.getNonEmptyDifferences() ) {
-					marks.add( AttributeUtil.getOutline( compDiff.getIdentifyingAttributes() ) );
+					marks.add( compDiff.getIdentifyingAttributes().getOutlineRectangle() );
 				}
 			}
 		}
