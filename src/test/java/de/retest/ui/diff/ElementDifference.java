@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -19,7 +18,6 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import de.retest.persistence.xml.XmlTransformer;
 import de.retest.ui.descriptors.IdentifyingAttributes;
 import de.retest.ui.descriptors.IdentifyingAttributesAdapter;
 import de.retest.ui.image.ImageUtils;
@@ -139,15 +137,6 @@ public class ElementDifference implements Difference, Comparable<ElementDifferen
 			result.addAll( childDifference.getNonEmptyDifferences() );
 		}
 		return result;
-	}
-
-	void beforeMarshal( final Marshaller m ) {
-		if ( XmlTransformer.isLightweightMarshaller( m ) && identifyingAttributesDifference == null
-				&& attributesDifference == null ) {
-			final List<ElementDifference> childDifferences = getClippedNonEmptyChildren();
-			childDifferences.remove( this );
-			this.childDifferences = childDifferences;
-		}
 	}
 
 	private List<ElementDifference> getClippedNonEmptyChildren() {
