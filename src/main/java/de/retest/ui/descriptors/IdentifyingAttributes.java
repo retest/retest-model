@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import de.retest.ui.Path;
 import de.retest.ui.PathElement;
+import de.retest.ui.diff.AttributeDifference;
 import de.retest.util.ChecksumCalculator;
 
 @XmlRootElement

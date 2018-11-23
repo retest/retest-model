@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.Set;
 
 import de.retest.ui.Path;
-import de.retest.ui.descriptors.AttributeDifference;
 import de.retest.ui.descriptors.IdentifyingAttributes;
+import de.retest.ui.diff.AttributeDifference;
 
 public class AttributeChanges {
 
