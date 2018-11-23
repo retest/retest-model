@@ -2,6 +2,7 @@ package de.retest.ui.diff;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -11,8 +12,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import de.retest.util.ListMap;
 
 @XmlRootElement
 @XmlAccessorType( XmlAccessType.FIELD )
@@ -60,7 +59,7 @@ public class AttributesDifference implements Difference {
 	}
 
 	public Map<String, Serializable> expected() {
-		final Map<String, Serializable> expected = new ListMap<>();
+		final Map<String, Serializable> expected = new HashMap<>();
 		for ( final AttributeDifference difference : differences ) {
 			expected.put( difference.getKey(), difference.getExpected() );
 		}
@@ -68,7 +67,7 @@ public class AttributesDifference implements Difference {
 	}
 
 	public Map<String, Serializable> actual() {
-		final Map<String, Serializable> actual = new ListMap<>();
+		final Map<String, Serializable> actual = new HashMap<>();
 		for ( final AttributeDifference difference : differences ) {
 			actual.put( difference.getKey(), difference.getActual() );
 		}
