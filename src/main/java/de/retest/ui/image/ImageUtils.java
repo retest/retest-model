@@ -238,7 +238,8 @@ public class ImageUtils {
 		try {
 			return image.getSubimage( bounds.x, bounds.y, bounds.width, bounds.height );
 		} catch ( final Exception exc ) {
-			logger.error( "Exception cutting image: ", exc );
+			logger.error( "Exception cutting image with width/height {}/{} to bounds {}: ", image.getWidth(),
+					image.getHeight(), bounds, exc );
 		}
 		return image;
 	}
