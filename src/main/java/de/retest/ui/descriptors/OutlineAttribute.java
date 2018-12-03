@@ -74,7 +74,7 @@ public class OutlineAttribute extends Attribute {
 
 	@Override
 	public double getWeight() {
-		return NORMAL_WEIGHT;
+		return RELATIVE_OUTLINE.equals( getKey() ) ? NORMAL_WEIGHT : IGNORE_WEIGHT;
 	}
 
 	@Override
