@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import de.retest.ui.Path;
+import de.retest.ui.diff.AttributeDifference;
 import de.retest.ui.review.ActionChangeSet;
 import de.retest.util.RetestIdUtil.InvalidRetestIdException;
 

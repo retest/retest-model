@@ -18,6 +18,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import de.retest.ui.Path;
+import de.retest.ui.diff.AttributeDifference;
 
 public class IdentifyingAttributesTest {
 

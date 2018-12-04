@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import de.retest.ui.diff.AttributeDifference;
 import de.retest.ui.image.Screenshot;
 import de.retest.ui.image.Screenshot.ImageType;
 

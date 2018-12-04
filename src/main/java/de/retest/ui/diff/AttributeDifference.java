@@ -1,4 +1,4 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.diff;
 
 import static de.retest.util.ObjectUtil.compare;
 import static de.retest.util.ObjectUtil.isNullOrEmptyString;
@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.retest.ui.descriptors.Attribute;
 import de.retest.util.ChecksumCalculator;
 
 @XmlRootElement
