@@ -48,9 +48,9 @@ public class PathTest {
 	@Test
 	public void test_parentPath() {
 		final Path path1 = Path.path( Path.path( ELEMENT_0 ), ELEMENT_1 );
-		assertThat( Path.path( ELEMENT_0 ).isParent( path1 ) );
-		assertThat( path1.isParent( path1 ) );
-		assertThat( !Path.path( ELEMENT_1 ).isParent( path1 ) );
+		assertThat( Path.path( ELEMENT_0 ).isParent( path1 ) ).isTrue();
+		assertThat( path1.isParent( path1 ) ).isTrue();
+		assertThat( Path.path( ELEMENT_1 ).isParent( path1 ) ).isFalse();
 	}
 
 	@Test
