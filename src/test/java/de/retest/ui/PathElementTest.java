@@ -15,22 +15,22 @@ public class PathElementTest {
 
 	@Test( expected = IllegalArgumentException.class )
 	public void empty_path_element_throws_exception() {
-		assertThat( new PathElement( "", 1 ) );
+		new PathElement( "", 1 );
 	}
 
 	@Test( expected = NullPointerException.class )
 	public void null_path_element_throws_exception() {
-		assertThat( new PathElement( null, 1 ) );
+		new PathElement( null, 1 );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void blank_path_element_throws_exception() {
-		assertThat( new PathElement( " ", 1 ) );
+		new PathElement( " ", 1 );
 	}
 
 	@Test( expected = IllegalArgumentException.class )
 	public void tab_path_element_throws_exception() {
-		assertThat( new PathElement( "	", 1 ) );
+		new PathElement( "	", 1 );
 	}
 
 	@Test

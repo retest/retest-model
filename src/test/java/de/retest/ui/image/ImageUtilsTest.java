@@ -15,15 +15,10 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
 public class ImageUtilsTest {
-
-	@Rule
-	public TemporaryFolder temp = new TemporaryFolder();
 
 	static final String LOGIN_PNG = "src/test/resources/ImageUtilsTest.png";
 	static final String RESIZE_PNG = "src/test/resources/ImageUtilsTestResize.png";
@@ -218,7 +213,7 @@ public class ImageUtilsTest {
 		final BufferedImage image = ImageUtils.readImage( RESIZE_PNG );
 		final int newWith = 900;
 		final int newHeight = 2800;
-		final BufferedImage resizedImage = ImageUtils.resizeImage(image, newWith, newHeight);
+		final BufferedImage resizedImage = ImageUtils.resizeImage( image, newWith, newHeight );
 		assertThat( resizedImage.getWidth() ).isEqualTo( newWith );
 		assertThat( resizedImage.getHeight() ).isEqualTo( newHeight );
 	}

@@ -44,7 +44,7 @@ public class StringAttributeTest {
 
 	@Test( expected = ParameterParseException.class )
 	public void parse_should_throw_class_not_found() throws Exception {
-		assertThat( parameterTypeClass.parse( "this.is.a.non.existent.Class" ) );
+		parameterTypeClass.parse( "this.is.a.non.existent.Class" );
 	}
 
 	@Test
