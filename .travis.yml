@@ -1,5 +1,5 @@
 language: java
-sudo: false
+dist: trusty
 
 env:
   - MVN="mvn --settings ${TRAVIS_BUILD_DIR}/.travis.settings.xml"
