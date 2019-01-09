@@ -54,6 +54,14 @@ public class RootElement extends Element {
 		return title;
 	}
 
+	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
+		final List<Screenshot> result = new ArrayList<>();
+		for ( final RootElement rootElement : windows ) {
+			result.add( rootElement.getScreenshot() );
+		}
+		return result;
+	}
+
 	@Override
 	public RootElement applyChanges( final ActionChangeSet actionChangeSet ) {
 		if ( actionChangeSet == null ) {
@@ -71,13 +79,5 @@ public class RootElement extends Element {
 
 		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen,
 				screenId, title );
-	}
-
-	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
-		final List<Screenshot> result = new ArrayList<>();
-		for ( final RootElement rootElement : windows ) {
-			result.add( rootElement.getScreenshot() );
-		}
-		return result;
 	}
 }

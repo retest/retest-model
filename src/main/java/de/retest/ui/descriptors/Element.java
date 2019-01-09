@@ -59,27 +59,7 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>() );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Element... containedComponents ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedComponents ) ) );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final List<Element> containedComponents ) {
-		this( retestId, identifyingAttributes, attributes, containedComponents, null );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Screenshot screenshot ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>(), screenshot );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
@@ -91,74 +71,30 @@ public class Element implements Serializable, Comparable<Element> {
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		this.containedComponents = containedComponents;
-		this.screenshot = screenshot;
 	}
 
-	@Override
-	public int compareTo( final Element other ) {
-		final int result = identifyingAttributes.compareTo( other.getIdentifyingAttributes() );
-		if ( result != 0 ) {
-			return result;
-		}
-		return attributes.compareTo( other.getAttributes() );
+	public static Element withoutChildren( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes ) {
+		return new Element( retestId, identifyingAttributes, attributes, new ArrayList<>() );
 	}
 
-	@Override
-	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
-			return true;
-		}
-		if ( obj == null || getClass() != obj.getClass() ) {
-			return false;
-		}
-		final Element other = (Element) obj;
-		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
-			return false;
-		}
-		if ( !attributes.equals( other.attributes ) ) {
-			return false;
-		}
-		return containedComponents.equals( other.containedComponents );
+	public static Element withChildren( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final Element... containedComponents ) {
+		return new Element( retestId, identifyingAttributes, attributes,
+				new ArrayList<>( Arrays.asList( containedComponents ) ) );
 	}
 
-	@Override
-	public int hashCode() {
-		if ( hashCodeCache == null ) {
-			hashCodeCache = identifyingAttributes.hashCode() + 31 * attributes.hashCode();
-		}
-		return hashCodeCache;
+	public static Element withChildren( final String retestId, final IdentifyingAttributes identifyingAttributes,
+			final Attributes attributes, final List<Element> containedComponents ) {
+		return new Element( retestId, identifyingAttributes, attributes, containedComponents );
 	}
 
-	@Override
-	public String toString() {
-		return identifyingAttributes.toString();
-	}
-
-	public IdentifyingAttributes getIdentifyingAttributes() {
-		return identifyingAttributes;
-	}
-
-	public List<Element> getContainedElements() {
-		return containedComponents;
-	}
-
-	public boolean hasContainedElements() {
-		return !containedComponents.isEmpty();
-	}
-
-	public Screenshot getScreenshot() {
-		return screenshot;
-	}
-
-	public void setScreenshot( final Screenshot screenshot ) {
-		if ( screenshot == null && this.screenshot != null ) {
-			throw new RuntimeException( "Screenshot can only be replaced, not deleted." );
-		}
-		this.screenshot = screenshot;
-	}
-
-	public Attributes getAttributes() {
-		return attributes;
+	public static Element withContainedElements( final String retestId,
+			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
+			final List<Element> containedElements, final Screenshot screenshot ) {
+		final Element element = new Element( retestId, identifyingAttributes, attributes, containedElements );
+		element.setScreenshot( screenshot );
+		return element;
 	}
 
 	public Element applyChanges( final ActionChangeSet actionChangeSet ) {
@@ -173,7 +109,7 @@ public class Element implements Serializable, Comparable<Element> {
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 		final List<Element> newContainedComps = createNewComponentList( actionChangeSet, newIdentAttributes );
 
-		return new Element( retestId, newIdentAttributes, newAttributes, newContainedComps, screenshot );
+		return new Element( retestId, newIdentAttributes, newAttributes, newContainedComps );
 	}
 
 	protected List<Element> createNewComponentList( final ActionChangeSet actionChangeSet,
@@ -263,7 +199,74 @@ public class Element implements Serializable, Comparable<Element> {
 		return null;
 	}
 
+	public IdentifyingAttributes getIdentifyingAttributes() {
+		return identifyingAttributes;
+	}
+
+	public List<Element> getContainedElements() {
+		return containedComponents;
+	}
+
+	public Attributes getAttributes() {
+		return attributes;
+	}
+
 	public String getRetestId() {
 		return retestId;
+	}
+
+	public Screenshot getScreenshot() {
+		return screenshot;
+	}
+
+	public void setScreenshot( final Screenshot screenshot ) {
+		if ( screenshot == null && this.screenshot != null ) {
+			throw new RuntimeException( "Screenshot can only be replaced, not deleted." );
+		}
+		this.screenshot = screenshot;
+	}
+
+	public boolean hasContainedElements() {
+		return !containedComponents.isEmpty();
+	}
+
+	@Override
+	public int compareTo( final Element other ) {
+		final int result = identifyingAttributes.compareTo( other.getIdentifyingAttributes() );
+		if ( result != 0 ) {
+			return result;
+		}
+		return attributes.compareTo( other.getAttributes() );
+	}
+
+	@Override
+	public boolean equals( final Object obj ) {
+		if ( this == obj ) {
+			return true;
+		}
+		if ( obj == null || getClass() != obj.getClass() ) {
+			return false;
+		}
+		final Element other = (Element) obj;
+		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
+			return false;
+		}
+		if ( !attributes.equals( other.attributes ) ) {
+			return false;
+		}
+		return containedComponents.equals( other.containedComponents );
+	}
+
+	@Override
+	public int hashCode() {
+		if ( hashCodeCache == null ) {
+			hashCodeCache = identifyingAttributes.hashCode() + 31 * attributes.hashCode();
+		}
+		return hashCodeCache;
+	}
+
+	@Override
+	public String toString() {
+		return identifyingAttributes.toString();
 	}
 }
