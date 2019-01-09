@@ -21,7 +21,7 @@ public class ElementTest {
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
-		assertThat( new Element( "asdef", compIdentAttributes, new Attributes() ).toString() )
+		assertThat( Element.withoutChildren( "asdef", compIdentAttributes, new Attributes() ).toString() )
 				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
 	}
@@ -191,31 +191,32 @@ public class ElementTest {
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void null_id_should_throw_exception() {
-		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
+		Element.withoutChildren( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void empty_id_should_throw_exception() {
-		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
+		Element.withoutChildren( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void whitespace_in_id_should_throw_exception() {
-		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
+		Element.withoutChildren( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
 				java.awt.Component.class ), new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void special_chars_in_id_should_throw_exception() {
-		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
+		Element.withoutChildren( "+(invalid]ID", IdentifyingAttributes
+				.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test
 	public void valid_UUID_should_be_allowed() {
-		new Element(
+		Element.withoutChildren(
 				UUID.randomUUID().toString(), IdentifyingAttributes
 						.create( Path.fromString( "NotParentPath[0]/NewChild[0]" ), java.awt.Component.class ),
 				new MutableAttributes().immutable() );
@@ -224,8 +225,8 @@ public class ElementTest {
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
-		return new Element( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
-				containedComponents );
+		return Element.withChildren( "asdas", IdentifyingAttributes.create( fromString( path ), type ),
+				new Attributes(), containedComponents );
 	}
 
 }
