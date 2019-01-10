@@ -33,9 +33,9 @@ public class RootElement extends Element {
 	}
 
 	public RootElement( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Screenshot screenshot, final List<Element> containedComponents,
+			final Attributes attributes, final Screenshot screenshot, final List<Element> containedElements,
 			final String screen, final int screenId, final String title ) {
-		super( retestId, identifyingAttributes, attributes, containedComponents );
+		super( retestId, identifyingAttributes, attributes, containedElements );
 		setScreenshot( screenshot );
 		this.screen = screen;
 		this.screenId = screenId;
@@ -75,9 +75,9 @@ public class RootElement extends Element {
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 
-		final List<Element> newContainedComponents = createNewComponentList( actionChangeSet, newIdentAttributes );
+		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen,
+		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedElements, screen,
 				screenId, title );
 	}
 }

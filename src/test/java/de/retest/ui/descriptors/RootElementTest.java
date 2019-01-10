@@ -32,8 +32,9 @@ public class RootElementTest {
 
 	@Test
 	public void applyChanges_adds_inserted_components() throws Exception {
-		final Element element = Element.withChildren( "wesdf", compIdentAttributes, new Attributes(), Collections
-				.singletonList( Element.withoutChildren( "asdasg", childIdentAttributes0, new Attributes() ) ) );
+		final Element element = Element.withContainedElements( "wesdf", compIdentAttributes, new Attributes(),
+				Collections.singletonList(
+						Element.withoutContainedElements( "asdasg", childIdentAttributes0, new Attributes() ) ) );
 		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addInsertChange( element );
@@ -47,8 +48,9 @@ public class RootElementTest {
 
 	@Test
 	public void applyChanges_removes_deleted_components() throws Exception {
-		final Element element = Element.withChildren( "fsdfasd", compIdentAttributes, new Attributes(), Collections
-				.singletonList( Element.withoutChildren( "asdas", childIdentAttributes0, new Attributes() ) ) );
+		final Element element = Element.withContainedElements( "fsdfasd", compIdentAttributes, new Attributes(),
+				Collections.singletonList(
+						Element.withoutContainedElements( "asdas", childIdentAttributes0, new Attributes() ) ) );
 		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot, element );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addDeletedChange( element.getIdentifyingAttributes() );
