@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,8 +32,7 @@ public class RootElementTest {
 	@Test
 	public void applyChanges_adds_inserted_components() throws Exception {
 		final Element element = Element.withContainedElements( "wesdf", compIdentAttributes, new Attributes(),
-				Collections.singletonList(
-						Element.withoutContainedElements( "asdasg", childIdentAttributes0, new Attributes() ) ) );
+				Element.withoutContainedElements( "asdasg", childIdentAttributes0, new Attributes() ) );
 		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addInsertChange( element );
@@ -49,8 +47,7 @@ public class RootElementTest {
 	@Test
 	public void applyChanges_removes_deleted_components() throws Exception {
 		final Element element = Element.withContainedElements( "fsdfasd", compIdentAttributes, new Attributes(),
-				Collections.singletonList(
-						Element.withoutContainedElements( "asdas", childIdentAttributes0, new Attributes() ) ) );
+				Element.withoutContainedElements( "asdas", childIdentAttributes0, new Attributes() ) );
 		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot, element );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addDeletedChange( element.getIdentifyingAttributes() );
