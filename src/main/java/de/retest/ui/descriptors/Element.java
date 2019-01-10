@@ -59,7 +59,7 @@ public class Element implements Serializable, Comparable<Element> {
 		containedComponents = new ArrayList<>();
 	}
 
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
+	Element( final String retestId, final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final List<Element> containedElements ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		if ( identifyingAttributes == null ) {
