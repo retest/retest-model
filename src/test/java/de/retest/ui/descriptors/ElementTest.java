@@ -3,6 +3,7 @@ package de.retest.ui.descriptors;
 import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -229,7 +230,7 @@ public class ElementTest {
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
 		return Element.withContainedElements( "asdas", IdentifyingAttributes.create( fromString( path ), type ),
-				new Attributes(), containedComponents );
+				new Attributes(), Arrays.asList( containedComponents ) );
 	}
 
 }
