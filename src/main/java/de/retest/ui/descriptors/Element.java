@@ -2,7 +2,6 @@ package de.retest.ui.descriptors;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -60,7 +59,7 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	Element( final String retestId, final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final List<Element> containedElements ) {
+			final List<Element> containedElements, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
@@ -72,31 +71,30 @@ public class Element implements Serializable, Comparable<Element> {
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		containedComponents = containedElements;
+		this.screenshot = screenshot;
 	}
 
 	public static Element withoutContainedElements( final String retestId,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes ) {
-		return new Element( retestId, identifyingAttributes, attributes, new ArrayList<>() );
+		return new Element( retestId, identifyingAttributes, attributes, new ArrayList<>(), null );
 	}
 
-	public static Element withContainedElements( final String retestId,
+	public static Element withoutContainedElements( final String retestId,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final Element... containedElements ) {
-		return new Element( retestId, identifyingAttributes, attributes, Arrays.asList( containedElements ) );
+			final Screenshot screenshot ) {
+		return new Element( retestId, identifyingAttributes, attributes, new ArrayList<>(), screenshot );
 	}
 
 	public static Element withContainedElements( final String retestId,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final List<Element> containedElements ) {
-		return new Element( retestId, identifyingAttributes, attributes, containedElements );
+		return new Element( retestId, identifyingAttributes, attributes, containedElements, null );
 	}
 
 	public static Element withContainedElements( final String retestId,
 			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final List<Element> containedElements, final Screenshot screenshot ) {
-		final Element element = new Element( retestId, identifyingAttributes, attributes, containedElements );
-		element.setScreenshot( screenshot );
-		return element;
+		return new Element( retestId, identifyingAttributes, attributes, containedElements, screenshot );
 	}
 
 	public Element applyChanges( final ActionChangeSet actionChangeSet ) {
@@ -111,7 +109,7 @@ public class Element implements Serializable, Comparable<Element> {
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		return new Element( retestId, newIdentAttributes, newAttributes, newContainedElements );
+		return new Element( retestId, newIdentAttributes, newAttributes, newContainedElements, null );
 	}
 
 	protected List<Element> createNewElementList( final ActionChangeSet actionChangeSet,
