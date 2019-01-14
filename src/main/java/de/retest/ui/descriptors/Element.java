@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -124,7 +125,7 @@ public class Element implements Serializable, Comparable<Element> {
 	@Override
 	public int hashCode() {
 		if ( hashCodeCache == null ) {
-			hashCodeCache = identifyingAttributes.hashCode() + 31 * attributes.hashCode();
+			hashCodeCache = Objects.hash( identifyingAttributes, attributes, containedComponents );
 		}
 		return hashCodeCache;
 	}
