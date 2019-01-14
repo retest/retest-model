@@ -220,6 +220,20 @@ public class ElementTest {
 				new MutableAttributes().immutable() );
 	}
 
+	@Test
+	public void different_contained_elements_should_yield_differend_hash_code() throws Exception {
+		final String retestId = "someRetestId";
+		final IdentifyingAttributes identifyingAttributes =
+				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" );
+		final Attributes attributes = new MutableAttributes().immutable();
+
+		final Element e0 = new Element( retestId, identifyingAttributes, attributes );
+		final Element e1 = new Element( retestId, identifyingAttributes, attributes, e0 );
+
+		assertThat( e0 ).isNotEqualTo( e1 );
+		assertThat( e0.hashCode() ).isNotEqualTo( e1.hashCode() );
+	}
+
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
