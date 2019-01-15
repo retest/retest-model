@@ -3,9 +3,7 @@ package de.retest.ui.descriptors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -32,24 +30,31 @@ public class RootElementTest {
 
 	@Test
 	public void applyChanges_adds_inserted_components() throws Exception {
-		final Element element = new Element( "wesdf", compIdentAttributes, new Attributes(),
-				Collections.singletonList( new Element( "asdasg", childIdentAttributes0, new Attributes() ) ) );
 		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
+		final Element child = Element.create( "wesdf", rootElement, compIdentAttributes, new Attributes() );
+
+		final Element child1 = Element.create( "asdasg", child, childIdentAttributes0, new Attributes() );
+		child.addChildren( child1 );
+
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
-		actionChangeSet.addInsertChange( element );
+		actionChangeSet.addInsertChange( child );
 
 		final RootElement changed = rootElement.applyChanges( actionChangeSet );
 
 		final List<Element> containedComponents = changed.getContainedElements();
+
 		assertThat( containedComponents ).hasSize( 1 );
-		assertThat( containedComponents ).contains( element );
+		assertThat( containedComponents ).contains( child );
 	}
 
 	@Test
 	public void applyChanges_removes_deleted_components() throws Exception {
-		final Element element = new Element( "fsdfasd", compIdentAttributes, new Attributes(),
-				Collections.singletonList( new Element( "asdas", childIdentAttributes0, new Attributes() ) ) );
-		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot, element );
+
+		final RootElement rootElement = descriptorFor( windowIdentAttributes, new Attributes(), screenshot );
+
+		final Element element = Element.create( "fsdfasd", rootElement, compIdentAttributes, new Attributes() );
+		rootElement.addChildren( element );
+		element.addChildren( Element.create( "asdas", element, childIdentAttributes0, new Attributes() ) );
 		final ActionChangeSet actionChangeSet = ActionChangeSetTestUtils.createEmptyActionChangeSet();
 		actionChangeSet.addDeletedChange( element.getIdentifyingAttributes() );
 
@@ -61,13 +66,16 @@ public class RootElementTest {
 
 	private RootElement descriptorFor( final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
 			final Screenshot screenshot, final Element... childrenArray ) {
-		List<Element> children = new ArrayList<>();
-		if ( childrenArray != null ) {
-			children = Arrays.asList( childrenArray );
-		}
-		return new RootElement( "asdasd", identifyingAttributes, attributes, screenshot, children,
+		final List<Element> children = new ArrayList<>();
+
+		final RootElement rootElement = new RootElement( "asdasd", identifyingAttributes, attributes, screenshot,
 				(String) identifyingAttributes.get( "name" ), identifyingAttributes.get( "name" ).hashCode(),
 				identifyingAttributes.get( "text" ) + "-Window" );
+		if ( childrenArray != null ) {
+			rootElement.addChildren( childrenArray );
+		}
+
+		return rootElement;
 	}
 
 	private static class RootIdentifyingAttributes extends IdentifyingAttributes {
