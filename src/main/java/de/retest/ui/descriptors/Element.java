@@ -1,5 +1,6 @@
 package de.retest.ui.descriptors;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,9 @@ public class Element implements Serializable, Comparable<Element> {
 	@XmlAttribute
 	protected final String retestId;
 
+	@XmlTransient
+	private final Element parent;
+
 	@XmlJavaTypeAdapter( IdentifyingAttributesAdapter.class )
 	@XmlElement
 	protected final IdentifyingAttributes identifyingAttributes;
@@ -54,6 +58,7 @@ public class Element implements Serializable, Comparable<Element> {
 	// Warning: Only to be used by JAXB!
 	protected Element() {
 		retestId = "";
+		parent = null;
 		identifyingAttributes = null;
 		attributes = null;
 		containedComponents = new ArrayList<>();
@@ -79,8 +84,8 @@ public class Element implements Serializable, Comparable<Element> {
 		this( retestId, identifyingAttributes, attributes, new ArrayList<>(), screenshot );
 	}
 
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final List<Element> containedElements, final Screenshot screenshot ) {
+	Element( final String retestId, final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
+			final List<Element> containedElements, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
@@ -89,6 +94,7 @@ public class Element implements Serializable, Comparable<Element> {
 			throw new NullPointerException( "Attributes must not be null." );
 		}
 		this.retestId = retestId;
+		parent = null;
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
 		containedComponents = containedElements;
@@ -227,6 +233,11 @@ public class Element implements Serializable, Comparable<Element> {
 	private static boolean isParent( final IdentifyingAttributes parentIdentAttributes,
 			final IdentifyingAttributes containedIdentAttributes ) {
 		return parentIdentAttributes.getPathTyped().equals( containedIdentAttributes.getParentPathTyped() );
+	}
+
+	@Transient
+	public Element getParent() {
+		return parent;
 	}
 
 	@Override
