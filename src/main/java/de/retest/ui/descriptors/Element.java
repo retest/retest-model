@@ -39,9 +39,10 @@ public class Element implements Serializable, Comparable<Element> {
 	@XmlElement
 	protected final Attributes attributes;
 
-	// TODO Change filter method of IgnoreComponents to make this an Collections.unmodifiableList.
+	// TODO Change filter method of IgnoreElements to make this an Collections.unmodifiableList.
 	@XmlElement
 	@XmlJavaTypeAdapter( RenderContainedElementsAdapter.class )
+	//TODO Change containedComponents to containedElements
 	protected final List<Element> containedComponents;
 
 	@XmlElement
@@ -64,13 +65,13 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Element... containedComponents ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedComponents ) ) );
+			final Attributes attributes, final Element... containedElements ) {
+		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedElements ) ) );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final List<Element> containedComponents ) {
-		this( retestId, identifyingAttributes, attributes, containedComponents, null );
+			final Attributes attributes, final List<Element> containedElements ) {
+		this( retestId, identifyingAttributes, attributes, containedElements, null );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -79,7 +80,7 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final List<Element> containedComponents, final Screenshot screenshot ) {
+			final Attributes attributes, final List<Element> containedElements, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
@@ -90,7 +91,7 @@ public class Element implements Serializable, Comparable<Element> {
 		this.retestId = retestId;
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
-		this.containedComponents = containedComponents;
+		containedComponents = containedElements;
 		this.screenshot = screenshot;
 	}
 
@@ -104,70 +105,71 @@ public class Element implements Serializable, Comparable<Element> {
 
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
-		final List<Element> newContainedComps = createNewComponentList( actionChangeSet, newIdentAttributes );
+		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		return new Element( retestId, newIdentAttributes, newAttributes, newContainedComps, screenshot );
+		return new Element( retestId, newIdentAttributes, newAttributes, newContainedElements, screenshot );
 	}
 
-	protected List<Element> createNewComponentList( final ActionChangeSet actionChangeSet,
+	protected List<Element> createNewElementList( final ActionChangeSet actionChangeSet,
 			final IdentifyingAttributes newIdentAttributes ) {
-		List<Element> newContainedComps = containedComponents;
-		newContainedComps = removeDeleted( actionChangeSet, newContainedComps );
-		newContainedComps = applyChangesToContainedComponents( actionChangeSet, newIdentAttributes, newContainedComps );
-		newContainedComps = addInserted( actionChangeSet, newIdentAttributes, newContainedComps );
-		return newContainedComps;
+		List<Element> newContainedElements = containedComponents;
+		newContainedElements = removeDeleted( actionChangeSet, newContainedElements );
+		newContainedElements =
+				applyChangesToContainedElements( actionChangeSet, newIdentAttributes, newContainedElements );
+		newContainedElements = addInserted( actionChangeSet, newIdentAttributes, newContainedElements );
+		return newContainedElements;
 	}
 
 	private List<Element> removeDeleted( final ActionChangeSet actionChangeSet,
-			final List<Element> oldContainedComps ) {
+			final List<Element> oldContainedElements ) {
 		final Set<IdentifyingAttributes> deletedChanges = actionChangeSet.getDeletedChanges();
-		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
+		final List<Element> newContainedElements = new ArrayList<>( oldContainedElements.size() );
 
-		for ( final Element oldComp : oldContainedComps ) {
-			if ( !deletedChanges.contains( oldComp.getIdentifyingAttributes() ) ) {
-				newContainedComps.add( oldComp );
+		for ( final Element oldElement : oldContainedElements ) {
+			if ( !deletedChanges.contains( oldElement.getIdentifyingAttributes() ) ) {
+				newContainedElements.add( oldElement );
 			}
 		}
 
-		return newContainedComps;
+		return newContainedElements;
 	}
 
-	private List<Element> applyChangesToContainedComponents( final ActionChangeSet actionChangeSet,
-			final IdentifyingAttributes newIdentAttributes, final List<Element> oldContainedComps ) {
-		final List<Element> newContainedComps = new ArrayList<>( oldContainedComps.size() );
+	private List<Element> applyChangesToContainedElements( final ActionChangeSet actionChangeSet,
+			final IdentifyingAttributes newIdentAttributes, final List<Element> oldContainedElements ) {
+		final List<Element> newContainedElements = new ArrayList<>( oldContainedElements.size() );
 
-		for ( final Element oldComp : oldContainedComps ) {
-			addPathChangeToChangeSet( actionChangeSet, newIdentAttributes, oldComp );
-			newContainedComps.add( oldComp.applyChanges( actionChangeSet ) );
+		for ( final Element oldElement : oldContainedElements ) {
+			addPathChangeToChangeSet( actionChangeSet, newIdentAttributes, oldElement );
+			newContainedElements.add( oldElement.applyChanges( actionChangeSet ) );
 		}
 
-		return newContainedComps;
+		return newContainedElements;
 	}
 
 	private void addPathChangeToChangeSet( final ActionChangeSet actionChangeSet,
-			final IdentifyingAttributes newIdentAttributes, final Element oldComp ) {
+			final IdentifyingAttributes newIdentAttributes, final Element oldElement ) {
 		if ( ObjectUtils.notEqual( identifyingAttributes.getPathTyped(), newIdentAttributes.getPathTyped() ) ) {
-			final Path oldPath = oldComp.identifyingAttributes.getPathTyped();
+			final Path oldPath = oldElement.identifyingAttributes.getPathTyped();
 			final Path newPath = Path.fromString( newIdentAttributes.getPath() + Path.PATH_SEPARATOR
-					+ oldComp.identifyingAttributes.getPathElement().toString() );
+					+ oldElement.identifyingAttributes.getPathElement().toString() );
 
-			actionChangeSet.getIdentAttributeChanges().add( oldComp.identifyingAttributes,
+			actionChangeSet.getIdentAttributeChanges().add( oldElement.identifyingAttributes,
 					new AttributeDifference( "path", oldPath, newPath ) );
 		}
 	}
 
 	private List<Element> addInserted( final ActionChangeSet actionChangeSet,
-			final IdentifyingAttributes newIdentAttributes, final List<Element> newContainedComps ) {
-		for ( final Element insertedComp : actionChangeSet.getInsertedChanges() ) {
-			if ( isParent( newIdentAttributes, insertedComp.identifyingAttributes ) ) {
-				newContainedComps.add( insertedComp );
+			final IdentifyingAttributes newIdentAttributes, final List<Element> newContainedElements ) {
+		for ( final Element insertedElement : actionChangeSet.getInsertedChanges() ) {
+			if ( isParent( newIdentAttributes, insertedElement.identifyingAttributes ) ) {
+				newContainedElements.add( insertedElement );
 			}
 		}
-		return newContainedComps;
+		return newContainedElements;
 	}
 
 	public int countAllContainedElements() {
-		// count current component!
+		// count current elements!
 		int result = 1;
 		for ( final Element element : containedComponents ) {
 			result += element.countAllContainedElements();

@@ -67,7 +67,7 @@ public class RootElement extends Element {
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 
-		final List<Element> newContainedComponents = createNewComponentList( actionChangeSet, newIdentAttributes );
+		final List<Element> newContainedComponents = createNewElementList( actionChangeSet, newIdentAttributes );
 
 		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen,
 				screenId, title );
