@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -61,7 +60,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>() );
+		this( retestId, identifyingAttributes, attributes, new ArrayList<>() );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -76,7 +75,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Screenshot screenshot ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<Element>(), screenshot );
+		this( retestId, identifyingAttributes, attributes, new ArrayList<>(), screenshot );
 	}
 
 	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
@@ -93,73 +92,6 @@ public class Element implements Serializable, Comparable<Element> {
 		this.attributes = attributes;
 		this.containedComponents = containedComponents;
 		this.screenshot = screenshot;
-	}
-
-	@Override
-	public int compareTo( final Element other ) {
-		final int result = identifyingAttributes.compareTo( other.getIdentifyingAttributes() );
-		if ( result != 0 ) {
-			return result;
-		}
-		return attributes.compareTo( other.getAttributes() );
-	}
-
-	@Override
-	public boolean equals( final Object obj ) {
-		if ( this == obj ) {
-			return true;
-		}
-		if ( obj == null || getClass() != obj.getClass() ) {
-			return false;
-		}
-		final Element other = (Element) obj;
-		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
-			return false;
-		}
-		if ( !attributes.equals( other.attributes ) ) {
-			return false;
-		}
-		return containedComponents.equals( other.containedComponents );
-	}
-
-	@Override
-	public int hashCode() {
-		if ( hashCodeCache == null ) {
-			hashCodeCache = Objects.hash( identifyingAttributes, attributes, containedComponents );
-		}
-		return hashCodeCache;
-	}
-
-	@Override
-	public String toString() {
-		return identifyingAttributes.toString();
-	}
-
-	public IdentifyingAttributes getIdentifyingAttributes() {
-		return identifyingAttributes;
-	}
-
-	public List<Element> getContainedElements() {
-		return containedComponents;
-	}
-
-	public boolean hasContainedElements() {
-		return !containedComponents.isEmpty();
-	}
-
-	public Screenshot getScreenshot() {
-		return screenshot;
-	}
-
-	public void setScreenshot( final Screenshot screenshot ) {
-		if ( screenshot == null && this.screenshot != null ) {
-			throw new RuntimeException( "Screenshot can only be replaced, not deleted." );
-		}
-		this.screenshot = screenshot;
-	}
-
-	public Attributes getAttributes() {
-		return attributes;
 	}
 
 	public Element applyChanges( final ActionChangeSet actionChangeSet ) {
@@ -234,11 +166,6 @@ public class Element implements Serializable, Comparable<Element> {
 		return newContainedComps;
 	}
 
-	private static boolean isParent( final IdentifyingAttributes parentIdentAttributes,
-			final IdentifyingAttributes containedIdentAttributes ) {
-		return parentIdentAttributes.getPathTyped().equals( containedIdentAttributes.getParentPathTyped() );
-	}
-
 	public int countAllContainedElements() {
 		// count current component!
 		int result = 1;
@@ -264,7 +191,79 @@ public class Element implements Serializable, Comparable<Element> {
 		return null;
 	}
 
+	public IdentifyingAttributes getIdentifyingAttributes() {
+		return identifyingAttributes;
+	}
+
+	public List<Element> getContainedElements() {
+		return containedComponents;
+	}
+
+	public Attributes getAttributes() {
+		return attributes;
+	}
+
 	public String getRetestId() {
 		return retestId;
+	}
+
+	public Screenshot getScreenshot() {
+		return screenshot;
+	}
+
+	public void setScreenshot( final Screenshot screenshot ) {
+		if ( screenshot == null && this.screenshot != null ) {
+			throw new RuntimeException( "Screenshot can only be replaced, not deleted." );
+		}
+		this.screenshot = screenshot;
+	}
+
+	public boolean hasContainedElements() {
+		return !containedComponents.isEmpty();
+	}
+
+	private static boolean isParent( final IdentifyingAttributes parentIdentAttributes,
+			final IdentifyingAttributes containedIdentAttributes ) {
+		return parentIdentAttributes.getPathTyped().equals( containedIdentAttributes.getParentPathTyped() );
+	}
+
+	@Override
+	public int compareTo( final Element other ) {
+		final int result = identifyingAttributes.compareTo( other.getIdentifyingAttributes() );
+		if ( result != 0 ) {
+			return result;
+		}
+		return attributes.compareTo( other.getAttributes() );
+	}
+
+	@Override
+	public boolean equals( final Object obj ) {
+		if ( this == obj ) {
+			return true;
+		}
+		if ( obj == null || getClass() != obj.getClass() ) {
+			return false;
+		}
+		final Element other = (Element) obj;
+		if ( !identifyingAttributes.equals( other.identifyingAttributes ) ) {
+			return false;
+		}
+		if ( !attributes.equals( other.attributes ) ) {
+			return false;
+		}
+		return containedComponents.equals( other.containedComponents );
+	}
+
+	@Override
+	public int hashCode() {
+		if ( hashCodeCache == null ) {
+			hashCodeCache = identifyingAttributes.hashCode() + 31 * attributes.hashCode();
+		}
+		return hashCodeCache;
+	}
+
+	@Override
+	public String toString() {
+		return identifyingAttributes.toString();
 	}
 }
