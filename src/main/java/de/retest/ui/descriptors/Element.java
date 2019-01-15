@@ -64,41 +64,36 @@ public class Element implements Serializable, Comparable<Element> {
 		containedComponents = new ArrayList<>();
 	}
 
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<>() );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Element... containedElements ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<>( Arrays.asList( containedElements ) ) );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final List<Element> containedElements ) {
-		this( retestId, identifyingAttributes, attributes, containedElements, null );
-	}
-
-	public Element( final String retestId, final IdentifyingAttributes identifyingAttributes,
+	Element( final String retestId, final Element parent, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Screenshot screenshot ) {
-		this( retestId, identifyingAttributes, attributes, new ArrayList<>(), screenshot );
-	}
-
-	Element( final String retestId, final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
-			final List<Element> containedElements, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
+		if ( parent == null ) {
+			throw new NullPointerException( "Parent must not be null" );
+		}
 		if ( identifyingAttributes == null ) {
 			throw new NullPointerException( "IdentifyingAttributes must not be null." );
 		}
 		if ( attributes == null ) {
 			throw new NullPointerException( "Attributes must not be null." );
 		}
+
 		this.retestId = retestId;
-		parent = null;
+		this.parent = parent;
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
-		containedComponents = containedElements;
+		containedComponents = new ArrayList<>();
 		this.screenshot = screenshot;
+	}
+
+	public static Element create( final String retestId, final Element parent,
+			final IdentifyingAttributes identifyingAttributes, final Attributes attributes ) {
+		return new Element( retestId, parent, identifyingAttributes, attributes, null );
+	}
+
+	public static Element create( final String retestId, final Element parent,
+			final IdentifyingAttributes identifyingAttributes, final Attributes attributes,
+			final Screenshot screenshot ) {
+		return new Element( retestId, parent, identifyingAttributes, attributes, screenshot );
 	}
 
 	public Element applyChanges( final ActionChangeSet actionChangeSet ) {
@@ -113,7 +108,9 @@ public class Element implements Serializable, Comparable<Element> {
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		return new Element( retestId, newIdentAttributes, newAttributes, newContainedElements, screenshot );
+		final Element element = Element.create( retestId, this, newIdentAttributes, newAttributes );
+		element.addChildren( newContainedElements );
+		return element;
 	}
 
 	protected List<Element> createNewElementList( final ActionChangeSet actionChangeSet,
@@ -238,6 +235,14 @@ public class Element implements Serializable, Comparable<Element> {
 	@Transient
 	public Element getParent() {
 		return parent;
+	}
+
+	public void addChildren( final Element... children ) {
+		containedComponents.addAll( Arrays.asList( children ) );
+	}
+
+	public void addChildren( final List<Element> children ) {
+		containedComponents.addAll( children );
 	}
 
 	@Override
