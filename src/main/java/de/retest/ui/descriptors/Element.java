@@ -45,7 +45,6 @@ public class Element implements Serializable, Comparable<Element> {
 	@XmlElement
 	protected final Attributes attributes;
 
-	// TODO Change filter method of IgnoreElements to make this an Collections.unmodifiableList.
 	@XmlElement
 	@XmlJavaTypeAdapter( RenderContainedElementsAdapter.class )
 	protected final List<Element> containedElements;
