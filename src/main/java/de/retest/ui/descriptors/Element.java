@@ -67,20 +67,11 @@ public class Element implements Serializable, Comparable<Element> {
 	Element( final String retestId, final Element parent, final IdentifyingAttributes identifyingAttributes,
 			final Attributes attributes, final Screenshot screenshot ) {
 		RetestIdUtil.validate( retestId, identifyingAttributes );
-		if ( parent == null ) {
-			throw new NullPointerException( "Parent must not be null" );
-		}
-		if ( identifyingAttributes == null ) {
-			throw new NullPointerException( "IdentifyingAttributes must not be null." );
-		}
-		if ( attributes == null ) {
-			throw new NullPointerException( "Attributes must not be null." );
-		}
-
 		this.retestId = retestId;
-		this.parent = parent;
-		this.identifyingAttributes = identifyingAttributes;
-		this.attributes = attributes;
+		this.parent = Objects.requireNonNull( parent, "Parent must not be null" );
+		this.identifyingAttributes =
+				Objects.requireNonNull( identifyingAttributes, "IdentifyingAttributes must not be null" );
+		this.attributes = Objects.requireNonNull( attributes, "Attributes must not be null" );
 		containedElements = new ArrayList<>();
 		this.screenshot = screenshot;
 	}
