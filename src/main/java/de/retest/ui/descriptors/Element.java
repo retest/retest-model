@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.eclipse.persistence.oxm.annotations.XmlInverseReference;
 
 import de.retest.ui.Path;
 import de.retest.ui.diff.AttributeDifference;
@@ -32,7 +33,7 @@ public class Element implements Serializable, Comparable<Element> {
 	@XmlAttribute
 	protected final String retestId;
 
-	@XmlTransient
+	@XmlInverseReference( mappedBy = "containedComponents" )
 	private final Element parent;
 
 	@XmlJavaTypeAdapter( IdentifyingAttributesAdapter.class )
