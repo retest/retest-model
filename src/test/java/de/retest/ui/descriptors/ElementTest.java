@@ -2,12 +2,12 @@ package de.retest.ui.descriptors;
 
 import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.List;
 import java.util.UUID;
 
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import de.retest.ui.Path;
 import de.retest.ui.diff.AttributeDifference;
@@ -18,7 +18,7 @@ public class ElementTest {
 
 	private static class Parent {}
 
-	private final static RootElement rootElement = Mockito.mock( RootElement.class );
+	private final static RootElement rootElement = mock( RootElement.class );
 
 	@Test
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
@@ -237,8 +237,9 @@ public class ElementTest {
 				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" );
 		final Attributes attributes = new MutableAttributes().immutable();
 
-		final Element e0 = new Element( retestId, identifyingAttributes, attributes );
-		final Element e1 = new Element( retestId, identifyingAttributes, attributes, e0 );
+		final Element e0 = Element.create( retestId, mock( Element.class ), identifyingAttributes, attributes );
+		final Element e1 = Element.create( retestId, e0, identifyingAttributes, attributes );
+		e1.addChildren( e0 );
 
 		assertThat( e0 ).isNotEqualTo( e1 );
 		assertThat( e0.hashCode() ).isNotEqualTo( e1.hashCode() );
