@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import de.retest.ui.Path;
+import de.retest.ui.diff.AttributeDifference;
 import de.retest.ui.image.Screenshot;
 import de.retest.ui.review.ActionChangeSet;
 import de.retest.util.RetestIdUtil;

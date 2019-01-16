@@ -65,4 +65,16 @@ public class OutlineAttributeTest {
 		final OutlineAttribute attributeTwo = OutlineAttribute.create( new Rectangle( -1000000, -999987, 1, 1 ) );
 		attributeOne.match( attributeTwo );
 	}
+
+	@Test
+	public void absoluteOutline_should_be_ignored() {
+		final OutlineAttribute attribute = OutlineAttribute.createAbsolute( new Rectangle( 27, 13, 97, 30 ) );
+		assertThat( attribute.getWeight() ).isEqualTo( Attribute.IGNORE_WEIGHT );
+	}
+
+	@Test
+	public void relativeOutline_should_NOT_be_ignored() {
+		final OutlineAttribute attribute = OutlineAttribute.create( new Rectangle( 27, 13, 97, 30 ) );
+		assertThat( attribute.getWeight() ).isEqualTo( Attribute.NORMAL_WEIGHT );
+	}
 }

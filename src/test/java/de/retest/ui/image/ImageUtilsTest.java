@@ -15,17 +15,13 @@ import java.util.List;
 import javax.swing.Icon;
 
 import org.assertj.core.api.Assertions;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 import org.mockito.Mockito;
 
 public class ImageUtilsTest {
 
-	@Rule
-	public TemporaryFolder temp = new TemporaryFolder();
-
 	static final String LOGIN_PNG = "src/test/resources/ImageUtilsTest.png";
+	static final String RESIZE_PNG = "src/test/resources/ImageUtilsTestResize.png";
 	static final int LOGIN_WIDTH = 256;
 	static final int LOGIN_HEIGHT = 97;
 
@@ -212,4 +208,13 @@ public class ImageUtilsTest {
 		assertThat( ImageUtils.cutImage( image, rectangle ) ).isNull();
 	}
 
+	@Test
+	public void resizeImage_should_return_a_correctly_shaped_image() throws Exception {
+		final BufferedImage image = ImageUtils.readImage( RESIZE_PNG );
+		final int newWith = 900;
+		final int newHeight = 2800;
+		final BufferedImage resizedImage = ImageUtils.resizeImage( image, newWith, newHeight );
+		assertThat( resizedImage.getWidth() ).isEqualTo( newWith );
+		assertThat( resizedImage.getHeight() ).isEqualTo( newHeight );
+	}
 }

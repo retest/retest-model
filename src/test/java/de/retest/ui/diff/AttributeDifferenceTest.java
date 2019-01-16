@@ -1,9 +1,11 @@
-package de.retest.ui.descriptors;
+package de.retest.ui.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.Test;
+
+import de.retest.ui.diff.AttributeDifference;
 
 class AttributeDifferenceTest {
 

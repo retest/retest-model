@@ -103,11 +103,10 @@
 			<version>1.7.25</version>
 		</dependency>
 
-		<!-- version 2.6+ isn't Java 6 compatible -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>2.7.3</version>
+			<version>2.5.2</version><!-- moving to 2.6.0 breaks the XmlValue annotation -->
 		</dependency>
 
 		<!-- test dependencies -->
@@ -206,13 +205,7 @@
 
 	<profiles>
 		<profile>
-			<id>release-signed-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
+			<id>sign</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -221,15 +214,14 @@
 						<version>1.6</version>
 						<configuration>
 							<skip>${gpg.skip}</skip>
-							<keyname>0x99045A9A</keyname>
 							<passphrase>${env.GPG_PASSPHRASE}</passphrase>
 						</configuration>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
-								<phase>deploy</phase>
+								<phase>verify</phase>
 								<goals>
-									<goal>sign-and-deploy-file</goal>
+									<goal>sign</goal>
 								</goals>
 							</execution>
 						</executions>
