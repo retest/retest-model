@@ -85,7 +85,7 @@ public class RetestIdUtil {
 		if ( type == null ) {
 			return "";
 		}
-		return type.substring( type.lastIndexOf( "." ) + 1 );
+		return type.substring( type.lastIndexOf( '.' ) + 1 );
 	}
 
 }

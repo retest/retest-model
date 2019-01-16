@@ -5,6 +5,9 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -14,6 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
@@ -234,7 +238,8 @@ public class ImageUtils {
 		try {
 			return image.getSubimage( bounds.x, bounds.y, bounds.width, bounds.height );
 		} catch ( final Exception exc ) {
-			logger.error( "Exception cutting image: ", exc );
+			logger.error( "Exception cutting image with width/height {}/{} to bounds {}: ", image.getWidth(),
+					image.getHeight(), bounds, exc );
 		}
 		return image;
 	}
@@ -307,6 +312,33 @@ public class ImageUtils {
 		final BufferedImage image = toBufferedImage( icon, component );
 		final Image scaled = scaleProportionallyToMaxWidthHeight( image, width, height );
 		return new ImageIcon( scaled );
+	}
+
+	public static BufferedImage resizeImage( final BufferedImage image, final int width, final int height ) {
+		final Image tmp = image.getScaledInstance( width, height, Image.SCALE_SMOOTH );
+		final BufferedImage resized = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
+		final Graphics2D graphics2D = resized.createGraphics();
+		graphics2D.drawImage( tmp, 0, 0, null );
+		graphics2D.dispose();
+		return resized;
+	}
+
+	public static int extractScale() {
+		final int defaultScale = 1;
+		if ( !GraphicsEnvironment.isHeadless() ) {
+			final GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			final GraphicsDevice device = environment.getDefaultScreenDevice();
+			try {
+				final Field scale = device.getClass().getDeclaredField( "scale" );
+				if ( scale != null ) {
+					scale.setAccessible( true );
+					return (Integer) scale.get( device );
+				}
+			} catch ( final Exception e ) {
+				logger.error( "Unable to get the scale from the graphic environment", e );
+			}
+		}
+		return defaultScale;
 	}
 
 }

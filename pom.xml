@@ -205,13 +205,7 @@
 
 	<profiles>
 		<profile>
-			<id>release-signed-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
+			<id>sign</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -220,15 +214,14 @@
 						<version>1.6</version>
 						<configuration>
 							<skip>${gpg.skip}</skip>
-							<keyname>0x99045A9A</keyname>
 							<passphrase>${env.GPG_PASSPHRASE}</passphrase>
 						</configuration>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
-								<phase>deploy</phase>
+								<phase>verify</phase>
 								<goals>
-									<goal>sign-and-deploy-file</goal>
+									<goal>sign</goal>
 								</goals>
 							</execution>
 						</executions>
