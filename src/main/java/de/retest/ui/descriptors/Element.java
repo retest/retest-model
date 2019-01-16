@@ -34,7 +34,7 @@ public class Element implements Serializable, Comparable<Element> {
 	@XmlAttribute
 	protected final String retestId;
 
-	@XmlInverseReference( mappedBy = "containedComponents" )
+	@XmlInverseReference( mappedBy = "containedElements" )
 	private final Element parent;
 
 	@XmlJavaTypeAdapter( IdentifyingAttributesAdapter.class )
@@ -48,8 +48,7 @@ public class Element implements Serializable, Comparable<Element> {
 	// TODO Change filter method of IgnoreElements to make this an Collections.unmodifiableList.
 	@XmlElement
 	@XmlJavaTypeAdapter( RenderContainedElementsAdapter.class )
-	//TODO Change containedComponents to containedElements
-	protected final List<Element> containedComponents;
+	protected final List<Element> containedElements;
 
 	@XmlElement
 	protected Screenshot screenshot;
@@ -63,7 +62,7 @@ public class Element implements Serializable, Comparable<Element> {
 		parent = null;
 		identifyingAttributes = null;
 		attributes = null;
-		containedComponents = new ArrayList<>();
+		containedElements = new ArrayList<>();
 	}
 
 	Element( final String retestId, final Element parent, final IdentifyingAttributes identifyingAttributes,
@@ -83,7 +82,7 @@ public class Element implements Serializable, Comparable<Element> {
 		this.parent = parent;
 		this.identifyingAttributes = identifyingAttributes;
 		this.attributes = attributes;
-		containedComponents = new ArrayList<>();
+		containedElements = new ArrayList<>();
 		this.screenshot = screenshot;
 	}
 
@@ -117,7 +116,7 @@ public class Element implements Serializable, Comparable<Element> {
 
 	protected List<Element> createNewElementList( final ActionChangeSet actionChangeSet,
 			final IdentifyingAttributes newIdentAttributes ) {
-		List<Element> newContainedElements = containedComponents;
+		List<Element> newContainedElements = containedElements;
 		newContainedElements = removeDeleted( actionChangeSet, newContainedElements );
 		newContainedElements =
 				applyChangesToContainedElements( actionChangeSet, newIdentAttributes, newContainedElements );
@@ -176,7 +175,7 @@ public class Element implements Serializable, Comparable<Element> {
 	public int countAllContainedElements() {
 		// count current elements!
 		int result = 1;
-		for ( final Element element : containedComponents ) {
+		for ( final Element element : containedElements ) {
 			result += element.countAllContainedElements();
 		}
 		return result;
@@ -188,7 +187,7 @@ public class Element implements Serializable, Comparable<Element> {
 			return this;
 		}
 		if ( thisPath.isParent( path ) ) {
-			for ( final Element element : containedComponents ) {
+			for ( final Element element : containedElements ) {
 				final Element contained = element.getElement( path );
 				if ( contained != null ) {
 					return contained;
@@ -203,7 +202,7 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public List<Element> getContainedElements() {
-		return containedComponents;
+		return containedElements;
 	}
 
 	public Attributes getAttributes() {
@@ -226,7 +225,7 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public boolean hasContainedElements() {
-		return !containedComponents.isEmpty();
+		return !containedElements.isEmpty();
 	}
 
 	private static boolean isParent( final IdentifyingAttributes parentIdentAttributes,
@@ -240,11 +239,11 @@ public class Element implements Serializable, Comparable<Element> {
 	}
 
 	public void addChildren( final Element... children ) {
-		containedComponents.addAll( Arrays.asList( children ) );
+		containedElements.addAll( Arrays.asList( children ) );
 	}
 
 	public void addChildren( final List<Element> children ) {
-		containedComponents.addAll( children );
+		containedElements.addAll( children );
 	}
 
 	@Override
@@ -271,13 +270,13 @@ public class Element implements Serializable, Comparable<Element> {
 		if ( !attributes.equals( other.attributes ) ) {
 			return false;
 		}
-		return containedComponents.equals( other.containedComponents );
+		return containedElements.equals( other.containedElements );
 	}
 
 	@Override
 	public int hashCode() {
 		if ( hashCodeCache == null ) {
-			hashCodeCache = Objects.hash( identifyingAttributes, attributes, containedComponents );
+			hashCodeCache = Objects.hash( identifyingAttributes, attributes, containedElements );
 		}
 		return hashCodeCache;
 	}
