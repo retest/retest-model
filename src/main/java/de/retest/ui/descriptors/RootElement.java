@@ -33,10 +33,9 @@ public class RootElement extends Element {
 	}
 
 	public RootElement( final String retestId, final IdentifyingAttributes identifyingAttributes,
-			final Attributes attributes, final Screenshot screenshot, final List<Element> containedComponents,
-			final String screen, final int screenId, final String title ) {
-		super( retestId, identifyingAttributes, attributes, containedComponents );
-		setScreenshot( screenshot );
+			final Attributes attributes, final Screenshot screenshot, final String screen, final int screenId,
+			final String title ) {
+		super( retestId, new Element(), identifyingAttributes, attributes, screenshot );
 		this.screen = screen;
 		this.screenId = screenId;
 		this.title = title;
@@ -54,6 +53,14 @@ public class RootElement extends Element {
 		return title;
 	}
 
+	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
+		final List<Screenshot> result = new ArrayList<>();
+		for ( final RootElement rootElement : windows ) {
+			result.add( rootElement.getScreenshot() );
+		}
+		return result;
+	}
+
 	@Override
 	public RootElement applyChanges( final ActionChangeSet actionChangeSet ) {
 		if ( actionChangeSet == null ) {
@@ -67,17 +74,11 @@ public class RootElement extends Element {
 		final Attributes newAttributes =
 				attributes.applyChanges( actionChangeSet.getAttributesChanges().getAll( identifyingAttributes ) );
 
-		final List<Element> newContainedComponents = createNewComponentList( actionChangeSet, newIdentAttributes );
+		final List<Element> newContainedElements = createNewElementList( actionChangeSet, newIdentAttributes );
 
-		return new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, newContainedComponents, screen,
-				screenId, title );
-	}
-
-	public static List<Screenshot> getScreenshots( final List<RootElement> windows ) {
-		final List<Screenshot> result = new ArrayList<>();
-		for ( final RootElement rootElement : windows ) {
-			result.add( rootElement.getScreenshot() );
-		}
-		return result;
+		final RootElement rootElement =
+				new RootElement( retestId, newIdentAttributes, newAttributes, screenshot, screen, screenId, title );
+		rootElement.addChildren( newContainedElements );
+		return rootElement;
 	}
 }

@@ -2,6 +2,7 @@ package de.retest.ui.descriptors;
 
 import static de.retest.ui.Path.fromString;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,11 +18,13 @@ public class ElementTest {
 
 	private static class Parent {}
 
+	private final static RootElement rootElement = mock( RootElement.class );
+
 	@Test
 	public void toString_returns_UniqueCompIdentAttributes_toString() throws Exception {
 		final IdentifyingAttributes compIdentAttributes = IdentifyingAttributes
 				.create( fromString( "Window[1]/Path[1]/Component[1]" ), java.awt.Component.class );
-		assertThat( new Element( "asdef", compIdentAttributes, new Attributes() ).toString() )
+		assertThat( Element.create( "asdef", rootElement, compIdentAttributes, new Attributes() ).toString() )
 				.isEqualTo( compIdentAttributes.toString() );
 		assertThat( compIdentAttributes.toString() ).isEqualTo( "Component" );
 	}
@@ -68,6 +71,7 @@ public class ElementTest {
 		final Element changed = parent.applyChanges( actionChangeSet );
 
 		final List<Element> containedComponents = changed.getContainedElements();
+
 		assertThat( containedComponents ).hasSize( 1 );
 		assertThat( containedComponents ).contains( newChild );
 	}
@@ -191,32 +195,37 @@ public class ElementTest {
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void null_id_should_throw_exception() {
-		new Element( null, IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
+		Element.create( null, rootElement, IdentifyingAttributes
+				.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void empty_id_should_throw_exception() {
-		new Element( "", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
+		Element.create( "", rootElement, IdentifyingAttributes
+				.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void whitespace_in_id_should_throw_exception() {
-		new Element( " ", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
+		Element.create( " ", rootElement, IdentifyingAttributes
+				.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test( expected = InvalidRetestIdException.class )
 	public void special_chars_in_id_should_throw_exception() {
-		new Element( "+(invalid]ID", IdentifyingAttributes.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ),
-				java.awt.Component.class ), new MutableAttributes().immutable() );
+		Element.create(
+				"+(invalid]ID", rootElement, IdentifyingAttributes
+						.create( Path.fromString( "NotParentPath[1]/NewChild[1]" ), java.awt.Component.class ),
+				new MutableAttributes().immutable() );
 	}
 
 	@Test
 	public void valid_UUID_should_be_allowed() {
-		new Element(
-				UUID.randomUUID().toString(), IdentifyingAttributes
+		Element.create(
+				UUID.randomUUID().toString(), rootElement, IdentifyingAttributes
 						.create( Path.fromString( "NotParentPath[0]/NewChild[0]" ), java.awt.Component.class ),
 				new MutableAttributes().immutable() );
 	}
@@ -228,8 +237,9 @@ public class ElementTest {
 				IdentifyingAttributes.create( Path.fromString( "SomePath[0]" ), "SomeType" );
 		final Attributes attributes = new MutableAttributes().immutable();
 
-		final Element e0 = new Element( retestId, identifyingAttributes, attributes );
-		final Element e1 = new Element( retestId, identifyingAttributes, attributes, e0 );
+		final Element e0 = Element.create( retestId, mock( Element.class ), identifyingAttributes, attributes );
+		final Element e1 = Element.create( retestId, e0, identifyingAttributes, attributes );
+		e1.addChildren( e0 );
 
 		assertThat( e0 ).isNotEqualTo( e1 );
 		assertThat( e0.hashCode() ).isNotEqualTo( e1.hashCode() );
@@ -238,8 +248,10 @@ public class ElementTest {
 	// Copy & paste from ElementBuilder due to cyclic dependency.
 	private static Element createElement( final String path, final Class<?> type,
 			final Element... containedComponents ) {
-		return new Element( "asdas", IdentifyingAttributes.create( fromString( path ), type ), new Attributes(),
-				containedComponents );
+		final Element element = Element.create( "asdas", rootElement,
+				IdentifyingAttributes.create( fromString( path ), type ), new Attributes() );
+		element.addChildren( containedComponents );
+		return element;
 	}
 
 }
