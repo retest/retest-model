@@ -1,13 +1,1 @@
-# Eclipse.
-.classpath
-.project
-
-# IntelliJ.
-.idea/
-*.iml
-
-# Maven.
-/target/
-
-# Artifact from signing JARs.
-retest-gmbh-gpg.asc
+/bin/
